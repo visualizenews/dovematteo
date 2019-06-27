@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import ReactMapboxGl, { Layer, Feature } from "react-mapbox-gl";
 import classSet from "react-classset";
-import './index.css';
 
-const Map = ReactMapboxGl({
-  accessToken: "pk.eyJ1IjoibGVlcHBvbGlzIiwiYSI6ImNpa3MzaHBtZTAwMG93N205bDA0NGJxNmsifQ.Dkw6ItpXcJjKbZBgeezEmw"
-});
+import Header from './Header/Header';
+import Footer from './Footer/Footer';
+import Map from './Map/Map';
+
+import './index.css';
 
 class WhereIsMatteo extends Component {
   
@@ -14,25 +14,61 @@ class WhereIsMatteo extends Component {
     super(props);
 
     this.map = {
-      boundaries: [ [ 4, 30 ], [ 24, 50 ] ],
-      center: [ 42.6, 12.6 ],
-      point: {
-        'circle-stroke-width': 0,
-        'circle-radius': 10,
-        'circle-blur': 0.15,
-        'circle-color': 'rgba(137,255,141,.25)',
+      center: [ 12.5674, 41.8719 ],
+      css: {
+        height: "100%",
+        width: "100%"
       },
-      style: {
-        height: '100%',
-        width: '100%'
-      },
-      zoom: [ 1 ],
+      fitBounds: [ [ 0, 36 ], [ 28, 47.5 ] ],
+      interactive: true,
+      layers: [
+        {
+          "id": "marker",
+          "paint": {
+            "circle-stroke-width": 0,
+            "circle-radius": 10,
+            "circle-blur": 0.15,
+            "circle-color": "rgba(137,225,141,.25)",
+          },
+          "source": "points",
+          "type": "circle",
+        }
+      ],
+      maxBounds: [ [ 4, 36 ], [ 24, 47.5 ] ],
+      maxZoom: 8,
+      minZoom: 1,
+      scrollZoom: true,
+      sources: [{
+        "id": "points",
+        "definition": {
+          "type": "geojson",
+          "data": {
+            "type": "FeatureCollection",
+            "features": []
+          }
+        }
+      }],
+      style: "mapbox://styles/leeppolis/cjxdae3pz0u9y1cpf3xcwlk2l",
+      zoom: [ 2 ],
     };
 
+
+
+    /* {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [13.111 , 43.2991],
+          "data": {
+            "title": "mio"
+          }
+        }
+      } */
     this.state = {
       data: [],
       empty: true,
       error: false,
+      errorMessage: null,
       loading: true
     }
   }
@@ -44,15 +80,30 @@ class WhereIsMatteo extends Component {
   load() {
     fetch( '/data/tour.json' )
       .then( response => {
-        console.log( response );
         if (response.ok && response.status === 200) {
           return response.json()
         }
         return false;
        })
       .then( data => {
-        console.log( data );
         if ( data.length > 0 ) {
+          // Prepare data
+          const features = data.map( point => {
+            return {
+              type: "Feature",
+              geometry: {
+                type: "Point",
+                coordinates: point.coords,
+                data: {
+                  place: point.place,
+                  date: point.date,
+                  title: point.title,
+                  description: point.description,
+                }
+              }
+            }
+          });
+          this.map.sources[0].definition.data.features = features.slice(0);
           this.setState( { data, error: false, loading: false, empty: false } );
         } else {
           this.setState( { error: false, loading: false, empty: true } );
@@ -60,16 +111,11 @@ class WhereIsMatteo extends Component {
       })
       .catch( response => {
         console.log( response );
-        this.setState( { error: true, loading: false, empty: false } );
+        this.setState( { error: true, errorMessage: response.toString(), loading: false, empty: false } );
       });
   }
 
-  pointClicked(point) {
-    alert(point.title);
-  }
-
   render() {
-
     let loadingClasses = classSet({
       'loading': true,
       'is-visible': this.state.loading
@@ -85,33 +131,13 @@ class WhereIsMatteo extends Component {
       'is-visible': this.state.error
     });
 
-    console.log( this.state.data );
-
     return (
       <div className="WhereIsMatteo">
-        <div className="MapContainer">
-          <Map
-            center={this.map.center}
-            style="mapbox://styles/leeppolis/cjxdae3pz0u9y1cpf3xcwlk2l"
-            containerStyle={this.map.style}
-            maxBounds={this.map.boundaries}
-            zoom={this.map.zoom}>
-            <Layer
-              type="circle"
-              id="marker"
-              paint={this.map.point} >
-              {
-                this.state.data.map((point, index) => (
-                    <Feature
-                      key={index}
-                      coordinates={point.coords}
-                      onClick={() => this.pointClicked(point)} />
-                  )
-                )
-              }
-            </Layer>
-          </Map>
+        <Header />
+        <div className="MapWrapper">
+          <Map options={this.map} />
         </div>
+        <Footer />
         <div className={loadingClasses}>
           Loading
         </div>
@@ -119,7 +145,7 @@ class WhereIsMatteo extends Component {
           Empty
         </div>
         <div className={errorClasses}>
-          Error
+          { this.state.errorMessage }
         </div>
       </div>
     );

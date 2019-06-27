@@ -32,7 +32,7 @@
     "date": "2019-06-05",
     "title": "Comizio con i generali greci",
     "description": "Mothafucking kings of this MF country",
-    "coords": [ 7.511 , 35.5991]
+    "coords": [ 8.511 , 39.5991]
   },
   {
     "place": "Ancona",
@@ -40,5 +40,48 @@
     "title": "Comizio con i generali greci",
     "description": "Mothafucking kings of this MF country",
     "coords": [ 12.511 , 45.5991]
+  },
+
+  {
+    "place": "Ancona",
+    "date": "2019-06-05",
+    "title": "Comizio con i generali greci 7",
+    "description": "Mothafucking kings of this MF country",
+    "coords": [ 13.111 , 43.2991]
+  },
+  {
+    "place": "Ancona",
+    "date": "2019-06-05",
+    "title": "Comizio con i generali greci 6",
+    "description": "Mothafucking kings of this MF country",
+    "coords": [ 12.511 , 43.9991]
+  },
+  {
+    "place": "Ancona",
+    "date": "2019-06-05",
+    "title": "Comizio con i generali greci 5",
+    "description": "Mothafucking kings of this MF country",
+    "coords": [ 11.911 , 42.0991]
+  },
+  {
+    "place": "Ancona",
+    "date": "2019-06-05",
+    "title": "Comizio con i generali greci 4",
+    "description": "Mothafucking kings of this MF country",
+    "coords": [ 7.511 , 44.5991]
+  },
+  {
+    "place": "Ancona",
+    "date": "2019-06-05",
+    "title": "Comizio con i generali greci 3",
+    "description": "Mothafucking kings of this MF country",
+    "coords": [ 9.011 , 38.9991]
+  },
+  {
+    "place": "Ancona",
+    "date": "2019-06-05",
+    "title": "Comizio con i generali greci 2",
+    "description": "Mothafucking kings of this MF country",
+    "coords": [ 11.111 , 44.5991]
   }
 ]

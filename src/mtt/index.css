@@ -10,12 +10,12 @@
   z-index: 9;
 }
 
-.WhereIsMatteo .MapContainer {
+.WhereIsMatteo .MapWrapper {
   background: #fff;
   display: block;
-  height: 100%;
+  height: 100vh;
   position: relative;
-  width: 100%;
+  width: 100vw;
 }
 
 .WhereIsMatteo .loading {
