@@ -1,0 +1,36 @@
+.List h2 {
+  background: #fff;
+  padding: 5vh 0;
+  text-align: center;
+}
+
+.List .Day h2 {
+  background: transparent;
+}
+
+.List .Location {
+  background: #fff;
+  box-shadow: 0 0 1rem 0 rgba(0,0,0,.25);
+  display: block;
+  height: auto;
+  margin-bottom: 5vh;
+  padding: 5px;
+  width: 100%;
+}
+
+.List .Location h2,
+.List .Location h3,
+.List .Location h1 {
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+.List .Location h2 {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1rem;
+}
+
+.List .Location h1 {
+  font-size: 1.2rem;
+}

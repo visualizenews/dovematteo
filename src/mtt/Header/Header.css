@@ -1,0 +1,15 @@
+.Header {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  min-height: 50vh;
+  padding: 10vh 10vw;
+  width: 100%;
+}
+
+.Header .title {
+  align-self: center;
+  display: block;
+  flex: 0 0 100%;
+  max-width: 900px;
+}

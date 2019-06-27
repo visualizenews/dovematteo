@@ -15,11 +15,12 @@ html, body {
 }
 
 body {
-  background: #ededed;
-  color: #000;
+  background: #fefefe;
+  color: #444;
   font-family: 'Open Sans', sans-serif;
   font-weight: 400;
   font-size: 16px;
+  line-height: 1.5;
 }
 
 * {
@@ -30,4 +31,28 @@ h1, h2, h3, h4 {
   font-family: 'Patua One', cursive;
   font-weight: 400;
   margin: 0;
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+@media screen and (min-width:768px) {
+  h1 {
+    font-size: 5rem;
+  }
+}
+
+h3 {
+  font-size: 1rem;
+}
+
+@media screen and (min-width:768px) {
+  h3 {
+    font-size: 1.6rem;
+  }
+}
+
+h3 + h3 {
+  margin-top: 2em;
 }

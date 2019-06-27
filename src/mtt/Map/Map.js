@@ -35,6 +35,11 @@ class Map extends Component {
       const options = JSON.parse(JSON.stringify( this.props.options ));
       options.container = this.mapContainer;
       this.map = new mapboxgl.Map( options );
+
+      if ( this.props.options.controls.zoom || this.props.options.controls.compass ) {
+        let nav = new mapboxgl.NavigationControl( { showZoom: this.props.options.controls.zoom, showCompass: this.props.options.controls.compass } );
+        this.map.addControl(nav, this.props.options.controls.position);
+      }
   
       this.map.on('load', () => {
         this.setState( { ready: true }, this.addPoints );

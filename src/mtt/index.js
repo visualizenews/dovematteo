@@ -4,6 +4,8 @@ import classSet from "react-classset";
 import Header from './Header/Header';
 import Footer from './Footer/Footer';
 import Map from './Map/Map';
+import Intro from './Intro/Intro';
+import List from './List/List';
 
 import './index.css';
 
@@ -12,9 +14,17 @@ class WhereIsMatteo extends Component {
 
   constructor(props) {
     super(props);
-
+    let zoom = 4;
+    if (window.matchMedia('(min-width:1024px)').matches) {
+      zoom = 4;
+    }
     this.map = {
       center: [ 12.5674, 41.8719 ],
+      controls: {
+        position: 'bottom-right',
+        zoom: true,
+        compass: false,
+      },
       css: {
         height: "100%",
         width: "100%"
@@ -35,9 +45,9 @@ class WhereIsMatteo extends Component {
         }
       ],
       maxBounds: [ [ 4, 35.5 ], [ 22, 47.5 ] ],
-      maxZoom: 8,
-      minZoom: 1,
-      scrollZoom: true,
+      maxZoom: (zoom + 1),
+      minZoom: (zoom - 1),
+      scrollZoom: false,
       sources: [{
         "id": "points",
         "definition": {
@@ -49,10 +59,11 @@ class WhereIsMatteo extends Component {
         }
       }],
       style: "mapbox://styles/leeppolis/cjxdae3pz0u9y1cpf3xcwlk2l",
-      zoom: [ 0 ],
+      zoom: [ zoom ],
     };
     this.state = {
       data: [],
+      days: [],
       empty: true,
       error: false,
       errorMessage: null,
@@ -90,8 +101,29 @@ class WhereIsMatteo extends Component {
               }
             }
           });
+          const objDays = {};
+          data.forEach( point => {
+            if ( !objDays[point.date] || !Array.isArray(objDays[point.date])) {
+              objDays[point.date] = [];
+            }
+            objDays[point.date].push(point);
+          });
+
+          console.log(objDays);
+          
+          const keys = Object.keys(objDays);
+          const rawDays = keys.map( day => {
+            return {
+              date: day,
+              locations: objDays[day],
+            }
+          });
+          const days = rawDays.sort( (a,b) => (a.date > b.date ? -1 : 1) );
+
+
+          console.log( days );
           this.map.sources[0].definition.data.features = features.slice(0);
-          this.setState( { data, error: false, loading: false, empty: false } );
+          this.setState( { data, days, error: false, loading: false, empty: false } );
         } else {
           this.setState( { error: false, loading: false, empty: true } );
         }
@@ -121,8 +153,18 @@ class WhereIsMatteo extends Component {
     return (
       <div className="WhereIsMatteo">
         <Header />
-        <div className="MapWrapper">
-          <Map options={this.map} />
+        <Intro />
+        <div className="Core">
+          <div className="MapWrapper">
+            <div className="MapPosition">
+              <Map options={this.map} />
+              </div>
+          </div>
+          <div className="ListWrapper">
+            <div className="ListPosition">
+              <List days={this.state.days} />
+            </div>
+          </div>
         </div>
         <Footer />
         <div className={loadingClasses}>

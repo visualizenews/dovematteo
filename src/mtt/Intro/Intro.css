@@ -1,0 +1,34 @@
+.Intro {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  min-height: 50vh;
+  padding: 10vh 10vw;
+  width: 100%;
+}
+
+.Intro .text {
+  align-self: center;
+  display: block;
+  flex: 0 0 100%;
+  max-width: 900px;
+}
+
+.Intro h3 {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.Intro h3 a {
+  border-bottom: 1px solid rgba(137,225,141,.5);
+  box-shadow: inset 0 -.75rem 0 0 rgba(137,225,141,.25), 0 0 0 .3rem transparent;
+  color: #444;
+  text-decoration: none;
+}
+
+.Intro h3 em {
+  background: rgba(137,225,141,.25);
+  box-shadow: 1px 0 0 1px rgba(137,225,141,.25), -2px 0 0 2px rgba(137,225,141,.25);
+  font-family: 'Patua One', cursive;
+  font-style: normal;
+  font-weight: 400;
+}
