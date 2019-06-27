@@ -66,7 +66,7 @@
 
 @media screen and (min-width:1024px) {
   .WhereIsMatteo .ListWrapper {
-    background: rgba(255,255,255,.25);
+    background: rgba(255,255,255,.95);
     box-shadow: 0 0 4rem 0 rgba(0,0,0,.25);
     bottom: 5vh;
     display: block;
@@ -88,12 +88,6 @@
   min-height: 100%;
   position: relative;
   width: 100%;
-}
-
-@media screen and (min-width:1024px) {
-  .WhereIsMatteo .ListPosition {
-    overflow: auto;
-  }
 }
 
 .WhereIsMatteo .loading {

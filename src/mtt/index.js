@@ -15,11 +15,16 @@ class WhereIsMatteo extends Component {
   constructor(props) {
     super(props);
     let zoom = 4;
+    let center = [ 12.5674, 41.8719 ];
+    
     if (window.matchMedia('(min-width:1024px)').matches) {
-      zoom = 4;
+      zoom = 5;
+      center = [ 7.75, 41.8719 ];
+    } else if (window.matchMedia('(min-width:768px)').matches) {
+      zoom = 5;
     }
     this.map = {
-      center: [ 12.5674, 41.8719 ],
+      center: center,
       controls: {
         position: 'bottom-right',
         zoom: true,
@@ -29,7 +34,7 @@ class WhereIsMatteo extends Component {
         height: "100%",
         width: "100%"
       },
-      fitBounds: [ [ 4, 35.5 ], [ 22, 47.5 ] ],
+      // fitBounds: [ [ 0, 35.5 ], [ 26, 47.5 ] ],
       interactive: true,
       layers: [
         {
@@ -44,7 +49,7 @@ class WhereIsMatteo extends Component {
           "type": "circle",
         }
       ],
-      maxBounds: [ [ 4, 35.5 ], [ 22, 47.5 ] ],
+      // maxBounds: [ [ 0, 34.5 ], [ 26, 48.5 ] ],
       maxZoom: (zoom + 1),
       minZoom: (zoom - 1),
       scrollZoom: false,

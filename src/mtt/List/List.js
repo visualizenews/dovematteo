@@ -7,7 +7,7 @@ class List extends Component {
     return (
       <div className="List">
         <h2>Il Tour</h2>
-
+        <div className="Scroll">
         {
           this.props.days.map(
             day => (
@@ -28,6 +28,7 @@ class List extends Component {
             )
           )
         }
+        </div>
       </div>
     )
   }
