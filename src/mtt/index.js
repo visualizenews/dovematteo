@@ -19,7 +19,7 @@ class WhereIsMatteo extends Component {
         height: "100%",
         width: "100%"
       },
-      fitBounds: [ [ 0, 36 ], [ 28, 47.5 ] ],
+      fitBounds: [ [ 4, 35.5 ], [ 22, 47.5 ] ],
       interactive: true,
       layers: [
         {
@@ -34,7 +34,7 @@ class WhereIsMatteo extends Component {
           "type": "circle",
         }
       ],
-      maxBounds: [ [ 4, 36 ], [ 24, 47.5 ] ],
+      maxBounds: [ [ 4, 35.5 ], [ 22, 47.5 ] ],
       maxZoom: 8,
       minZoom: 1,
       scrollZoom: true,
@@ -49,21 +49,8 @@ class WhereIsMatteo extends Component {
         }
       }],
       style: "mapbox://styles/leeppolis/cjxdae3pz0u9y1cpf3xcwlk2l",
-      zoom: [ 2 ],
+      zoom: [ 0 ],
     };
-
-
-
-    /* {
-        "type": "Feature",
-        "geometry": {
-          "type": "Point",
-          "coordinates": [13.111 , 43.2991],
-          "data": {
-            "title": "mio"
-          }
-        }
-      } */
     this.state = {
       data: [],
       empty: true,
