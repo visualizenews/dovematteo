@@ -61,7 +61,7 @@ class Map extends Component {
           if (this.map.getLayer(layer.id)) {
             this.map.removeLayer(layer.id);
           }
-          this.map.addLayer(layer)
+          this.map.addLayer(layer);
         });
       } catch(e) {
         console.log(e);

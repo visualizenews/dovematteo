@@ -10,7 +10,8 @@ class List extends Component {
     super(props);
     this.state = {
       maxDistance: 0,
-    }
+    };
+    moment.locale('it-IT');
   }
 
   componentDidUpdate( pProps ) {
@@ -23,7 +24,6 @@ class List extends Component {
   }
 
   formatDate(day) {
-    moment.locale('it-IT');
     return moment(day).format('LL');
   }
 

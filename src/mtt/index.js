@@ -3,8 +3,9 @@ import classSet from "react-classset";
 
 import Header from './Header/Header';
 import Footer from './Footer/Footer';
-import Map from './Map/Map';
+import DeckGLMap from './DeckGLMap/DeckGLMap';
 import Intro from './Intro/Intro';
+import Counter from './Counter/Counter';
 import List from './List/List';
 
 import './index.css';
@@ -89,6 +90,7 @@ class WhereIsMatteo extends Component {
         return false;
        })
       .then( data => {
+        console.log(data);
         if ( data.length > 0 ) {
           // Prepare data
           const features = data.map( point => {
@@ -113,9 +115,6 @@ class WhereIsMatteo extends Component {
             }
             objDays[point.date].push(point);
           });
-
-          console.log(objDays);
-          
           const keys = Object.keys(objDays);
           const rawDays = keys.map( day => {
             return {
@@ -124,9 +123,6 @@ class WhereIsMatteo extends Component {
             }
           });
           const days = rawDays.sort( (a,b) => (a.date > b.date ? -1 : 1) );
-
-
-          console.log( days );
           this.map.sources[0].definition.data.features = features.slice(0);
           this.setState( { data, days, error: false, loading: false, empty: false } );
         } else {
@@ -162,7 +158,7 @@ class WhereIsMatteo extends Component {
         <div className="Core">
           <div className="MapWrapper">
             <div className="MapPosition">
-              <Map options={this.map} />
+              <DeckGLMap options={this.map} />
               </div>
           </div>
           <div className="ListWrapper">
@@ -171,6 +167,7 @@ class WhereIsMatteo extends Component {
             </div>
           </div>
         </div>
+        <Counter data={this.state.data} />
         <Footer />
         <div className={loadingClasses}>
           Loading
