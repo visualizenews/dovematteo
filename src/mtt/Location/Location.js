@@ -14,7 +14,16 @@ class Location extends Component {
         </div>
       )
     }
-    return  null;
+    return null;
+  }
+
+  fromPrevious() {
+    if (this.props.location.distance.fromPrevious) {
+      return (
+        <div className="FromPrevious">{this.props.location.distance.fromPrevious}Km</div>
+      );
+    }
+    return null;
   }
 
   render() {
@@ -26,6 +35,7 @@ class Location extends Component {
         </div>
         <h1>{this.props.location.title}</h1>
         <p>{this.props.location.description}</p>
+        {this.fromPrevious()}
       </div>
     );
   }

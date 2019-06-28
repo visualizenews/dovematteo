@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import moment from 'moment';
+import 'moment/locale/it'
 import Location from '../Location/Location';
 import './List.css';
 
@@ -15,11 +17,14 @@ class List extends Component {
     if ( JSON.stringify(this.props.days) !== JSON.stringify(pProps.days) ) {
       const locations = this.props.days.flatMap( day => day.locations );
       const distances = locations.flatMap( location => location.distance.fromRome );
-      console.log( distances );
       const max = Math.max(...distances);
-      console.log( max );
       this.setState( { maxDistance: max } );
     }
+  }
+
+  formatDate(day) {
+    moment.locale('it-IT');
+    return moment(day).format('LL');
   }
 
   render() {
@@ -31,7 +36,7 @@ class List extends Component {
           this.props.days.map(
             day => (
               <div className="Day" key={day.date}>
-                <h2>{day.date}</h2>
+                <h2>{this.formatDate(day.date)}</h2>
                 {
                   day.locations.map(
                     location => <Location key={location.id} location={location} maxDistance={this.state.maxDistance} />

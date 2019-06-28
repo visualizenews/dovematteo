@@ -141,7 +141,7 @@
     "coords": [ 11.111 , 44.5991],
     "distance": {
       "fromRome": 350,
-      "fromPrevious": 15
+      "fromPrevious": 0
     }
   }
 ]
