@@ -1,0 +1,106 @@
+.Location {
+  background: transparent;
+  display: block;
+  height: auto;
+  padding: 5px 5px 2vh 25px;
+  position: relative;
+  width: 100%;
+}
+
+@media screen and (min-width:768px) and (max-width:1023px) {
+  .Location {
+    padding-left: 150px;
+  }
+}
+
+.Location:before {
+  background: #ccc;
+  bottom:  0;
+  content: '';
+  display: block;
+  height: auto;
+  left: 5px;
+  position: absolute;
+  top: 0;
+  width: 1px;
+}
+
+.Location h2,
+.Location h3,
+.Location h1 {
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+.Location h2 {
+  color: #444;
+  font-family: 'Space Mono', monospace;
+  font-size: 1rem;
+  padding: 0;
+}
+
+.Location h1 {
+  font-family: 'Space Mono', monospace;
+  font-size: .8rem;
+}
+
+.Location p {
+  font-family: 'Space Mono', monospace;
+  font-size: .6rem;
+}
+
+.Location .Distance {
+  display: block;
+  height: 20px;
+  position: relative;
+  width: 70%;
+}
+
+.Location .Progress {
+  bottom: 0;
+  display: block;
+  font-size: .6rem;
+  height: 20px;
+  left: 0;
+  min-width: 30px;
+  position: absolute;
+  top: 0;
+}
+
+.Location .Progress:before {
+  content: '👮🏼‍';
+  display: block;
+  height: 20px;
+  left: 0;
+  line-height: 20px;
+  position: absolute;
+  top: 0;
+  width: 20px;
+  z-index: 2;
+}
+
+.Location .Progress:after {
+  border-top: 1px solid #ccc;
+  content:'';
+  display: block;
+  height: 0;
+  left: 20px;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translate3d(0,-50%,0);
+  z-index: 1;
+}
+
+.Location .Label {
+  display: block;
+  font-family: 'Space Mono', monospace;
+  height: 20px;
+  line-height: 20px;
+  padding-left: 5px;
+  position: absolute;
+  left: 100%;
+  text-transform: uppercase;
+  width: auto;
+}

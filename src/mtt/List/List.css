@@ -32,7 +32,7 @@
   }
 }
 
-.List .Day h2 {
+.List .Day > h2 {
   background: transparent;
   display: block;
   font-family: 'Space Mono', monospace;
@@ -54,55 +54,4 @@
   top:  50%;
   transform: translate3d(0, -50%, 0);
   width: 7px;
-}
-
-.List .Location {
-  background: transparent;
-  display: block;
-  height: auto;
-  padding: 5px 5px 2vh 25px;
-  position: relative;
-  width: 100%;
-}
-
-@media screen and (min-width:768px) and (max-width:1023px) {
-  .List .Location {
-    padding-left: 150px;
-  }
-}
-
-.List .Location:before {
-  background: #ccc;
-  bottom:  0;
-  content: '';
-  display: block;
-  height: auto;
-  left: 5px;
-  position: absolute;
-  top: 0;
-  width: 1px;
-}
-
-.List .Location h2,
-.List .Location h3,
-.List .Location h1 {
-  margin: 0;
-  padding: 0;
-  text-align: left;
-}
-
-.List .Location h2 {
-  color: #444;
-  font-family: 'Space Mono', monospace;
-  font-size: 1rem;
-}
-
-.List .Location h1 {
-  font-family: 'Space Mono', monospace;
-  font-size: .8rem;
-}
-
-.List .Location p {
-  font-family: 'Space Mono', monospace;
-  font-size: .6rem;
 }
