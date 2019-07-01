@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 import DeckGL, {ScatterplotLayer, MapController} from 'deck.gl';
-import {StaticMap} from 'react-map-gl';
+import {StaticMap, NavigationControl} from 'react-map-gl';
 import {MapboxLayer} from '@deck.gl/mapbox';
 
 import './DeckGLMap.css';
@@ -37,9 +37,11 @@ class DeckGLMap extends Component {
   draw() {
     this.setState({
       mapProperties: {
-        longitude: this.props.options.center[0],
-        latitude: this.props.options.center[1],
-        zoom: this.props.options.zoom[0]
+        bearing: 0,
+        longitude: this.props.options.center.lon,
+        latitude: this.props.options.center.lat,
+        pitch: 35,
+        zoom: this.props.options.zoom
       }
     });
   }
@@ -58,23 +60,25 @@ class DeckGLMap extends Component {
   render() {
     const {gl} = this.state;
     let layers = [];
-    if ( this.props && this.props.options ) {
-        layers = this.props.options.layers.map(
-        (layer, index) => 
-          new ScatterplotLayer({
-            data: this.props.options.sources[index].definition.data.features,
-            filled: true,
-            getPosition: d => d.geometry.coordinates,
-            getRadius: d => 200,
-            getFillColor: d => [137, 225, 141],
-            id: layer.id,
-            opacity: 0.15,
-            radiusMaxPixels: 10,
-            radiusMinPixels: 5,
-            stroked: false,
-          })
-      );
+
+    console.log( this.props.points );
+
+    if ( this.props && this.props.points ) {
+      layers = [ new ScatterplotLayer({
+          data: this.props.points,
+          filled: true,
+          getPosition: d => d.coordinates,
+          getRadius: d => d.people,
+          getFillColor: d => [137, 225, 141],
+          id: 'scatter-points',
+          opacity: 0.05,
+          radiusMaxPixels: 50,
+          radiusMinPixels: 10,
+          stroked: false,
+        }) ];
     }
+
+    console.log('layers', layers);
 
     return (
       <div className="Map">
@@ -85,7 +89,7 @@ class DeckGLMap extends Component {
               this._deck = ref && ref.deck;
             }}
             layers={layers}
-            controller={{ type: MapController, dragRotate: false, scrollZoom: false, dragPan: true }}
+            controller={{ type: MapController, dragRotate: false, scrollZoom: false, dragPan: true,doubleClickZoom: false, touchRotate: false }}
             initialViewState={this.state.mapProperties}
             viewState={this.state.mapProperties}
             onWebGLInitialized={this._onWebGLInitialized}
@@ -98,8 +102,12 @@ class DeckGLMap extends Component {
                 gl={gl}
                 mapStyle={MAPBOX_MAP_STYLE}
                 mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
-                onLoad={this._onMapLoad}
-              />
+                onLoad={this._onMapLoad}>
+                <div className="mapboxgl-ctrl-top-right">
+                  <NavigationControl 
+                    onViewportChange={viewport => this.setState({ mapProperties: viewport })} />
+                </div>
+              </StaticMap>
             )}
           </DeckGL>
         </div>

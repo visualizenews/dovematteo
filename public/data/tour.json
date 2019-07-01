@@ -6,6 +6,7 @@
     "title": "Comizio con i generali greci",
     "description": "Mothafucking kings of this MF country",
     "coords": [ 13.511 , 43.5991],
+    "people": 45,
     "distance": {
       "fromRome": 50,
       "fromPrevious": 25
@@ -18,6 +19,7 @@
     "title": "Comizio con i generali greci",
     "description": "Mothafucking kings of this MF country",
     "coords": [ 12.511 , 43.5991],
+    "people": 1945,
     "distance": {
       "fromRome": 75,
       "fromPrevious": 13
@@ -30,6 +32,7 @@
     "title": "Comizio con i generali greci",
     "description": "Mothafucking kings of this MF country",
     "coords": [ 11.511 , 42.5991],
+    "people": 95,
     "distance": {
       "fromRome": 67,
       "fromPrevious": 5
@@ -42,6 +45,7 @@
     "title": "Comizio con i generali greci",
     "description": "Mothafucking kings of this MF country",
     "coords": [ 8.511 , 45.5991],
+    "people": 145,
     "distance": {
       "fromRome": 104,
       "fromPrevious": 3
@@ -54,6 +58,7 @@
     "title": "Comizio con i generali greci",
     "description": "Mothafucking kings of this MF country",
     "coords": [ 8.511 , 39.5991],
+    "people": 905,
     "distance": {
       "fromRome": 456,
       "fromPrevious": 34
@@ -66,6 +71,7 @@
     "title": "Comizio con i generali greci",
     "description": "Mothafucking kings of this MF country",
     "coords": [ 12.511 , 45.5991],
+    "people": 94,
     "distance": {
       "fromRome": 567,
       "fromPrevious": 8
@@ -79,6 +85,7 @@
     "title": "Comizio con i generali greci 7",
     "description": "Mothafucking kings of this MF country",
     "coords": [ 13.111 , 43.2991],
+    "people": 15,
     "distance": {
       "fromRome": 12,
       "fromPrevious": 2
@@ -91,6 +98,7 @@
     "title": "Comizio con i generali greci 6",
     "description": "Mothafucking kings of this MF country",
     "coords": [ 12.511 , 43.9991],
+    "people": 900,
     "distance": {
       "fromRome": 34,
       "fromPrevious": 12
@@ -103,6 +111,7 @@
     "title": "Comizio con i generali greci 5",
     "description": "Mothafucking kings of this MF country",
     "coords": [ 11.911 , 42.0991],
+    "people": 545,
     "distance": {
       "fromRome": 567,
       "fromPrevious": 569
@@ -115,6 +124,7 @@
     "title": "Comizio con i generali greci 4",
     "description": "Mothafucking kings of this MF country",
     "coords": [ 7.511 , 44.5991],
+    "people": 145,
     "distance": {
       "fromRome": 12,
       "fromPrevious": 125
@@ -127,6 +137,7 @@
     "title": "Comizio con i generali greci 3",
     "description": "Mothafucking kings of this MF country",
     "coords": [ 9.011 , 38.9991],
+    "people": 225,
     "distance": {
       "fromRome": 150,
       "fromPrevious": 25
@@ -139,6 +150,7 @@
     "title": "Comizio con i generali greci 2",
     "description": "Mothafucking kings of this MF country",
     "coords": [ 11.111 , 44.5991],
+    "people": 55,
     "distance": {
       "fromRome": 350,
       "fromPrevious": 0

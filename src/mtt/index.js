@@ -16,56 +16,22 @@ class WhereIsMatteo extends Component {
   constructor(props) {
     super(props);
     let zoom = 4;
-    let center = [ 12.5674, 41.8719 ];
+    let center = { lon: 12.5674, lat: 41.8719, };
     
     if (window.matchMedia('(min-width:1024px)').matches) {
       zoom = 5;
-      center = [ 7.75, 41.8719 ];
+      center = { lon: 7.75, lat: 41.8719, };
     } else if (window.matchMedia('(min-width:768px)').matches) {
       zoom = 5;
     }
     this.map = {
       center: center,
-      controls: {
-        position: 'bottom-right',
-        zoom: true,
-        compass: false,
-      },
-      css: {
-        height: "100%",
-        width: "100%"
-      },
-      // fitBounds: [ [ 0, 35.5 ], [ 26, 47.5 ] ],
       interactive: true,
-      layers: [
-        {
-          "id": "marker",
-          "paint": {
-            "circle-stroke-width": 0,
-            "circle-radius": 10,
-            "circle-blur": 0.15,
-            "circle-color": "rgba(137,225,141,.25)",
-          },
-          "source": "points",
-          "type": "circle",
-        }
-      ],
-      // maxBounds: [ [ 0, 34.5 ], [ 26, 48.5 ] ],
       maxZoom: (zoom + 1),
       minZoom: (zoom - 1),
       scrollZoom: false,
-      sources: [{
-        "id": "points",
-        "definition": {
-          "type": "geojson",
-          "data": {
-            "type": "FeatureCollection",
-            "features": []
-          }
-        }
-      }],
       style: "mapbox://styles/leeppolis/cjxdae3pz0u9y1cpf3xcwlk2l",
-      zoom: [ zoom ],
+      zoom: zoom,
     };
     this.state = {
       data: [],
@@ -73,7 +39,8 @@ class WhereIsMatteo extends Component {
       empty: true,
       error: false,
       errorMessage: null,
-      loading: true
+      loading: true,
+      points: []
     }
   }
 
@@ -93,18 +60,15 @@ class WhereIsMatteo extends Component {
         console.log(data);
         if ( data.length > 0 ) {
           // Prepare data
-          const features = data.map( point => {
+          const points = data.map( point => {
             return {
-              type: "Feature",
-              geometry: {
-                type: "Point",
-                coordinates: point.coords,
-                data: {
-                  place: point.place,
-                  date: point.date,
-                  title: point.title,
-                  description: point.description,
-                }
+              coordinates: point.coords,
+              people: point.people,
+              data: {
+                place: point.place,
+                date: point.date,
+                title: point.title,
+                description: point.description,
               }
             }
           });
@@ -123,8 +87,7 @@ class WhereIsMatteo extends Component {
             }
           });
           const days = rawDays.sort( (a,b) => (a.date > b.date ? -1 : 1) );
-          this.map.sources[0].definition.data.features = features.slice(0);
-          this.setState( { data, days, error: false, loading: false, empty: false } );
+          this.setState( { data, days, points, error: false, loading: false, empty: false } );
         } else {
           this.setState( { error: false, loading: false, empty: true } );
         }
@@ -158,7 +121,7 @@ class WhereIsMatteo extends Component {
         <div className="Core">
           <div className="MapWrapper">
             <div className="MapPosition">
-              <DeckGLMap options={this.map} />
+              <DeckGLMap options={this.map} points={this.state.points} />
               </div>
           </div>
           <div className="ListWrapper">
