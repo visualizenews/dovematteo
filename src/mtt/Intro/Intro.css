@@ -20,15 +20,15 @@
 }
 
 .Intro h3 a {
-  border-bottom: 1px solid rgba(137,225,141,.5);
-  box-shadow: inset 0 -.75rem 0 0 rgba(137,225,141,.25), 0 0 0 .3rem transparent;
+  border-bottom: 1px solid #e1f6e2;
+  box-shadow: inset 0 -.75rem 0 0 #e1f6e2, 0 0 0 .3rem transparent;
   color: #444;
   text-decoration: none;
 }
 
 .Intro h3 em {
-  background: rgba(137,225,141,.25);
-  box-shadow: 1px 0 0 1px rgba(137,225,141,.25), -2px 0 0 2px rgba(137,225,141,.25);
+  background: #e1f6e2;
+  box-shadow: 1px 0 0 1px #e1f6e2, -2px 0 0 2px #e1f6e2;
   font-family: 'Bevan', cursive;
   font-style: normal;
   font-weight: 400;
