@@ -18,7 +18,10 @@ class WhereIsMatteo extends Component {
     let zoom = 4;
     let center = { lon: 12.5674, lat: 41.8719, };
     
-    if (window.matchMedia('(min-width:1024px)').matches) {
+    if (window.matchMedia('(min-width:1560px)').matches) {
+      zoom = 6;
+      center = { lon: 10.75, lat: 41, };
+    } else if (window.matchMedia('(min-width:1024px)').matches) {
       zoom = 5;
       center = { lon: 7.75, lat: 41.8719, };
     } else if (window.matchMedia('(min-width:768px)').matches) {
@@ -118,6 +121,7 @@ class WhereIsMatteo extends Component {
       <div className="WhereIsMatteo">
         <Header />
         <Intro />
+        <Counter data={this.state.data} />
         <div className="Core">
           <div className="MapWrapper">
             <div className="MapPosition">
@@ -130,7 +134,6 @@ class WhereIsMatteo extends Component {
             </div>
           </div>
         </div>
-        <Counter data={this.state.data} />
         <Footer />
         <div className={loadingClasses}>
           Loading
