@@ -1,8 +1,13 @@
 import React, {Component} from 'react';
+import moment from 'moment';
+import 'moment/locale/it';
 
 import './Location.css';
 
 class Location extends Component {
+  componentDidMount() {
+    moment.locale('it-IT');
+  }
 
   progress() {
     const dist = parseInt(this.props.maxDistance, 10);
@@ -29,11 +34,10 @@ class Location extends Component {
   render() {
     return (
       <div className="Location" >
-        <h2>{this.props.location.place}</h2>
+        <h2>[{moment(this.props.location.date).format('HH:mm')}] {this.props.location.place}</h2>
         <div className="Distance">
           { this.progress() }
         </div>
-        <h1>{this.props.location.title}</h1>
         <p>{this.props.location.description}</p>
         {this.fromPrevious()}
       </div>

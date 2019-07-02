@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import moment from 'moment';
-import 'moment/locale/it'
+import 'moment/locale/it';
 import Location from '../Location/Location';
 import './List.css';
 

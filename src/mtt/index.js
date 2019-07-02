@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import classSet from "react-classset";
 
+import moment from 'moment';
+import 'moment/locale/it';
+
 import Header from './Header/Header';
 import Footer from './Footer/Footer';
 import DeckGLMap from './DeckGLMap/DeckGLMap';
@@ -11,14 +14,15 @@ import List from './List/List';
 import './index.css';
 
 class WhereIsMatteo extends Component {
-  
 
   constructor(props) {
     super(props);
+    moment.locale('it-IT');
+
     let zoom = 4;
     let center = { lon: 12.5674, lat: 41.8719, };
     
-    if (window.matchMedia('(min-width:1560px)').matches) {
+    if (window.matchMedia('(min-width:1600px)').matches) {
       zoom = 6;
       center = { lon: 10.75, lat: 41, };
     } else if (window.matchMedia('(min-width:1024px)').matches) {
@@ -60,7 +64,6 @@ class WhereIsMatteo extends Component {
         return false;
        })
       .then( data => {
-        console.log(data);
         if ( data.length > 0 ) {
           // Prepare data
           const points = data.map( point => {
@@ -77,10 +80,11 @@ class WhereIsMatteo extends Component {
           });
           const objDays = {};
           data.forEach( point => {
-            if ( !objDays[point.date] || !Array.isArray(objDays[point.date])) {
-              objDays[point.date] = [];
+            const key = moment(point.date).format('YYYYMMDD');
+            if ( !objDays[key] || !Array.isArray(objDays[key])) {
+              objDays[key] = [];
             }
-            objDays[point.date].push(point);
+            objDays[key].push(point);
           });
           const keys = Object.keys(objDays);
           const rawDays = keys.map( day => {
@@ -89,7 +93,7 @@ class WhereIsMatteo extends Component {
               locations: objDays[day],
             }
           });
-          const days = rawDays.sort( (a,b) => (a.date > b.date ? -1 : 1) );
+          const days = rawDays.sort( (a,b) => (a.timestamp > b.timestamp ? 1 : -1) );
           this.setState( { data, days, points, error: false, loading: false, empty: false } );
         } else {
           this.setState( { error: false, loading: false, empty: true } );
