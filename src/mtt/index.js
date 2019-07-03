@@ -84,7 +84,9 @@ class WhereIsMatteo extends Component {
             if ( !objDays[key] || !Array.isArray(objDays[key])) {
               objDays[key] = [];
             }
-            objDays[key].push(point);
+            if (point.coords.length === 2 && point.coords[0] !== 0 && point.coords[1] !== 0) {
+              objDays[key].push(point);
+            }
           });
           const keys = Object.keys(objDays);
           const rawDays = keys.map( day => {
