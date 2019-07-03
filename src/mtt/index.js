@@ -13,6 +13,8 @@ import List from './List/List';
 
 import './index.css';
 
+const ENDPOINT = 'https://whereismatteo.elezioni.io/v0/events/get';
+
 class WhereIsMatteo extends Component {
 
   constructor(props) {
@@ -56,17 +58,17 @@ class WhereIsMatteo extends Component {
   }
 
   load() {
-    fetch( '/data/tour.json' )
+    fetch( ENDPOINT )
       .then( response => {
         if (response.ok && response.status === 200) {
           return response.json()
         }
         return false;
        })
-      .then( data => {
-        if ( data.length > 0 ) {
+      .then( response => {
+        if ( response.data.length > 0 ) {
           // Prepare data
-          const points = data.map( point => {
+          const points = response.data.map( point => {
             return {
               coordinates: point.coords,
               people: point.people,
@@ -79,7 +81,7 @@ class WhereIsMatteo extends Component {
             }
           });
           const objDays = {};
-          data.forEach( point => {
+          response.data.forEach( point => {
             const key = moment(point.date).format('YYYYMMDD');
             if ( !objDays[key] || !Array.isArray(objDays[key])) {
               objDays[key] = [];
@@ -96,7 +98,7 @@ class WhereIsMatteo extends Component {
             }
           });
           const days = rawDays.sort( (a,b) => (a.timestamp > b.timestamp ? 1 : -1) );
-          this.setState( { data, days, points, error: false, loading: false, empty: false } );
+          this.setState( { data: response.data, days, points, error: false, loading: false, empty: false } );
         } else {
           this.setState( { error: false, loading: false, empty: true } );
         }
