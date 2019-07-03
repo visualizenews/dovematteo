@@ -9,13 +9,20 @@ class Location extends Component {
     moment.locale('it-IT');
   }
 
+  abstract(text) {
+    const words = text.split(' ');
+    if (words.length <= 8) return text;
+    const abstract = words.splice(0, 8);
+    return abstract.join(' ') + '…';
+  }
+
   progress() {
     const dist = parseInt(this.props.maxDistance, 10);
     if ( !Number.isNaN(dist) && dist !== 0 ) {
       const perc = Math.round( (100 * this.props.location.distance.fromRome) / dist );
       return (
         <div className="Progress" style={{width:perc+'%'}}>
-          <div className="Label">🏛{this.props.location.distance.fromRome}Km</div>
+          <div className="Label">🏛{Math.round(this.props.location.distance.fromRome / 1000)}Km</div>
         </div>
       )
     }
@@ -25,7 +32,7 @@ class Location extends Component {
   fromPrevious() {
     if (this.props.location.distance.fromPrevious) {
       return (
-        <div className="FromPrevious">{this.props.location.distance.fromPrevious}Km</div>
+        <div className="FromPrevious">{Math.round(this.props.location.distance.fromPrevious/1000)}Km</div>
       );
     }
     return null;
@@ -34,11 +41,11 @@ class Location extends Component {
   render() {
     return (
       <div className="Location" >
-        <h2>[{moment(this.props.location.date).format('HH:mm')}] {this.props.location.place}</h2>
+        <h2><a href={this.props.location.link} target="_facebook"><small>{moment(this.props.location.date).format('HH:mm')}</small> - {this.props.location.place}</a></h2>
         <div className="Distance">
           { this.progress() }
         </div>
-        <p>{this.props.location.description}</p>
+        <p><a href={this.props.location.link} target="_facebook">{this.abstract(this.props.location.description)}</a></p>
         {this.fromPrevious()}
       </div>
     );

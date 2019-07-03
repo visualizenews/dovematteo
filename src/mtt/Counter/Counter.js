@@ -9,7 +9,7 @@ class Counter extends Component {
 
   componentDidUpdate(pProps) {
     if ( JSON.stringify(pProps.data) !== JSON.stringify(this.props.data) ) {
-      this.setState({ km: this.props.data.reduce((acc, val) => (acc + val.distance.fromPrevious), 0) });
+      this.setState({ km: Math.round(this.props.data.reduce((acc, val) => (acc + val.distance.fromPrevious), 0) / 1000) });
     }
   }
 

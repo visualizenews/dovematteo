@@ -71,8 +71,8 @@ class DeckGLMap extends Component {
           getRadius: d => d.people,
           getFillColor: d => [0, 146, 65],
           id: 'scatter-points',
-          opacity: 0.02,
-          radiusMaxPixels: 50,
+          opacity: .005,
+          radiusMaxPixels: 20,
           radiusMinPixels: 10,
           stroked: false,
         }) ];
