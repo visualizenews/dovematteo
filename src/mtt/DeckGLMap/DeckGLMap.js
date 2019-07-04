@@ -60,11 +60,12 @@ class DeckGLMap extends Component {
   render() {
     const {gl} = this.state;
     let layers = [];
-
-    console.log( this.props.points );
+    // let arcs = [];
 
     if ( this.props && this.props.points ) {
-      layers = [ new ScatterplotLayer({
+      layers = [];
+      // Scatter
+      layers.push(new ScatterplotLayer({
           data: this.props.points,
           filled: true,
           getPosition: d => d.coordinates,
@@ -75,7 +76,10 @@ class DeckGLMap extends Component {
           radiusMaxPixels: 20,
           radiusMinPixels: 10,
           stroked: false,
-        }) ];
+      }));
+      //layers.push(new ArcLayer({
+      //  
+      //}));
     }
 
     console.log('layers', layers);

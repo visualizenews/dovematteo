@@ -22,7 +22,7 @@ class Location extends Component {
       const perc = Math.round( (100 * this.props.location.distance.fromRome) / dist );
       return (
         <div className="Progress" style={{width:perc+'%'}}>
-          <div className="Label">🏛{Math.round(this.props.location.distance.fromRome / 1000)}Km</div>
+          <div className="Label">🏛{(new Intl.NumberFormat('it-IT').format(Math.round(this.props.location.distance.fromRome / 1000)))}Km</div>
         </div>
       )
     }
@@ -32,7 +32,7 @@ class Location extends Component {
   fromPrevious() {
     if (this.props.location.distance.fromPrevious) {
       return (
-        <div className="FromPrevious">{Math.round(this.props.location.distance.fromPrevious/1000)}Km</div>
+        <div className="FromPrevious">{(new Intl.NumberFormat('it-IT').format(Math.round(this.props.location.distance.fromPrevious/1000)))}Km</div>
       );
     }
     return null;
@@ -41,11 +41,11 @@ class Location extends Component {
   render() {
     return (
       <div className="Location" >
-        <h2><a href={this.props.location.link} target="_facebook"><small>{moment(this.props.location.date).format('HH:mm')}</small> - {this.props.location.place}</a></h2>
+        <h2><a href={this.props.location.link} target="_facebook" title="Leggi i dettagli su Facebook">f</a> <small>{moment(this.props.location.date).format('HH:mm')}</small> - {this.props.location.place}</h2>
         <div className="Distance">
           { this.progress() }
         </div>
-        <p><a href={this.props.location.link} target="_facebook">{this.abstract(this.props.location.description)}</a></p>
+        <p>{this.abstract(this.props.location.description)}</p>
         {this.fromPrevious()}
       </div>
     );
