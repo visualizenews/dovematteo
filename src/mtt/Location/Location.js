@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import moment from 'moment';
 import 'moment/locale/it';
 
+import colosseo from './assets/colosseo.png';
 import './Location.css';
 
 class Location extends Component {
@@ -22,7 +23,7 @@ class Location extends Component {
       const perc = Math.round( (100 * this.props.location.distance.fromRome) / dist );
       return (
         <div className="Progress" style={{width:perc+'%'}}>
-          <div className="Label">🏛{(new Intl.NumberFormat('it-IT').format(Math.round(this.props.location.distance.fromRome / 1000)))}Km</div>
+          <div className="Label"><img src={colosseo} alt="Colosseo"/>{(new Intl.NumberFormat('it-IT').format(Math.round(this.props.location.distance.fromRome / 1000)))}Km</div>
         </div>
       )
     }

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import DeckGL, {ScatterplotLayer, MapController} from 'deck.gl';
+import DeckGL, {ScatterplotLayer, MapController, ArcLayer} from 'deck.gl';
 import {StaticMap, NavigationControl} from 'react-map-gl';
 import {MapboxLayer} from '@deck.gl/mapbox';
 
@@ -60,16 +60,35 @@ class DeckGLMap extends Component {
   render() {
     const {gl} = this.state;
     let layers = [];
-    // let arcs = [];
+    const reversed = this.props.points.slice(0).reverse();
+    const arcs = [];
+    reversed.forEach( (item, index) => {
+      if (index < reversed.length - 1) {
+        arcs.push({
+          from: {
+            coordinates: [ item.coordinates[0], item.coordinates[1] ],
+            name: item.data.place,
+            guests: item.guests,
+          },
+          to: {
+            coordinates: [reversed[index+1].coordinates[0], reversed[index+1].coordinates[1] ],
+            name: reversed[index+1].data.place,
+            guests: reversed[index+1].guests,
+            distance: reversed[index+1].data.distance,
+          }
+        });
+      }
+    });
 
     if ( this.props && this.props.points ) {
+
       layers = [];
       // Scatter
       layers.push(new ScatterplotLayer({
           data: this.props.points,
           filled: true,
           getPosition: d => d.coordinates,
-          getRadius: d => d.people,
+          getRadius: d => d.guests,
           getFillColor: d => [0, 146, 65],
           id: 'scatter-points',
           opacity: .005,
@@ -77,12 +96,18 @@ class DeckGLMap extends Component {
           radiusMinPixels: 10,
           stroked: false,
       }));
-      //layers.push(new ArcLayer({
-      //  
-      //}));
+      layers.push(new ArcLayer({
+        id: 'arc-layer',
+        data: arcs,
+        pickable: false,
+        getWidth: 1,
+        getSourcePosition: d => d.from.coordinates,
+        getTargetPosition: d => d.to.coordinates,
+        getSourceColor: d => [0, 146, 65, 150],
+        getTargetColor: d => { if (d.to.distance >= 500000) return [255, 75, 100, 150]; return [0, 146, 65, 100]; },
+        })
+      );
     }
-
-    console.log('layers', layers);
 
     return (
       <div className="Map">

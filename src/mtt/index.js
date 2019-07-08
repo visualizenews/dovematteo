@@ -71,12 +71,13 @@ class WhereIsMatteo extends Component {
           const points = response.data.map( point => {
             return {
               coordinates: point.coords,
-              people: point.people,
+              guests: point.guests,
               data: {
                 place: point.place,
                 date: point.date,
                 title: point.title,
                 description: point.description,
+                distance: point.distance.fromRome
               }
             }
           });

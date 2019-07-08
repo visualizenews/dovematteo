@@ -144,3 +144,11 @@
   border: 1px solid #3C5A99;
   color: #3C5A99;
 }
+
+.Location img {
+  display:inline-block;
+  height: 20px;
+  object-fit: contain;
+  vertical-align: middle;
+  width: 20px;
+}
