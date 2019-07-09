@@ -77,7 +77,7 @@ class WhereIsMatteo extends Component {
       if (action === 'put' && !this.matrix[id].visible) {
         this.matrix[id].visible = true;
         this.updatedMatrix();
-      } else if (action === 'pop' && !this.matrix[id].visible) {
+      } else if (action === 'pop' && this.matrix[id].visible) {
         this.matrix[id].visible = false;
         this.updatedMatrix();
       }
