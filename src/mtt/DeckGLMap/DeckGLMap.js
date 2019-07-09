@@ -15,12 +15,22 @@ class DeckGLMap extends Component {
 
     this.deck = null;
 
+    this.draw = this.draw.bind(this);
+    this._onMapLoad = this._onMapLoad.bind(this);
+    this._onWebGLInitialized = this._onWebGLInitialized.bind(this);
+    this.layers = this.layers.bind(this);
+
     this.state = {
+      layers: [],
       mapProperties: {
+        bearing: 0,
         longitude: 0,
         latitude: 0,
+        pitch: 0,
+        bounds: 0,
         zoom: 0
-      }
+      },
+      points:[]
     };
   }
 
@@ -29,11 +39,9 @@ class DeckGLMap extends Component {
   }
 
   componentDidUpdate(pProps) {
-    /*
-    if ( (!pProps.options) && (this.props.options) ) {
-      this.draw();
+    if (pProps.points.length !== this.props.points.length) {
+      this.setState( { points: this.props.points }, () => this.layers() );
     }
-    */
   }
 
   draw() {
@@ -43,9 +51,11 @@ class DeckGLMap extends Component {
         longitude: this.props.options.center.lon,
         latitude: this.props.options.center.lat,
         pitch: 45,
+        bounds: this.props.options.bounds,
         zoom: this.props.options.zoom
       }
     });
+    this.layers();
   }
 
   _onMapLoad = () => {
@@ -58,38 +68,33 @@ class DeckGLMap extends Component {
     this.setState({gl});
   }
 
-
-  render() {
-    const {gl} = this.state;
-    let layers = [];
-    const reversed = this.props.points.slice(0).reverse();
-    const arcs = [];
-    reversed.forEach( (item, index) => {
-      if (index < reversed.length - 1) {
-        arcs.push({
-          from: {
-            coordinates: [ item.coordinates[0], item.coordinates[1] ],
-            name: item.data.place,
-            guests: item.guests,
-          },
-          to: {
-            coordinates: [reversed[index+1].coordinates[0], reversed[index+1].coordinates[1] ],
-            name: reversed[index+1].data.place,
-            guests: reversed[index+1].guests,
-            distance: reversed[index+1].data.distance,
-          }
-        });
-      }
-    });
-
-    if ( this.props && this.props.points ) {
-
-      layers = [];
+  layers() {
+    const layers = [];
+    if ( this.state && this.state.points ) {
+      const reversed = this.state.points.slice(0).reverse();
+      const arcs = [];
+      reversed.forEach( (item, index) => {
+        if (index < reversed.length - 1) {
+          arcs.push({
+            from: {
+              coords: [ item.coords[0], item.coords[1] ],
+              name: item.place,
+              guests: item.guests,
+            },
+            to: {
+              coords: [reversed[index+1].coords[0], reversed[index+1].coords[1] ],
+              name: reversed[index+1].place,
+              guests: reversed[index+1].guests,
+              distance: reversed[index+1].distance,
+            }
+          });
+        }
+      });
       // Scatter
       layers.push(new ScatterplotLayer({
-          data: this.props.points,
+          data: this.state.points,
           filled: true,
-          getPosition: d => d.coordinates,
+          getPosition: d => d.coords,
           getRadius: d => d.guests,
           getFillColor: d => [0, 146, 65],
           id: 'scatter-points',
@@ -98,29 +103,35 @@ class DeckGLMap extends Component {
           radiusMinPixels: 5,
           stroked: false,
       }));
+      // Arcs
       layers.push(new ArcLayer({
         id: 'arc-layer',
         data: arcs,
         pickable: false,
         getWidth: 1,
-        getSourcePosition: d => d.from.coordinates,
-        getTargetPosition: d => d.to.coordinates,
+        getSourcePosition: d => d.from.coords,
+        getTargetPosition: d => d.to.coords,
         getSourceColor: d => [0, 146, 65, 150],
         getTargetColor: d => { if (d.to.distance >= 500000) return [255, 75, 100, 150]; return [0, 146, 65, 100]; },
         })
       );
+      this.setState( { layers } );
     }
+  }
+
+
+  render() {
+    const {gl} = this.state;
+
+    const controller = (this.props.options.controls) ? ({ type: MapController, dragRotate: false, scrollZoom: false, dragPan: true, doubleClickZoom: false, touchRotate: false, }) : ({type: MapController, dragRotate: false, scrollZoom: false, dragPan: false, doubleClickZoom: false, touchRotate: false});
 
     return (
       <div className="Map">
         <div className="container">
           <DeckGL
-            ref={ref => {
-              // save a reference to the Deck instance
-              this._deck = ref && ref.deck;
-            }}
-            layers={layers}
-            controller={(this.props.options.controls) ? ({ type: MapController, dragRotate: false, scrollZoom: false, dragPan: true, doubleClickZoom: false, touchRotate: false, }) : ({type: MapController, dragRotate: false, scrollZoom: false, dragPan: false, doubleClickZoom: false, touchRotate: false})}
+            ref={ref => this._deck = ref && ref.deck}
+            layers={this.state.layers}
+            controller={controller}
             initialViewState={this.state.mapProperties}
             viewState={this.state.mapProperties}
             onWebGLInitialized={this._onWebGLInitialized}

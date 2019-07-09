@@ -10,6 +10,8 @@ class List extends Component {
     super(props);
     this._scroll = null;
     this.observer = null;
+    this.observed = null;
+    this.unobserve = this.unobserve.bind(this);
     this.state = {
       maxDistance: 0,
     };
@@ -23,7 +25,8 @@ class List extends Component {
       const max = Math.max(...distances);
       this.setState( { maxDistance: max } );
 
-      if(this.observer) this.observer.unobserve();
+      this.observed = this._scroll.querySelectorAll('.Location');
+      this.unobserve();
       const options = {
         root: this._scroll, // relative to document viewport 
         rootMargin: '0px', // margin around root. Values are similar to css property. Unitless values not allowed
@@ -49,12 +52,16 @@ class List extends Component {
         },
         options
       );
-      this._scroll.querySelectorAll('.Location').forEach(location => this.observer.observe(location));
+      this.observed.forEach(location => this.observer.observe(location));
     }
   }
 
   componentWillUnmount() {
-    if(this.observer) this.observer.unobserve();
+    this.unobserve();
+  }
+
+  unobserve() {
+    if (this.observed && this.observer) this.observed.forEach(location => this.observer.unobserve(location));
   }
 
   formatDate(day) {

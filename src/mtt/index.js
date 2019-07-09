@@ -23,32 +23,33 @@ class WhereIsMatteo extends Component {
 
     this.listChanged = this.listChanged.bind(this);
     this.updatedMatrix = this.updatedMatrix.bind(this);
-    this.prepareData = this.prepareData.bind(this);
 
-    let zoom = 5;
+    let zoom = 1;
     let center = { lon: 12.5674, lat: 41.8719, };
     let interactive = false;
     let controls = false;
+    const bounds = [[34, 7], [19, 47]];
     
     if (window.matchMedia('(min-width:1600px)').matches) {
-      zoom = 5;
-      center = { lon: 10.75, lat: 41, };
+      // zoom = 5;
+      // center = { lon: 10.75, lat: 41, };
       interactive = true;
       controls = true;
     } else if (window.matchMedia('(min-width:1024px)').matches) {
-      zoom = 5;
-      center = { lon: 7.75, lat: 41.8719, };
+      // zoom = 5;
+      // center = { lon: 7.75, lat: 41.8719, };
       interactive = true;
       controls = true;
     } else if (window.matchMedia('(min-width:768px)').matches) {
-      zoom = 5;
+      // zoom = 5;
     }
     this.map = {
       center: center,
       controls: controls,
       interactive: interactive,
-      maxZoom: (zoom + 1),
-      minZoom: (zoom - 1),
+      bounds: bounds,
+      // maxZoom: (zoom + 1),
+      // minZoom: (zoom - 1),
       scrollZoom: false,
       style: "mapbox://styles/leeppolis/cjxdae3pz0u9y1cpf3xcwlk2l",
       zoom: zoom,
@@ -84,18 +85,11 @@ class WhereIsMatteo extends Component {
   }
 
   updatedMatrix() {
-    const points = [];
-    this.keys.forEach(
-      key => {
-        if (this.matrix[key].visible) {
-          points.push(this.matrix[key].point);
-        }
-      }
-    );
+    const points = this.state.data.filter((item) => {
+      return (this.matrix[item.id].visible)
+    });
     this.setState( { points, loading: false } );
   }
-
-  prepareData() {}
 
   load() {
     fetch( ENDPOINT )
@@ -113,17 +107,6 @@ class WhereIsMatteo extends Component {
               id: point.id,
               index: index,
               visible: true,
-              point: {
-                coordinates: point.coords,
-                guests: point.guests,
-                data: {
-                  place: point.place,
-                  date: point.date,
-                  title: point.title,
-                  description: point.description,
-                  distance: point.distance.fromRome
-                }
-              }
             };
           });
           this.keys = Object.keys(this.matrix);
