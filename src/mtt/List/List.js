@@ -8,6 +8,8 @@ class List extends Component {
   
   constructor(props) {
     super(props);
+    this._scroll = null;
+    this.observer = null;
     this.state = {
       maxDistance: 0,
     };
@@ -20,7 +22,39 @@ class List extends Component {
       const distances = locations.flatMap( location => location.distance.fromRome );
       const max = Math.max(...distances);
       this.setState( { maxDistance: max } );
+
+      if(this.observer) this.observer.unobserve();
+      const options = {
+        root: this._scroll, // relative to document viewport 
+        rootMargin: '0px', // margin around root. Values are similar to css property. Unitless values not allowed
+        threshold: 0 // visible amount of item shown in relation to root
+      };
+      this.observer = new IntersectionObserver(
+        (changes, observer) => {
+          changes.forEach(
+            change => {
+              const id = change.target.getAttribute('id');
+              if (
+                change.isIntersecting === true 
+              ) {
+                this.props.change('put',id);
+              } else if (
+                change.isIntersecting === false 
+                && (change.rootBounds.top + change.rootBounds.height / 2 > change.boundingClientRect.top)
+              ) {
+                this.props.change('pop',id);
+              }
+            }
+          );
+        },
+        options
+      );
+      this._scroll.querySelectorAll('.Location').forEach(location => this.observer.observe(location));
     }
+  }
+
+  componentWillUnmount() {
+    if(this.observer) this.observer.unobserve();
   }
 
   formatDate(day) {
@@ -31,7 +65,10 @@ class List extends Component {
     return (
       <div className="List">
         <h2>Il Tour</h2>
-        <div className="Scroll">
+        <div className="Scroll"
+          ref={ref => {
+            this._scroll = ref;
+          }}>
         {
           this.props.days.map(
             day => (

@@ -21,27 +21,40 @@ class WhereIsMatteo extends Component {
     super(props);
     moment.locale('it-IT');
 
-    let zoom = 4;
+    this.listChanged = this.listChanged.bind(this);
+    this.updatedMatrix = this.updatedMatrix.bind(this);
+    this.prepareData = this.prepareData.bind(this);
+
+    let zoom = 5;
     let center = { lon: 12.5674, lat: 41.8719, };
+    let interactive = false;
+    let controls = false;
     
     if (window.matchMedia('(min-width:1600px)').matches) {
-      zoom = 6;
+      zoom = 5;
       center = { lon: 10.75, lat: 41, };
+      interactive = true;
+      controls = true;
     } else if (window.matchMedia('(min-width:1024px)').matches) {
       zoom = 5;
       center = { lon: 7.75, lat: 41.8719, };
+      interactive = true;
+      controls = true;
     } else if (window.matchMedia('(min-width:768px)').matches) {
       zoom = 5;
     }
     this.map = {
       center: center,
-      interactive: true,
+      controls: controls,
+      interactive: interactive,
       maxZoom: (zoom + 1),
       minZoom: (zoom - 1),
       scrollZoom: false,
       style: "mapbox://styles/leeppolis/cjxdae3pz0u9y1cpf3xcwlk2l",
       zoom: zoom,
     };
+    this.matrix = {};
+    this.keys = [];
     this.state = {
       data: [],
       days: [],
@@ -49,6 +62,7 @@ class WhereIsMatteo extends Component {
       error: false,
       errorMessage: null,
       loading: true,
+      matrix: {},
       points: []
     }
   }
@@ -56,6 +70,32 @@ class WhereIsMatteo extends Component {
   componentDidMount() {
     this.load();
   }
+
+  listChanged(action, id) {
+    if (!this.state.loading) {
+      if (action === 'put' && !this.matrix[id].visible) {
+        this.matrix[id].visible = true;
+        this.updatedMatrix();
+      } else if (action === 'pop') {
+        this.matrix[id].visible = false;
+        this.updatedMatrix();
+      }
+    }
+  }
+
+  updatedMatrix() {
+    const points = [];
+    this.keys.forEach(
+      key => {
+        if (this.matrix[key].visible) {
+          points.push(this.matrix[key].point);
+        }
+      }
+    );
+    this.setState( { points, loading: false } );
+  }
+
+  prepareData() {}
 
   load() {
     fetch( ENDPOINT )
@@ -68,19 +108,25 @@ class WhereIsMatteo extends Component {
       .then( response => {
         if ( response.data.length > 0 ) {
           // Prepare data
-          const points = response.data.map( point => {
-            return {
-              coordinates: point.coords,
-              guests: point.guests,
-              data: {
-                place: point.place,
-                date: point.date,
-                title: point.title,
-                description: point.description,
-                distance: point.distance.fromRome
+          response.data.forEach( (point, index) => {
+            this.matrix[point.id] = {
+              id: point.id,
+              index: index,
+              visible: true,
+              point: {
+                coordinates: point.coords,
+                guests: point.guests,
+                data: {
+                  place: point.place,
+                  date: point.date,
+                  title: point.title,
+                  description: point.description,
+                  distance: point.distance.fromRome
+                }
               }
-            }
+            };
           });
+          this.keys = Object.keys(this.matrix);
           const objDays = {};
           response.data.forEach( point => {
             const key = moment(point.date).format('YYYYMMDD');
@@ -99,13 +145,12 @@ class WhereIsMatteo extends Component {
             }
           });
           const days = rawDays.sort( (a,b) => (a.timestamp > b.timestamp ? 1 : -1) );
-          this.setState( { data: response.data, days, points, error: false, loading: false, empty: false } );
+          this.setState( { data: response.data, days, error: false, empty: false }, () => this.updatedMatrix() );
         } else {
           this.setState( { error: false, loading: false, empty: true } );
         }
       })
       .catch( response => {
-        console.log( response );
         this.setState( { error: true, errorMessage: response.toString(), loading: false, empty: false } );
       });
   }
@@ -139,7 +184,7 @@ class WhereIsMatteo extends Component {
           </div>
           <div className="ListWrapper">
             <div className="ListPosition">
-              <List days={this.state.days} />
+              <List days={this.state.days} change={this.listChanged} />
             </div>
           </div>
         </div>

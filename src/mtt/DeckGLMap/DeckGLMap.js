@@ -29,9 +29,11 @@ class DeckGLMap extends Component {
   }
 
   componentDidUpdate(pProps) {
-    if ( JSON.stringify(pProps.options) !== JSON.stringify(this.props.options) ) {
+    /*
+    if ( (!pProps.options) && (this.props.options) ) {
       this.draw();
     }
+    */
   }
 
   draw() {
@@ -40,7 +42,7 @@ class DeckGLMap extends Component {
         bearing: 0,
         longitude: this.props.options.center.lon,
         latitude: this.props.options.center.lat,
-        pitch: 35,
+        pitch: 45,
         zoom: this.props.options.zoom
       }
     });
@@ -92,8 +94,8 @@ class DeckGLMap extends Component {
           getFillColor: d => [0, 146, 65],
           id: 'scatter-points',
           opacity: .005,
-          radiusMaxPixels: 20,
-          radiusMinPixels: 10,
+          radiusMaxPixels: 10,
+          radiusMinPixels: 5,
           stroked: false,
       }));
       layers.push(new ArcLayer({
@@ -118,7 +120,7 @@ class DeckGLMap extends Component {
               this._deck = ref && ref.deck;
             }}
             layers={layers}
-            controller={{ type: MapController, dragRotate: false, scrollZoom: false, dragPan: true,doubleClickZoom: false, touchRotate: false }}
+            controller={(this.props.options.controls) ? ({ type: MapController, dragRotate: false, scrollZoom: false, dragPan: true, doubleClickZoom: false, touchRotate: false, }) : ({type: MapController, dragRotate: false, scrollZoom: false, dragPan: false, doubleClickZoom: false, touchRotate: false})}
             initialViewState={this.state.mapProperties}
             viewState={this.state.mapProperties}
             onWebGLInitialized={this._onWebGLInitialized}

@@ -11,6 +11,7 @@
 }
 
 .WhereIsMatteo .Core {
+  background: #fff;
   display: block;
   min-height: 100vh;
   position: relative;
@@ -19,14 +20,15 @@
 
 @media screen and (min-width:1024px) {
   .WhereIsMatteo .Core {
-    height: 100vh;
-    max-height: 800px;
+    height: 900px;
+    max-height: 900px;
+    min-height: 0;
   }
 }
 
 .WhereIsMatteo .MapWrapper {
   bottom: auto;
-  background: #fff;
+  background: #e5eaeb;
   display: block;
   height: 50vh;
   left: 0;
@@ -47,7 +49,7 @@
   .WhereIsMatteo .MapWrapper {
     bottom: 10vh;
     height: auto;
-    left: 0;
+    left: 10vw;
     position: absolute;
     right: 0;
     top: 10vh;

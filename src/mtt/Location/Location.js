@@ -41,7 +41,7 @@ class Location extends Component {
 
   render() {
     return (
-      <div className="Location" >
+      <div className="Location" id={this.props.location.id}>
         <h2><a href={this.props.location.link} target="_facebook" title="Leggi i dettagli su Facebook">f</a> <small>{moment(this.props.location.date).format('HH:mm')}</small> - {this.props.location.place}</h2>
         <div className="Distance">
           { this.progress() }
