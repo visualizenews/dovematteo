@@ -24,32 +24,32 @@ class WhereIsMatteo extends Component {
     this.listChanged = this.listChanged.bind(this);
     this.updatedMatrix = this.updatedMatrix.bind(this);
 
-    let zoom = 1;
+    let zoom = 5;
     let center = { lon: 12.5674, lat: 41.8719, };
     let interactive = false;
     let controls = false;
     const bounds = [[34, 7], [19, 47]];
     
     if (window.matchMedia('(min-width:1600px)').matches) {
-      // zoom = 5;
-      // center = { lon: 10.75, lat: 41, };
+      zoom = 5;
+      center = { lon: 10.75, lat: 41, };
       interactive = true;
       controls = true;
     } else if (window.matchMedia('(min-width:1024px)').matches) {
-      // zoom = 5;
-      // center = { lon: 7.75, lat: 41.8719, };
+      zoom = 5;
+      center = { lon: 7.75, lat: 41.8719, };
       interactive = true;
       controls = true;
     } else if (window.matchMedia('(min-width:768px)').matches) {
-      // zoom = 5;
+      zoom = 5;
     }
     this.map = {
       center: center,
       controls: controls,
       interactive: interactive,
       bounds: bounds,
-      // maxZoom: (zoom + 1),
-      // minZoom: (zoom - 1),
+      maxZoom: (zoom + 1),
+      minZoom: (zoom - 1),
       scrollZoom: false,
       style: "mapbox://styles/leeppolis/cjxdae3pz0u9y1cpf3xcwlk2l",
       zoom: zoom,
@@ -77,7 +77,7 @@ class WhereIsMatteo extends Component {
       if (action === 'put' && !this.matrix[id].visible) {
         this.matrix[id].visible = true;
         this.updatedMatrix();
-      } else if (action === 'pop') {
+      } else if (action === 'pop' && this.matrix[id].visible) {
         this.matrix[id].visible = false;
         this.updatedMatrix();
       }
@@ -112,16 +112,16 @@ class WhereIsMatteo extends Component {
           this.keys = Object.keys(this.matrix);
           const objDays = {};
           response.data.forEach( point => {
-            const key = moment(point.date).format('YYYYMMDD');
-            if ( !objDays[key] || !Array.isArray(objDays[key])) {
-              objDays[key] = [];
+            const datekey = moment(point.date).format('YYYYMMDD');
+            if ( !objDays[datekey] || !Array.isArray(objDays[datekey])) {
+              objDays[datekey] = [];
             }
             if (point.coords.length === 2 && point.coords[0] !== 0 && point.coords[1] !== 0) {
-              objDays[key].push(point);
+              objDays[datekey].push(point);
             }
           });
-          const keys = Object.keys(objDays);
-          const rawDays = keys.map( day => {
+          const datekeys = Object.keys(objDays);
+          const rawDays = datekeys.map( day => {
             return {
               date: day,
               locations: objDays[day],

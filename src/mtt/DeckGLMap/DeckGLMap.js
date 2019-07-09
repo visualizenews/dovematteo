@@ -13,12 +13,14 @@ class DeckGLMap extends Component {
   constructor(props) {
     super(props);
 
-    this.deck = null;
+    this._deck = null;
+    this._map = null;
 
     this.draw = this.draw.bind(this);
     this._onMapLoad = this._onMapLoad.bind(this);
     this._onWebGLInitialized = this._onWebGLInitialized.bind(this);
     this.layers = this.layers.bind(this);
+    this.debounce = this.debounce.bind(this);
 
     this.state = {
       layers: [],
@@ -44,6 +46,16 @@ class DeckGLMap extends Component {
     }
   }
 
+  debounce(func, delay) {
+    let inDebounce
+    return function() {
+      const context = this
+      const args = arguments
+      clearTimeout(inDebounce)
+      inDebounce = setTimeout(() => func.apply(context, args), delay)
+    }
+  }
+
   draw() {
     this.setState({
       mapProperties: {
@@ -62,6 +74,16 @@ class DeckGLMap extends Component {
     const map = this._map;
     const deck = this._deck;
     map.addLayer(new MapboxLayer({id: 'my-scatterplot', deck}), 'waterway-label');
+    const debounce = this.debounce( (evt) => {
+      const coords = map.getCenter();
+      const mapProperties = Object.assign({}, this.state.mapProperties);
+      mapProperties.longitude = coords.lng;
+      mapProperties.latitude = coords.lat;
+      this.setState({ mapProperties });
+    }, 500 );
+    map.on( 'moveend', (evt) => {
+      debounce(evt);
+    } );
   }
 
   _onWebGLInitialized = (gl) => {
@@ -80,12 +102,13 @@ class DeckGLMap extends Component {
               coords: [ item.coords[0], item.coords[1] ],
               name: item.place,
               guests: item.guests,
+              distance: item.distance.fromRome,
             },
             to: {
               coords: [reversed[index+1].coords[0], reversed[index+1].coords[1] ],
               name: reversed[index+1].place,
               guests: reversed[index+1].guests,
-              distance: reversed[index+1].distance,
+              distance: reversed[index+1].distance.fromRome,
             }
           });
         }
@@ -111,8 +134,8 @@ class DeckGLMap extends Component {
         getWidth: 1,
         getSourcePosition: d => d.from.coords,
         getTargetPosition: d => d.to.coords,
-        getSourceColor: d => [0, 146, 65, 150],
-        getTargetColor: d => { if (d.to.distance >= 500000) return [255, 75, 100, 150]; return [0, 146, 65, 100]; },
+        getSourceColor: d => (d.from.distance >= 750000) ? [255, 75, 100, 150] : [0, 146, 65, 100],
+        getTargetColor: d => (d.to.distance >= 750000) ? [255, 75, 100, 150] : [0, 146, 65, 100],
         })
       );
       this.setState( { layers } );
@@ -136,7 +159,6 @@ class DeckGLMap extends Component {
             viewState={this.state.mapProperties}
             onWebGLInitialized={this._onWebGLInitialized}
           >
-            {gl && (
               <StaticMap
                 ref={ref => {
                   this._map = ref && ref.getMap();
@@ -147,10 +169,9 @@ class DeckGLMap extends Component {
                 onLoad={this._onMapLoad}>
                 <div className="mapboxgl-ctrl-top-right">
                   <NavigationControl 
-                    onViewportChange={viewport => this.setState({ mapProperties: viewport })} />
+                    onViewportChange={viewport => { console.log(viewport); this.setState({ mapProperties: viewport })}} />
                 </div>
               </StaticMap>
-            )}
           </DeckGL>
         </div>
       </div>
