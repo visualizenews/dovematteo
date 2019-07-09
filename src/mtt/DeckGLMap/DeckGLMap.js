@@ -84,6 +84,7 @@ class DeckGLMap extends Component {
     map.on( 'moveend', (evt) => {
       debounce(evt);
     } );
+    map.fitBounds( this.props.options.bounds );
   }
 
   _onWebGLInitialized = (gl) => {

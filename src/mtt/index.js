@@ -28,7 +28,7 @@ class WhereIsMatteo extends Component {
     let center = { lon: 12.5674, lat: 41.8719, };
     let interactive = false;
     let controls = false;
-    const bounds = [[34, 7], [19, 47]];
+    const bounds = [5, 36.5, 18, 46];
     
     if (window.matchMedia('(min-width:1600px)').matches) {
       zoom = 5;
@@ -77,7 +77,7 @@ class WhereIsMatteo extends Component {
       if (action === 'put' && !this.matrix[id].visible) {
         this.matrix[id].visible = true;
         this.updatedMatrix();
-      } else if (action === 'pop' && this.matrix[id].visible) {
+      } else if (action === 'pop' && !this.matrix[id].visible) {
         this.matrix[id].visible = false;
         this.updatedMatrix();
       }
