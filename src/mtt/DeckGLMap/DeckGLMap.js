@@ -8,6 +8,7 @@ import './DeckGLMap.css';
 
 const MAPBOX_ACCESS_TOKEN = "pk.eyJ1IjoibGVlcHBvbGlzIiwiYSI6ImNpa3MzaHBtZTAwMG93N205bDA0NGJxNmsifQ.Dkw6ItpXcJjKbZBgeezEmw";
 const MAPBOX_MAP_STYLE = 'mapbox://styles/leeppolis/cjxdae3pz0u9y1cpf3xcwlk2l';
+//'mapbox://styles/leeppolis/cjxxcsucw1h441co56f8wechy';//
 
 class DeckGLMap extends Component {
   constructor(props) {
@@ -44,6 +45,31 @@ class DeckGLMap extends Component {
     if (pProps.points.length !== this.props.points.length) {
       this.setState( { points: this.props.points }, () => this.layers() );
     }
+    // console.log(pProps.selectedPin, this.props.selectedPin);
+    if (
+      (
+        pProps.selectedPin
+        && pProps.selectedPin.id
+        && this.props.selectedPin
+        && this.props.selectedPin.id
+        && pProps.selectedPin.id !== this.props.selectedPin.id
+      )
+      || (
+        pProps.selectedPin
+        && !pProps.selectedPin.id
+        && this.props.selectedPin
+        && this.props.selectedPin.id
+      )
+    ) {
+      const map = this._map;
+      if (this.props.selectedPin.id) {
+        console.log('fly');
+        map.zoomTo(8, { duration: 250, animate: true })
+            .flyTo( { center: [ this.props.selectedPin.coords[0], this.props.selectedPin.coords[1] ], speed: .75 } );
+      } else {
+        map.fitBounds( this.props.options.bounds );
+      }
+    }
   }
 
   debounce(func, delay) {
@@ -74,16 +100,31 @@ class DeckGLMap extends Component {
     const map = this._map;
     const deck = this._deck;
     map.addLayer(new MapboxLayer({id: 'my-scatterplot', deck}), 'waterway-label');
-    const debounce = this.debounce( (evt) => {
+    const debounceCenter = this.debounce( (evt) => {      
+      const zoom = map.getZoom();
       const coords = map.getCenter();
       const mapProperties = Object.assign({}, this.state.mapProperties);
+      mapProperties.zoom = zoom;
       mapProperties.longitude = coords.lng;
       mapProperties.latitude = coords.lat;
       this.setState({ mapProperties });
     }, 500 );
+    const debounceZoom = this.debounce( (evt) => {      
+      const zoom = map.getZoom();
+      const coords = map.getCenter();
+      const mapProperties = Object.assign({}, this.state.mapProperties);
+      mapProperties.zoom = zoom;
+      mapProperties.longitude = coords.lng;
+      mapProperties.latitude = coords.lat;
+      this.setState({ mapProperties });
+    }, 250 );
     map.on( 'moveend', (evt) => {
-      debounce(evt);
+      debounceCenter(evt);
     } );
+    map.on( 'zoomend', (evt) => {
+      debounceZoom(evt);
+    } );
+
     map.fitBounds( this.props.options.bounds );
   }
 
@@ -147,7 +188,7 @@ class DeckGLMap extends Component {
   render() {
     const {gl} = this.state;
 
-    const controller = (this.props.options.controls) ? ({ type: MapController, dragRotate: false, scrollZoom: false, dragPan: true, doubleClickZoom: false, touchRotate: false, }) : ({type: MapController, dragRotate: false, scrollZoom: false, dragPan: false, doubleClickZoom: false, touchRotate: false});
+    const controller = (this.props.options.controls) ? ({ type: MapController, dragRotate: false, scrollZoom: true, dragPan: true, doubleClickZoom: true, touchRotate: true, }) : ({type: MapController, dragRotate: false, scrollZoom: false, dragPan: false, doubleClickZoom: false, touchRotate: false});
 
     return (
       <div className="Map">
@@ -168,10 +209,6 @@ class DeckGLMap extends Component {
                 mapStyle={MAPBOX_MAP_STYLE}
                 mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
                 onLoad={this._onMapLoad}>
-                <div className="mapboxgl-ctrl-top-right">
-                  <NavigationControl 
-                    onViewportChange={viewport => { console.log(viewport); this.setState({ mapProperties: viewport })}} />
-                </div>
               </StaticMap>
           </DeckGL>
         </div>

@@ -17,23 +17,10 @@ class Location extends Component {
     return abstract.join(' ') + '…';
   }
 
-  progress() {
-    const dist = parseInt(this.props.maxDistance, 10);
-    if ( !Number.isNaN(dist) && dist !== 0 ) {
-      const perc = Math.round( (100 * this.props.location.distance.fromRome) / dist );
-      return (
-        <div className="Progress" style={{width:perc+'%'}}>
-          <div className="Label"><img src={colosseo} alt="Colosseo"/>{(new Intl.NumberFormat('it-IT').format(Math.round(this.props.location.distance.fromRome / 1000)))}Km</div>
-        </div>
-      )
-    }
-    return null;
-  }
-
   fromPrevious() {
     if (this.props.location.distance.fromPrevious) {
       return (
-        <div className="FromPrevious">{(new Intl.NumberFormat('it-IT').format(Math.round(this.props.location.distance.fromPrevious/1000)))}Km</div>
+        <div className="FromPrevious" title="Distanza dalla tappa precedente"><div className="Wrapper"><div className="Text">{(new Intl.NumberFormat('it-IT').format(Math.round(this.props.location.distance.fromPrevious/1000)))}<br />Km</div></div></div>
       );
     }
     return null;
@@ -42,12 +29,17 @@ class Location extends Component {
   render() {
     return (
       <div className="Location" id={this.props.location.id}>
-        <h2><a href={this.props.location.link} target="_facebook" title="Leggi i dettagli su Facebook">f</a> <small>{moment(this.props.location.date).format('HH:mm')}</small> - {this.props.location.place}</h2>
-        <div className="Distance">
-          { this.progress() }
+        <div className="Info" onClick={() => this.props.centerMap(this.props.location)} title="Vedi sulla mappa">
+          <h2 ><small>{moment(this.props.location.date).format('HH:mm')}</small> - {this.props.location.place}</h2>
+          <p>{this.abstract(this.props.location.description)}</p>
         </div>
-        <p>{this.abstract(this.props.location.description)}</p>
         {this.fromPrevious()}
+        <a href={this.props.location.link} target="_facebook" title="Leggi i dettagli su Facebook">f</a>
+        
+        <div className="Distance">
+          <img src={colosseo} alt="Colosseo"/>Roma {(new Intl.NumberFormat('it-IT').format(Math.round(this.props.location.distance.fromRome / 1000)))}Km ➜
+        </div>
+
       </div>
     );
   }

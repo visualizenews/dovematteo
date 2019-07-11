@@ -23,23 +23,24 @@ class WhereIsMatteo extends Component {
 
     this.listChanged = this.listChanged.bind(this);
     this.updatedMatrix = this.updatedMatrix.bind(this);
+    this.centerMap = this.centerMap.bind(this);
 
     let zoom = 5;
     let center = { lon: 12.5674, lat: 41.8719, };
     let interactive = false;
     let controls = false;
-    const bounds = [5, 36.5, 18, 46];
+    const bounds = [4.5, 36, 18.5, 46.5];
     
     if (window.matchMedia('(min-width:1600px)').matches) {
       zoom = 5;
       center = { lon: 10.75, lat: 41, };
-      interactive = true;
-      controls = true;
+      interactive = false;
+      controls = false;
     } else if (window.matchMedia('(min-width:1024px)').matches) {
       zoom = 5;
       center = { lon: 7.75, lat: 41.8719, };
-      interactive = true;
-      controls = true;
+      interactive = false;
+      controls = false;
     } else if (window.matchMedia('(min-width:768px)').matches) {
       zoom = 5;
     }
@@ -48,10 +49,8 @@ class WhereIsMatteo extends Component {
       controls: controls,
       interactive: interactive,
       bounds: bounds,
-      maxZoom: (zoom + 1),
-      minZoom: (zoom - 1),
       scrollZoom: false,
-      style: "mapbox://styles/leeppolis/cjxdae3pz0u9y1cpf3xcwlk2l",
+      style: "mapbox://styles/leeppolis/cjxxcsucw1h441co56f8wechy", //"mapbox://styles/leeppolis/cjxdae3pz0u9y1cpf3xcwlk2l",
       zoom: zoom,
     };
     this.matrix = {};
@@ -64,7 +63,8 @@ class WhereIsMatteo extends Component {
       errorMessage: null,
       loading: true,
       matrix: {},
-      points: []
+      points: [],
+      selectedPin: {}
     }
   }
 
@@ -72,14 +72,28 @@ class WhereIsMatteo extends Component {
     this.load();
   }
 
+  centerMap(pin) {
+    if (pin) {
+      if (
+        pin.id
+        && this.state.selectedPin
+        && this.state.selectedPin.id
+        && pin.id === this.state.selectedPin.id) {
+        this.setState({ selectedPin: null });
+      } else {
+        this.setState({ selectedPin: pin});
+      }
+    }
+  }
+
   listChanged(action, id) {
     if (!this.state.loading) {
       if (action === 'put' && !this.matrix[id].visible) {
         this.matrix[id].visible = true;
-        this.updatedMatrix();
+        //this.updatedMatrix();
       } else if (action === 'pop' && this.matrix[id].visible) {
         this.matrix[id].visible = false;
-        this.updatedMatrix();
+        //this.updatedMatrix();
       }
     }
   }
@@ -162,12 +176,12 @@ class WhereIsMatteo extends Component {
         <div className="Core">
           <div className="MapWrapper">
             <div className="MapPosition">
-              <DeckGLMap options={this.map} points={this.state.points} />
+              <DeckGLMap options={this.map} points={this.state.points} selectedPin={this.state.selectedPin} />
               </div>
           </div>
           <div className="ListWrapper">
             <div className="ListPosition">
-              <List days={this.state.days} change={this.listChanged} />
+              <List days={this.state.days} change={this.listChanged} centerMap={this.centerMap} />
             </div>
           </div>
         </div>

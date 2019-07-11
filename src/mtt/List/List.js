@@ -9,9 +9,9 @@ class List extends Component {
   constructor(props) {
     super(props);
     this._scroll = null;
-    this.observer = null;
-    this.observed = null;
-    this.unobserve = this.unobserve.bind(this);
+    //this.observer = null;
+    //this.observed = null;
+    //this.unobserve = this.unobserve.bind(this);
     this.state = {
       maxDistance: 0,
     };
@@ -24,7 +24,7 @@ class List extends Component {
       const distances = locations.flatMap( location => location.distance.fromRome );
       const max = Math.max(...distances);
       this.setState( { maxDistance: max } );
-
+      /*
       this.observed = this._scroll.querySelectorAll('.Location');
       this.unobserve();
       const options = {
@@ -53,9 +53,10 @@ class List extends Component {
         options
       );
       this.observed.forEach(location => this.observer.observe(location));
+      */
     }
   }
-
+/*
   componentWillUnmount() {
     this.unobserve();
   }
@@ -63,7 +64,7 @@ class List extends Component {
   unobserve() {
     if (this.observed && this.observer) this.observed.forEach(location => this.observer.unobserve(location));
   }
-
+*/
   formatDate(day) {
     return moment(day).format('LL');
   }
@@ -71,7 +72,6 @@ class List extends Component {
   render() {
     return (
       <div className="List">
-        <h2>Il Tour</h2>
         <div className="Scroll"
           ref={ref => {
             this._scroll = ref;
@@ -83,7 +83,7 @@ class List extends Component {
                 <h2>{this.formatDate(day.date)}</h2>
                 {
                   day.locations.map(
-                    location => <Location key={location.id} location={location} maxDistance={this.state.maxDistance} />
+                    location => <Location key={location.id} location={location} maxDistance={this.state.maxDistance} centerMap={this.props.centerMap} />
                   )
                 }
               </div>

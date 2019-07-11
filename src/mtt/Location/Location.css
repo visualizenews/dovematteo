@@ -1,10 +1,12 @@
 .Location {
   background: transparent;
   display: block;
-  height: auto;
-  padding: 5px 20px 90px 25px;
+  flex: 0 0 300px;
+  height: 150px;
+  margin: 0;
+  padding-left: 40px;
   position: relative;
-  width: 100%;
+  width: 300px;
 }
 
 @media screen and (min-width:768px) and (max-width:1023px) {
@@ -13,16 +15,9 @@
   }
 }
 
-.Location:before {
-  background: #ccc;
-  bottom:  0;
-  content: '';
-  display: block;
-  height: auto;
-  left: 5px;
-  position: absolute;
-  top: 0;
-  width: 1px;
+.Location .Info {
+  cursor: pointer;
+  margin-right: 20px;
 }
 
 .Location h2,
@@ -37,6 +32,8 @@
   color: #444;
   font-family: 'Space Mono', monospace;
   font-size: 1rem;
+  line-height: 1.2;
+  margin:8px 0;
   padding: 0;
 }
 
@@ -48,13 +45,49 @@
 .Location p {
   font-family: 'Space Mono', monospace;
   font-size: .8rem;
+  position: relative;
+}
+
+.Location p a {
+  left: 0;
+  position: absolute;
+  top: 0;
 }
 
 .Location .Distance {
+  background: rgb(91, 110, 151); /*rgb(89, 134, 201); /* rgb(101, 180, 81) */
+  border-radius: 5px;
+  bottom: 10px;
+  color: #fff;
   display: block;
-  height: 20px;
-  position: relative;
-  width: 70%;
+  font-family: 'Space Mono', monospace;
+  font-size: .75rem;
+  height: 30px;
+  left: 50%;
+  line-height: 10px;
+  padding: 10px 10px 10px 40px;
+  position: absolute;
+  text-align: left;
+  transform: translate3d(-50%,0,0);
+  width: auto;
+}
+
+.Location .Distance:before {
+  bottom: 3px;
+  content:'';
+  border: 1px solid #fff;
+  border-radius: 5px;
+  left: 3px;
+  position: absolute;
+  right: 3px;
+  top: 3px;
+}
+
+.Location .Distance img {
+  left: 10px;
+  position: absolute;
+  top: 50%;
+  transform: translate3d(0,-50%,0);
 }
 
 .Location .Progress {
@@ -107,19 +140,84 @@
 }
 
 .Location .FromPrevious {
-  background: #fff;
+  background: #fefefe;
   border: 1px solid #ccc;
-  border-radius: 10px;
-  bottom: 35px;
+  border-radius: 50%;
   display: block;
   font-family: 'Space Mono', monospace;
-  font-size: .6rem;
-  height: 20px;
-  left: 0px;
-  line-height: 18px;
-  padding: 0 10px;
+  font-size: .55rem;
+  height: 37px;
+  padding: 0;
   position: absolute;
+  right: -18px;
+  text-align: center;
   text-transform: lowercase;
+  top: 0;
+  width: 37px;
+  z-index: 9;
+}
+
+.Location .FromPrevious:before {
+  background: #ccc;
+  content:'';
+  display: block;
+  height: 1px;
+  left: -8px;
+  position: absolute;
+  top: 18px;
+  width: 8px;
+}
+
+.Location .FromPrevious:after {
+  background: #ccc;
+  content:'';
+  display: block;
+  height: 1px;
+  position: absolute;
+  right: -8px;
+  top: 18px;
+  width: 8px;
+}
+
+.Location .FromPrevious .Wrapper {
+  display: block;
+  height: 37px;
+  position: relative;
+  width: 37px;
+}
+
+.Location .FromPrevious .Wrapper .Text {
+  display: block;
+  left: 50%;
+  line-height: 1;
+  position: absolute;
+  top: 50%;
+  transform: translate3d(-50%,-50%,0);
+}
+
+.Location:before {
+  background: #ccc;
+  bottom: -20px;
+  content:'';
+  display: block;
+  height: auto;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 1px;
+}
+
+.Location:after {
+  background: #ccc;
+  border-radius: 50%;
+  bottom: -22px;
+  content:'';
+  display: block;
+  height: 8px;
+  left: -4px;
+  position: absolute;
+  width: 8px;
+  z-index:2;
 }
 
 .Location a {
@@ -152,3 +250,7 @@
   vertical-align: middle;
   width: 20px;
 }
+
+/*
+background: transparent url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAUCAYAAADlep81AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyhpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQ1IDc5LjE2MzQ5OSwgMjAxOC8wOC8xMy0xNjo0MDoyMiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTkgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6MkUxREMxRjk5QjREMTFFOTg3OURERkQxMjYwNDgzMUUiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6MkUxREMxRkE5QjREMTFFOTg3OURERkQxMjYwNDgzMUUiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDoyRTFEQzFGNzlCNEQxMUU5ODc5RERGRDEyNjA0ODMxRSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDoyRTFEQzFGODlCNEQxMUU5ODc5RERGRDEyNjA0ODMxRSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PnMH7c4AAABNSURBVHjaYvz//z/DYAJMDIMMjDpo1EGjDhp10EADRiAGFdWMg6XEHo0ymjuIkZHxPxCPoBBC9zEhPrGhRqzYoM32g8dBoy1GAgAgwACdQBI+iYVAXgAAAABJRU5ErkJggg==') bottom left repeat-x;
+*/
