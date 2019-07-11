@@ -37,7 +37,7 @@ class Location extends Component {
         <a className="Facebook" href={this.props.location.link} target="_facebook" title="Leggi i dettagli su Facebook">f</a>
         
         <div className="Distance">
-          <img src={colosseo} alt="Colosseo"/>Roma {(new Intl.NumberFormat('it-IT').format(Math.round(this.props.location.distance.fromRome / 1000)))}Km ➜
+          <img src={colosseo} alt="Colosseo"/>Roma {(new Intl.NumberFormat('it-IT').format(Math.round(this.props.location.distance.fromRome / 1000)))}Km
         </div>
 
       </div>

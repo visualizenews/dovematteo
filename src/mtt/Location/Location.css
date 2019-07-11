@@ -9,12 +9,6 @@
   width: 300px;
 }
 
-@media screen and (min-width:768px) and (max-width:1023px) {
-  .Location {
-    padding-left: 150px;
-  }
-}
-
 .Location .Info {
   cursor: pointer;
   margin-right: 20px;
