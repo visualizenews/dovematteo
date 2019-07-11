@@ -84,10 +84,15 @@
 }
 
 .Location .Distance img {
+  display:inline-block;
+  height: 20px;
   left: 10px;
+  object-fit: contain;
   position: absolute;
   top: 50%;
   transform: translate3d(0,-50%,0);
+  vertical-align: middle;
+  width: 20px;
 }
 
 .Location .Progress {
@@ -220,35 +225,31 @@
   z-index:2;
 }
 
-.Location a {
+.Location .Facebook {
   background: #3C5A99;
   border: 1px solid #3C5A99;
   border-radius: .3rem;
+  bottom: -26px;
   color: #fff;
   display: inline-block;
   font-family: 'Open Sans', sans-serif;
   font-weight: 700;
   height: 1rem;
+  left: 50%;
   line-height: 1.2rem;
+  position: absolute;
   text-align: center;
   text-decoration: none;
+  transform: translate3d(-50%,0,0);
   transition: color .25s ease-in-out,background .25s ease-in-out, border .27s ease-in-out;
   vertical-align: middle;
   width: 1rem;
 }
 
-.Location a:hover {
+.Location .Facebook:hover {
   background: #fff;
   border: 1px solid #3C5A99;
   color: #3C5A99;
-}
-
-.Location img {
-  display:inline-block;
-  height: 20px;
-  object-fit: contain;
-  vertical-align: middle;
-  width: 20px;
 }
 
 /*

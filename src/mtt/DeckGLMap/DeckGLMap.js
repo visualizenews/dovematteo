@@ -176,8 +176,8 @@ class DeckGLMap extends Component {
         getWidth: 1,
         getSourcePosition: d => d.from.coords,
         getTargetPosition: d => d.to.coords,
-        getSourceColor: d => (d.from.distance >= 750000) ? [255, 75, 100, 150] : [0, 146, 65, 100],
-        getTargetColor: d => (d.to.distance >= 750000) ? [255, 75, 100, 150] : [0, 146, 65, 100],
+        getSourceColor: d => (d.from.distance >= 500000) ? [255, 75, 100, 150] : [0, 146, 65, 100],
+        getTargetColor: d => (d.to.distance >= 500000) ? [255, 75, 100, 150] : [0, 146, 65, 100],
         })
       );
       this.setState( { layers } );
