@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 import DeckGL, {ScatterplotLayer, MapController, ArcLayer} from 'deck.gl';
-import {StaticMap, NavigationControl} from 'react-map-gl';
+import {StaticMap} from 'react-map-gl';
 import {MapboxLayer} from '@deck.gl/mapbox';
 
 import './DeckGLMap.css';
