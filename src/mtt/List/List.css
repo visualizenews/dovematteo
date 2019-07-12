@@ -16,6 +16,7 @@
   padding: 0 10px;
   position: absolute;
   right: 0px;
+  scroll-snap-type: x mandatory;
   top: 20px;
   width: auto;
   z-index: 1;
