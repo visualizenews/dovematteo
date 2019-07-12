@@ -35,10 +35,32 @@
 }
 
 .Counter h1 {
-  padding: 4vh 0;
+  font-size: 3rem;
+  padding: 50px 0;
   text-align: center;
+}
+
+@media screen and (min-width: 1024px) {
+  .Counter h1 {
+    font-size: 6rem;
+    padding: 100px;
+  }
 }
 
 .Counter h1 sup {
   font-size: 1.2rem;
+}
+
+.Counter h2 {
+  font-size: 1.2rem;
+  margin-bottom: 50px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+@media screen and (min-width: 1024px) {
+  .Counter h2 {
+    font-size: 2.6rem;
+    margin-bottom: 100px;
+  }
 }

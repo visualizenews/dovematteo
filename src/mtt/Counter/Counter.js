@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import './Counter.css';
 
 const EQUATOR = 40076;
-const ITALY = 7456;
+const ITALY = 7896;
 const MILAN = 574;
 
 class Counter extends Component {
@@ -33,10 +33,10 @@ class Counter extends Component {
           <h2>Più o meno...</h2>
           <div className="cards">
             <div class="card">
-              <p>Ha girato <strong>{this.state.equator}</strong><sup><small>*</small></sup> volte attorno all'equatore</p>
+              <p>Ha fatto <strong>{this.state.equator}</strong><sup><small>*</small></sup> volte il giro del mondo</p>
             </div>
             <div class="card">
-              <p>Ha circumnavigato <strong>{this.state.italy}</strong><sup><small>*</small></sup> volte le coste italiane, da Ventimiglia a Trieste</p>
+              <p>Ha circumnavigato <strong>{this.state.italy}</strong><sup><small>*</small></sup> volte le coste italiane, isole comprese</p>
             </div>
             <div class="card">
               <p>Ha percorso <strong>{this.state.milan}</strong><sup><small>*</small></sup> volte la distanza stradale tra Milano e Roma</p>
