@@ -10,6 +10,8 @@ import DeckGLMap from './DeckGLMap/DeckGLMap';
 import Intro from './Intro/Intro';
 import Counter from './Counter/Counter';
 import List from './List/List';
+import Stats from './Stats/Stats';
+import Disclaimer from './Disclaimer/Disclaimer';
 
 import './index.css';
 
@@ -128,6 +130,8 @@ class WhereIsMatteo extends Component {
             </div>
           </div>
         </div>
+        <Stats days={this.state.days} points={this.state.data} />
+        <Disclaimer />
         <Footer />
         <div className={loadingClasses}>
           Loading
