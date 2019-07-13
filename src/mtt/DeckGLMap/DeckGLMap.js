@@ -1,14 +1,17 @@
 import React, {Component} from 'react';
 
-import DeckGL, {ScatterplotLayer, MapController, ArcLayer} from 'deck.gl';
+import DeckGL, {ScatterplotLayer, MapController, ArcLayer, IconLayer} from 'deck.gl';
 import {StaticMap} from 'react-map-gl';
 import {MapboxLayer} from '@deck.gl/mapbox';
+import atlas from './assets/atlas.png';
 
 import './DeckGLMap.css';
 
 const MAPBOX_ACCESS_TOKEN = "pk.eyJ1IjoibGVlcHBvbGlzIiwiYSI6ImNpa3MzaHBtZTAwMG93N205bDA0NGJxNmsifQ.Dkw6ItpXcJjKbZBgeezEmw";
 const MAPBOX_MAP_STYLE = 'mapbox://styles/leeppolis/cjxdae3pz0u9y1cpf3xcwlk2l';
-//'mapbox://styles/leeppolis/cjxxcsucw1h441co56f8wechy';//
+const ICON_MAPPING = {
+  marker: {x: 0, y: 0, width: 512, height: 1024, mask: true}
+};
 
 class DeckGLMap extends Component {
   constructor(props) {
@@ -18,118 +21,68 @@ class DeckGLMap extends Component {
     this._map = null;
 
     this.draw = this.draw.bind(this);
+    this.layers = this.layers.bind(this);
+    this.resetView = this.resetView.bind(this);
     this._onMapLoad = this._onMapLoad.bind(this);
     this._onWebGLInitialized = this._onWebGLInitialized.bind(this);
-    this.layers = this.layers.bind(this);
-    this.debounce = this.debounce.bind(this);
 
     this.state = {
-      layers: [],
-      mapProperties: {
-        bearing: 0,
-        longitude: 0,
-        latitude: 0,
-        pitch: 0,
-        bounds: 0,
-        zoom: 0
+      controller: {
+        doubleClickZoom: false,
+        dragPan: false,
+        dragRotate: false,
+        scrollZoom: false,
+        touchRotate: false,
+        type: MapController,
       },
+      layers: [],
+      initialView: {
+        bearing: 0,
+        bounds: null,
+        latitude: 0,
+        longitude: 0,
+        pitch: 45,
+        zoom: 1
+      },
+      view: {},
       points:[]
     };
   }
 
   componentDidMount() {
-    this.draw();
+    // this.draw();
   }
 
   componentDidUpdate(pProps) {
+    if (pProps.options !== this.props.options) {
+      this.draw();
+    }
     if (pProps.points.length !== this.props.points.length) {
       this.setState( { points: this.props.points }, () => this.layers() );
     }
-    // console.log(pProps.selectedPin, this.props.selectedPin);
+    const currentPin = (this.props.selectedPin && this.props.selectedPin.id) ? this.props.selectedPin.id : null;
+    const previousPin = (pProps.selectedPin && pProps.selectedPin.id) ? pProps.selectedPin.id : null;
     if (
-      (
-        pProps.selectedPin
-        && pProps.selectedPin.id
-        && this.props.selectedPin
-        && this.props.selectedPin.id
-        && pProps.selectedPin.id !== this.props.selectedPin.id
-      )
-      || (
-        pProps.selectedPin
-        && !pProps.selectedPin.id
-        && this.props.selectedPin
-        && this.props.selectedPin.id
-      )
+      currentPin
+      && currentPin !== previousPin
     ) {
-      const map = this._map;
-      if (this.props.selectedPin.id) {
-        console.log('fly');
-        map.zoomTo(8, { duration: 250, animate: true })
-            .flyTo( { center: [ this.props.selectedPin.coords[0], this.props.selectedPin.coords[1] ], speed: .75 } );
-      } else {
-        map.fitBounds( this.props.options.bounds );
-      }
-    }
-  }
-
-  debounce(func, delay) {
-    let inDebounce
-    return function() {
-      const context = this
-      const args = arguments
-      clearTimeout(inDebounce)
-      inDebounce = setTimeout(() => func.apply(context, args), delay)
+      this.layers();
+      this.flyTo();
+    } else if (previousPin && !currentPin) {
+      this.layers();
+      this.resetView();
     }
   }
 
   draw() {
-    this.setState({
-      mapProperties: {
-        bearing: 0,
-        longitude: this.props.options.center.lon,
-        latitude: this.props.options.center.lat,
-        pitch: 45,
-        bounds: this.props.options.bounds,
-        zoom: this.props.options.zoom
-      }
-    });
     this.layers();
   }
 
-  _onMapLoad = () => {
+  flyTo() {
     const map = this._map;
-    const deck = this._deck;
-    map.addLayer(new MapboxLayer({id: 'my-scatterplot', deck}), 'waterway-label');
-    const debounceCenter = this.debounce( (evt) => {      
-      const zoom = map.getZoom();
-      const coords = map.getCenter();
-      const mapProperties = Object.assign({}, this.state.mapProperties);
-      mapProperties.zoom = zoom;
-      mapProperties.longitude = coords.lng;
-      mapProperties.latitude = coords.lat;
-      this.setState({ mapProperties });
-    }, 500 );
-    const debounceZoom = this.debounce( (evt) => {      
-      const zoom = map.getZoom();
-      const coords = map.getCenter();
-      const mapProperties = Object.assign({}, this.state.mapProperties);
-      mapProperties.zoom = zoom;
-      mapProperties.longitude = coords.lng;
-      mapProperties.latitude = coords.lat;
-      this.setState({ mapProperties });
-    }, 250 );
-    map.on( 'moveend', (evt) => {
-      debounceCenter(evt);
-    } );
-    map.on( 'zoomend', (evt) => {
-      debounceZoom(evt);
-    } );
-
-    map.fitBounds( this.props.options.bounds );
-  }
-
-  _onWebGLInitialized = (gl) => {
-    this.setState({gl});
+    if ( this.props.selectedPin && this.props.selectedPin.id ) {
+      map.flyTo( { center: [ this.props.selectedPin.coords[0], this.props.selectedPin.coords[1] ], zoom: 8 });
+    }
   }
 
   layers() {
@@ -180,25 +133,60 @@ class DeckGLMap extends Component {
         getTargetColor: d => (d.to.distance >= 500000) ? [255, 75, 100, 150] : [0, 146, 65, 100],
         })
       );
+      // Marker
+      let pinData = [];
+      if ( this.props.selectedPin && this.props.selectedPin.id ) {
+        pinData = [ this.props.selectedPin ];
+      }
+      layers.push(new IconLayer({
+        id: 'icon-layer',
+        data: pinData,
+        pickable: false,
+        // iconAtlas and iconMapping are required
+        // getIcon: return a string
+        iconAtlas: atlas,
+        iconMapping: ICON_MAPPING,
+        getIcon: d => 'marker',
+        sizeScale: 10,
+        billboard: true,
+        getPosition: d => d.coords,
+        getSize: d => 5 + ( d.guests % 10 ),
+        getColor: d => (d.distance.fromRome >= 500000) ? [0, 146, 65, 100] : [255, 75, 100, 150],
+        })
+      );
       this.setState( { layers } );
     }
   }
 
+  resetView() {
+    const map = this._map;
+    if ( this.props.options.bounds && Array.isArray(this.props.options.bounds) ) {
+      map.fitBounds( this.props.options.bounds );
+    }
+  }
+
+  _onMapLoad = () => {
+    const map = this._map;
+    const deck = this._deck;
+    map.addLayer(new MapboxLayer({id: '1', deck}), '');
+    this.resetView();
+  }
+
+  _onWebGLInitialized = (gl) => {
+    this.setState({gl});
+  }
 
   render() {
     const {gl} = this.state;
-
-    const controller = (this.props.options.controls) ? ({ type: MapController, dragRotate: false, scrollZoom: true, dragPan: true, doubleClickZoom: true, touchRotate: true, }) : ({type: MapController, dragRotate: false, scrollZoom: false, dragPan: false, doubleClickZoom: false, touchRotate: false});
-
     return (
       <div className="Map">
         <div className="container">
           <DeckGL
             ref={ref => this._deck = ref && ref.deck}
             layers={this.state.layers}
-            controller={controller}
-            initialViewState={this.state.mapProperties}
-            viewState={this.state.mapProperties}
+            controller={this.state.controller}
+            initialViewState={this.state.initialView}
+            viewState={this.state.view}
             onWebGLInitialized={this._onWebGLInitialized}
           >
               <StaticMap

@@ -35,23 +35,23 @@ class Counter extends Component {
           <h1>{(new Intl.NumberFormat('it-IT').format(this.state.km))} km<sup><small>*</small></sup></h1>
           <h2>Più o meno...</h2>
           <div className="Cards">
-            <div class="Card equator">
-              <div class="image">
-                <span>{this.state.equator}</span>
+            <div className="Card equator">
+              <div className="image">
+                <span>{(new Intl.NumberFormat('it-IT').format(this.state.equator))}<sup><small>*</small></sup></span>
               </div>
-              <p>Ha fatto <strong>{this.state.equator}</strong><sup><small>*</small></sup> volte il giro del mondo</p>
+              <p>Ha fatto <strong>{(new Intl.NumberFormat('it-IT').format(this.state.equator))}</strong><sup><small>*</small></sup> volte il giro del mondo</p>
             </div>
-            <div class="Card boat">
-              <div class="image">
-                <span>{this.state.italy}</span>
+            <div className="Card boat">
+              <div className="image">
+                <span>{(new Intl.NumberFormat('it-IT').format(this.state.italy))}<sup><small>*</small></sup></span>
               </div>
-              <p>Ha circumnavigato <strong>{this.state.italy}</strong><sup><small>*</small></sup> volte le coste italiane, isole comprese</p>
+              <p>Ha circumnavigato <strong>{(new Intl.NumberFormat('it-IT').format(this.state.italy))}</strong><sup><small>*</small></sup> volte le coste italiane, isole comprese</p>
             </div>
-            <div class="Card car">
-              <div class="image">
-                <span>{this.state.milan}</span>
+            <div className="Card car">
+              <div className="image">
+                <span>{(new Intl.NumberFormat('it-IT').format(this.state.milan))}<sup><small>*</small></sup></span>
               </div>
-              <p>Ha percorso <strong>{this.state.milan}</strong><sup><small>*</small></sup> volte la distanza stradale tra Milano e Roma</p>
+              <p>Ha percorso <strong>{(new Intl.NumberFormat('it-IT').format(this.state.milan))}</strong><sup><small>*</small></sup> volte la distanza stradale tra Milano e Roma</p>
             </div>
           </div>
         </div>

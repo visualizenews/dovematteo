@@ -7,7 +7,7 @@ class Footer extends Component {
     return (
       <footer className="Footer">
         <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-        <small>&copy; myself</small>
+        <small>&copy; myself tour@elezioni.io</small>
         <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
       </footer>
     );

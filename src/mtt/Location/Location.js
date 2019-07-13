@@ -26,9 +26,22 @@ class Location extends Component {
     return null;
   }
 
+  isSelected() {
+    if (
+      this.props.location
+      && this.props.location.id
+      && this.props.selectedPin
+      && this.props.selectedPin.id
+      && this.props.selectedPin.id === this.props.location.id
+    ) {
+      return "Location Location-Selected";
+    }
+    return "Location";
+  }
+
   render() {
     return (
-      <div className="Location" id={this.props.location.id}>
+      <div className={this.isSelected()} id={this.props.location.id}>
         <div className="Info" onClick={() => this.props.centerMap(this.props.location)} title="Vedi sulla mappa">
           <h2 ><small>{moment(this.props.location.date).format('HH:mm')}</small> - {this.props.location.place}</h2>
           <p>{this.abstract(this.props.location.description)}</p>

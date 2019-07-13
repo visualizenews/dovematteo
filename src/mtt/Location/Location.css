@@ -10,6 +10,11 @@
   width: 300px;
 }
 
+.Location.Location-Selected h2:before {
+  background: #e1f6e2;
+  border-color:#6d776d;
+}
+
 .Location .Info {
   cursor: pointer;
   margin-right: 20px;
@@ -20,6 +25,7 @@
 .Location h1 {
   margin: 0;
   padding: 0;
+  position: relative;
   text-align: left;
 }
 
@@ -30,6 +36,18 @@
   line-height: 1.2;
   margin:8px 0;
   padding: 0;
+}
+
+.Location h2:before {
+  background: #fefefe;
+  border:1px solid #ddd;
+  border-radius: 50%;
+  content:'';
+  display: inline-block;
+  height: 8px;
+  margin-right: 5px;
+  vertical-align: middle;
+  width: 8px;
 }
 
 .Location h1 {

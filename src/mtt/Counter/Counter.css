@@ -43,7 +43,7 @@
 @media screen and (min-width: 1024px) {
   .Counter h1 {
     font-size: 6rem;
-    padding: 100px;
+    padding: 100px 0 50px 0;
   }
 }
 
@@ -61,7 +61,7 @@
 @media screen and (min-width: 1024px) {
   .Counter h2 {
     font-size: 1.6rem;
-    margin-bottom: 100px;
+    margin-bottom: 50px;
   }
 }
 
@@ -115,14 +115,18 @@
 }
 
 .Counter .Card .image span {
-  bottom: 10px;
+  bottom: 0;
   display: block;
   font-family: 'Bevan', cursive;
   font-size: 4rem;
   font-style: normal;
   font-weight: 400;
-  left: 10px;
+  left: 0;
   position: absolute;
+}
+
+.Counter .Card .image span sup {
+  font-size: .6rem;
 }
 
 .Counter .Card p {

@@ -13,16 +13,14 @@
 .WhereIsMatteo .Core {
   background: #fff;
   display: block;
-  min-height: 100vh;
+  height: 90vh;
   position: relative;
   width: 100%;
 }
 
 @media screen and (min-width:1024px) {
   .WhereIsMatteo .Core {
-    height: 100vh;
-    max-height: 100vh;
-    min-height: 900px;
+    height: 90vh;
   }
 }
 

@@ -21,40 +21,12 @@ class WhereIsMatteo extends Component {
     super(props);
     moment.locale('it-IT');
 
-    this.listChanged = this.listChanged.bind(this);
-    this.updatedMatrix = this.updatedMatrix.bind(this);
     this.centerMap = this.centerMap.bind(this);
 
-    let zoom = 5;
-    let center = { lon: 12.5674, lat: 41.8719, };
-    let interactive = false;
-    let controls = false;
-    const bounds = [4.5, 36, 18.5, 46.5];
-    
-    if (window.matchMedia('(min-width:1600px)').matches) {
-      zoom = 5;
-      center = { lon: 10.75, lat: 41, };
-      interactive = false;
-      controls = false;
-    } else if (window.matchMedia('(min-width:1024px)').matches) {
-      zoom = 5;
-      center = { lon: 7.75, lat: 41.8719, };
-      interactive = false;
-      controls = false;
-    } else if (window.matchMedia('(min-width:768px)').matches) {
-      zoom = 5;
-    }
     this.map = {
-      center: center,
-      controls: controls,
-      interactive: interactive,
-      bounds: bounds,
-      scrollZoom: false,
-      style: "mapbox://styles/leeppolis/cjxxcsucw1h441co56f8wechy", //"mapbox://styles/leeppolis/cjxdae3pz0u9y1cpf3xcwlk2l",
-      zoom: zoom,
+      bounds: [4.5, 35, 18.5, 47.5]
     };
-    this.matrix = {};
-    this.keys = [];
+
     this.state = {
       data: [],
       days: [],
@@ -62,8 +34,6 @@ class WhereIsMatteo extends Component {
       error: false,
       errorMessage: null,
       loading: true,
-      matrix: {},
-      points: [],
       selectedPin: {}
     }
   }
@@ -86,25 +56,6 @@ class WhereIsMatteo extends Component {
     }
   }
 
-  listChanged(action, id) {
-    if (!this.state.loading) {
-      if (action === 'put' && !this.matrix[id].visible) {
-        this.matrix[id].visible = true;
-        //this.updatedMatrix();
-      } else if (action === 'pop' && this.matrix[id].visible) {
-        this.matrix[id].visible = false;
-        //this.updatedMatrix();
-      }
-    }
-  }
-
-  updatedMatrix() {
-    const points = this.state.data.filter((item) => {
-      return (this.matrix[item.id].visible)
-    });
-    this.setState( { points, loading: false } );
-  }
-
   load() {
     fetch( ENDPOINT )
       .then( response => {
@@ -116,14 +67,6 @@ class WhereIsMatteo extends Component {
       .then( response => {
         if ( response.data.length > 0 ) {
           // Prepare data
-          response.data.forEach( (point, index) => {
-            this.matrix[point.id] = {
-              id: point.id,
-              index: index,
-              visible: true,
-            };
-          });
-          this.keys = Object.keys(this.matrix);
           const objDays = {};
           response.data.forEach( point => {
             const datekey = moment(point.date).format('YYYYMMDD');
@@ -142,7 +85,7 @@ class WhereIsMatteo extends Component {
             }
           });
           const days = rawDays.sort( (a,b) => (a.timestamp > b.timestamp ? 1 : -1) );
-          this.setState( { data: response.data, days, error: false, empty: false }, () => this.updatedMatrix() );
+          this.setState( { data: response.data, days, error: false, empty: false, loading: false } );
         } else {
           this.setState( { error: false, loading: false, empty: true } );
         }
@@ -176,12 +119,12 @@ class WhereIsMatteo extends Component {
         <div className="Core">
           <div className="MapWrapper">
             <div className="MapPosition">
-              <DeckGLMap options={this.map} points={this.state.points} selectedPin={this.state.selectedPin} />
+              <DeckGLMap options={this.map} points={this.state.data} selectedPin={this.state.selectedPin} />
               </div>
           </div>
           <div className="ListWrapper">
             <div className="ListPosition">
-              <List days={this.state.days} change={this.listChanged} centerMap={this.centerMap} />
+              <List days={this.state.days} change={this.listChanged} centerMap={this.centerMap} selectedPin={this.state.selectedPin} />
             </div>
           </div>
         </div>

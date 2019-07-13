@@ -33,7 +33,7 @@ class List extends Component {
                 <h2>{this.formatDate(day.date)}</h2>
                 {
                   day.locations.map(
-                    location => <Location key={location.id} location={location} centerMap={this.props.centerMap} />
+                    location => <Location key={location.id} location={location} centerMap={this.props.centerMap} selectedPin={this.props.selectedPin} />
                   )
                 }
               </div>
