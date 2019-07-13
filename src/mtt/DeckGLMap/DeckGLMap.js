@@ -8,7 +8,7 @@ import atlas from './assets/atlas.png';
 import './DeckGLMap.css';
 
 const MAPBOX_ACCESS_TOKEN = "pk.eyJ1IjoibGVlcHBvbGlzIiwiYSI6ImNpa3MzaHBtZTAwMG93N205bDA0NGJxNmsifQ.Dkw6ItpXcJjKbZBgeezEmw";
-const MAPBOX_MAP_STYLE = 'mapbox://styles/leeppolis/cjxdae3pz0u9y1cpf3xcwlk2l';
+const MAPBOX_MAP_STYLE = 'mapbox://styles/leeppolis/cjy1kszw80x661co3juser7j6'; //'mapbox://styles/leeppolis/cjxdae3pz0u9y1cpf3xcwlk2l';
 const ICON_MAPPING = {
   marker: {x: 0, y: 0, width: 512, height: 1024, mask: true}
 };
