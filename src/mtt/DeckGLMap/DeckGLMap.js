@@ -41,7 +41,7 @@ class DeckGLMap extends Component {
         bounds: null,
         latitude: 0,
         longitude: 0,
-        pitch: 45,
+        pitch: 0,
         zoom: 1
       },
       view: {},
@@ -160,6 +160,7 @@ class DeckGLMap extends Component {
 
   resetView() {
     const map = this._map;
+    map.setPitch(45);
     if ( this.props.options.bounds && Array.isArray(this.props.options.bounds) ) {
       map.fitBounds( this.props.options.bounds );
     }
