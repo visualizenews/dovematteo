@@ -30,12 +30,16 @@ class WhereIsMatteo extends Component {
     };
 
     this.state = {
+      charts: {
+        busiest: [],
+        furthest: [],
+        mostVisited: [],
+      },
       data: [],
       days: [],
       empty: true,
       error: false,
       errorMessage: null,
-      charts: {},
       loading: true,
       selectedPin: {}
     }
@@ -91,13 +95,37 @@ class WhereIsMatteo extends Component {
           const days = rawDays.sort( (a,b) => (a.timestamp > b.timestamp ? 1 : -1) );
           // Charts
           const charts = {};
+          // Furthest
+          const filterCities = [];
           charts.furthest = response.data.slice(0);
-          charts.furthest = charts.furthest.sort( (a,b) => (b.distance.fromRome - a.distance.fromRome) ).slice(0,10);
-          const uniqueCities = [...new Set(charts.furthest.map(item => item.place))];
-          console.log( uniqueCities );
-          // charts.cities = 
-          console.log(charts);
-          this.setState( { data: response.data, days, error: false, empty: false, loading: false } );
+          charts.furthest = charts.furthest.sort(
+              (a,b) => (b.distance.fromRome - a.distance.fromRome)
+            ).slice(0,15).filter(
+              (item) => {
+                if (filterCities.indexOf(item.place) < 0) {
+                  filterCities.push(item.place);
+                  return true;
+                }
+                return false;
+              }
+            ).slice(0,5);
+          // Most visited
+          const mostVisited = response.data.slice(0);
+          const uniqueCities = [...new Set(mostVisited.map(item => item.place))];
+          charts.mostVisited = uniqueCities.map( item => ({ place: item, counter: 0 }) );
+          const mostVisitedMap = {};
+          uniqueCities.forEach( (item, index) => {
+            return (mostVisitedMap[item] = index);
+          });
+          mostVisited.forEach( item => {
+            charts.mostVisited[mostVisitedMap[item.place]].counter++;
+          });
+          charts.mostVisited = charts.mostVisited.sort( (a,b) => (b.counter - a.counter) ).slice(0,5);
+          // Most busy
+          charts.busiest = days.slice(0);
+          charts.busiest = charts.busiest.sort( (a, b) => (b.locations.length - a.locations.length) ).slice(0, 5);
+          console.log('l', charts);
+          this.setState( { charts, data: response.data, days, error: false, empty: false, loading: false } );
         } else {
           this.setState( { error: false, loading: false, empty: true } );
         }
@@ -146,7 +174,7 @@ class WhereIsMatteo extends Component {
             </div>
           </div>
         </div>
-        <Stats days={this.state.days} points={this.state.data} />
+        <Stats charts={this.state.charts} />
         <Disclaimer />
         <Footer />
         <div className={loadingClasses}>
