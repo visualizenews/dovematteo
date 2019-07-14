@@ -4,16 +4,22 @@ import './Counter.css';
 import './assets/boat.png';
 import './assets/car.png';
 import './assets/equator.png';
+import './assets/forrest.png';
+import './assets/lemans.png';
 
 const EQUATOR = 40076;
+const FORREST = 24700;
 const ITALY = 7896;
+const LEMANS = 5410;
 const MILAN = 574;
 
 class Counter extends Component {
   state = {
     equator: 0,
+    forrest: 0,
     italy: 0,
     km: 0,
+    lemans: 0,
     milan: 0
   };
 
@@ -23,7 +29,9 @@ class Counter extends Component {
       const equator = Math.round(km / EQUATOR);
       const italy = Math.round(km / ITALY);
       const milan = Math.round(km / MILAN);
-      this.setState({ equator, italy, km, milan});
+      const forrest = Math.round(km / FORREST);
+      const lemans = Math.round(km / LEMANS);
+      this.setState({ equator, forrest, italy, km, lemans, milan});
     }
   }
 
@@ -40,6 +48,12 @@ class Counter extends Component {
                 <span>{(new Intl.NumberFormat('it-IT').format(this.state.equator))}<sup><small>*</small></sup></span>
               </div>
               <p>Ha fatto <strong>{(new Intl.NumberFormat('it-IT').format(this.state.equator))}</strong><sup><small>*</small></sup> volte il giro del mondo</p>
+            </div>
+            <div className="Card forrest">
+              <div className="image">
+                <span>{(new Intl.NumberFormat('it-IT').format(this.state.forrest))}<sup><small>*</small></sup></span>
+              </div>
+              <p>Ha percorso <strong>{(new Intl.NumberFormat('it-IT').format(this.state.forrest))}</strong><sup><small>*</small></sup> volte quanto corso da Forrest Gump</p>
             </div>
             <div className="Card boat">
               <div className="image">

@@ -35,6 +35,7 @@ class WhereIsMatteo extends Component {
       empty: true,
       error: false,
       errorMessage: null,
+      charts: {},
       loading: true,
       selectedPin: {}
     }
@@ -69,6 +70,7 @@ class WhereIsMatteo extends Component {
       .then( response => {
         if ( response.data.length > 0 ) {
           // Prepare data
+          // Days
           const objDays = {};
           response.data.forEach( point => {
             const datekey = moment(point.date).format('YYYYMMDD');
@@ -87,6 +89,14 @@ class WhereIsMatteo extends Component {
             }
           });
           const days = rawDays.sort( (a,b) => (a.timestamp > b.timestamp ? 1 : -1) );
+          // Charts
+          const charts = {};
+          charts.furthest = response.data.slice(0);
+          charts.furthest = charts.furthest.sort( (a,b) => (b.distance.fromRome - a.distance.fromRome) ).slice(0,10);
+          const uniqueCities = [...new Set(charts.furthest.map(item => item.place))];
+          console.log( uniqueCities );
+          // charts.cities = 
+          console.log(charts);
           this.setState( { data: response.data, days, error: false, empty: false, loading: false } );
         } else {
           this.setState( { error: false, loading: false, empty: true } );
@@ -118,6 +128,12 @@ class WhereIsMatteo extends Component {
         <Header />
         <Intro />
         <Counter data={this.state.data} />
+        <div className="Intro-Map">
+          <div className="text">
+            <h1>Le Tappe</h1>
+            <h3>La mappa mostra tutte le tappe del tour. Per ogni tappa, la lista mostra la distanza chilometrica dalla precedente, e quella da Roma. Cliccando sul nome di un luogo è possibile evidenziarlo sulla mappa. <em>La grandezza del Pin è proporzionale al numero di persone presenti all'evento<sup><small>*</small></sup></em>. Le linee collegano tra loro le diverse tappe.</h3>
+          </div>
+        </div>
         <div className="Core">
           <div className="MapWrapper">
             <div className="MapPosition">

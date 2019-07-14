@@ -128,3 +128,45 @@
   pointer-events: all;
   z-index: 99;
 }
+
+.WhereIsMatteo .Intro-Map {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  min-height: 50vh;
+  padding: 10vh 10vw;
+  width: 100%;
+}
+
+.WhereIsMatteo .Intro-Map .text {
+  align-self: center;
+  display: block;
+  flex: 0 0 100%;
+  max-width: 900px;
+}
+
+.WhereIsMatteo .Intro-Map h3 {
+  font-family: sans-serif;
+  line-height: 2;
+}
+
+.WhereIsMatteo .Intro-Map h3 em {
+  background: #e1f6e2;
+  box-shadow: 1px 0 0 1px #e1f6e2, -2px 0 0 2px #e1f6e2;
+  font-family: 'Bevan', cursive;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.WhereIsMatteo .Intro-Map h1 {
+  font-size: 3rem;
+  padding: 50px 0;
+  text-align: center;
+}
+
+@media screen and (min-width: 1024px) {
+  .WhereIsMatteo .Intro-Map h1 {
+    font-size: 6rem;
+    padding: 100px 0 50px 0;
+  }
+}

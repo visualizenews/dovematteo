@@ -74,7 +74,14 @@
 @media screen and (min-width: 768px) {
   .Counter .Cards {
     display: flex;
+    flex-wrap: wrap;
     margin: 0 -20px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .Counter .Cards {
+    flex-wrap: nowrap;
   }
 }
 
@@ -86,8 +93,14 @@
 
 @media screen and (min-width: 768px) {
   .Counter .Card {
-    flex: 1 1 auto;
+    flex: 0 0 50%;
     padding: 0 20px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .Counter .Card {
+    flex: 1 1 auto;
   }
 }
 
@@ -112,6 +125,10 @@
 
 .Counter .Card.equator .image {
   background-image: url(./assets/equator.png);
+}
+
+.Counter .Card.forrest .image {
+  background-image: url(./assets/forrest.png);
 }
 
 .Counter .Card .image span {
