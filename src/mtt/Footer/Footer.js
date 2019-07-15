@@ -26,7 +26,7 @@ class Footer extends Component {
               <h3>Termini del servizio</h3>
               <p>Tutte le analisi sono fornite "as-is" ("così come sono"), senza alcuna garanzia esplicita o implicita della loro correttezza.</p>
               <h3>Privacy policy</h3>
-              <p>Questo sito non salva alcun cookie, né utilizza alcun altro tipo di tecnologia di tracking. Usiamo, in ogni caso, <a href="https://www.google.com/analytics">Google Analytics</a> per soli scopi statistici. È possibile che <a href="https://www.google.com/analytics">Google Analytics</a> salvi cookies o utilizzi altre tecnologie di tracking; questi dati, in ogni caso, non sono a noi accessibili.</p>
+              <p>Questo sito non salva alcun cookie, né utilizza alcun altro tipo di tecnologia di tracking. Usiamo <a href="https://www.google.com/analytics">Google Analytics</a> per soli scopi statistici. È possibile che <a href="https://www.google.com/analytics">Google Analytics</a> salvi cookies o utilizzi altre tecnologie di tracking; questi dati, in ogni caso, non sono a noi accessibili.</p>
               <p><strong>Nessun dato</strong> (inclusi IP address, Host name, Broswer signature) <strong>viene salvato, per alcun motivo, sui nostri server</strong>.</p>
             </div>
           </div>

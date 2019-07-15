@@ -12,12 +12,16 @@
 }
 
 .Location:not(.Location-Selected):hover .Distance,
+.Location:not(.Location-Selected):active .Distance,
 .Location:not(.Location-Selected):hover h2,
-.Location:not(.Location-Selected):hover p {
+.Location:not(.Location-Selected):active h2,
+.Location:not(.Location-Selected):hover p,
+.Location:not(.Location-Selected):active p {
   opacity: .15;
 }
 
 .Location:hover h2:before,
+.Location:active h2:before,
 .Location.Location-Selected h2:before {
   background: #e1f6e2;
   border-color:#6d776d;
@@ -79,7 +83,7 @@
 .Location .Distance {
   background: rgb(91, 110, 151);
   border-radius: 5px;
-  bottom: 0px;
+  bottom: 10px;
   color: #fff;
   display: block;
   font-family: 'Space Mono', monospace;
@@ -269,6 +273,7 @@
   width: 1rem;
 }
 
+.Location .Facebook:active,
 .Location .Facebook:hover {
   background: #fff;
   border: 1px solid #3C5A99;
@@ -298,6 +303,7 @@
   z-index: 999;
 }
 
+.Location:not(.Location-Selected):active .Hover,
 .Location:not(.Location-Selected):hover .Hover {
   opacity: 1;
 }
