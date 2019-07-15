@@ -9,9 +9,6 @@ class List extends Component {
   constructor(props) {
     super(props);
     this._scroll = null;
-    //this.observer = null;
-    //this.observed = null;
-    //this.unobserve = this.unobserve.bind(this);
     moment.locale('it-IT');
   }
 

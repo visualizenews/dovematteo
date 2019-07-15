@@ -159,6 +159,18 @@ h3 {
   position: absolute;
 }
 
+@media screen and (min-width:768px) {
+  .Card .image span {
+    left: 50px;
+  }
+}
+
+@media screen and (min-width:1024px) {
+  .Card .image span {
+    left: 0;
+  }
+}
+
 .Card .image span sup {
   font-size: .6rem;
 }

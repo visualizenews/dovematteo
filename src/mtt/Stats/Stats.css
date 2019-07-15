@@ -45,6 +45,7 @@
 
 .Stats .Card h2 {
   font-size: 1.6rem;
+  line-height: 1.2;
 }
 
 .Stats .Card li h3 {
@@ -97,4 +98,52 @@
 
 .Stats .Busiest h4 {
   font-family: sans-serif;
+}
+
+@media screen and (min-width:768px) {
+  .Stats .Busiest {
+    flex: 1 1 100%;
+  }
+
+  .Stats .Busiest h2 {
+    margin-top: 20px;
+  }
+  
+  .Stats .Busiest ol {
+    display:flex;
+    margin: 0 -20px;
+  }
+
+  .Stats .Busiest ol li .image {
+    display: none;
+  }
+
+  .Stats .Busiest ol li {
+    flex: 1 1 auto;
+    padding: 0 20px;
+  }
+}
+
+@media screen and (min-width:1024px) {
+  .Stats .Busiest {
+    flex: 1 1 auto;
+  }
+
+  .Stats .Busiest h2 {
+    margin-top: 0;
+  }
+  
+  .Stats .Busiest ol {
+    display:block;
+    margin: 0;
+  }
+
+  .Stats .Busiest ol li .image {
+    display: block;
+  }
+
+  .Stats .Busiest ol li {
+    flex: none;
+    padding: 0;
+  }
 }

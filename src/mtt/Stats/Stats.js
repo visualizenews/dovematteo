@@ -49,7 +49,7 @@ class Stats extends Component {
           <h1>Un po' di numeri</h1>
           <div className="Cards">
             <div className="Card Furthest">
-              <h2>I viaggi più distanti da Roma</h2>
+              <h2>I viaggi più lunghi</h2>
 
               <ol>
                 {

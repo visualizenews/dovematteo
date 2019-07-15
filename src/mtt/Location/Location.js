@@ -41,8 +41,8 @@ class Location extends Component {
 
   render() {
     return (
-      <div className={this.isSelected()} id={this.props.location.id}>
-        <div className="Info" onClick={() => this.props.centerMap(this.props.location)} title="Vedi sulla mappa">
+      <div className={this.isSelected()} id={this.props.location.id}  onClick={() => this.props.centerMap(this.props.location)}>
+        <div className="Info" title="Vedi sulla mappa">
           <h2 ><small>{moment(this.props.location.date).format('HH:mm')}</small> - {this.props.location.place}</h2>
           <p>{this.abstract(this.props.location.description)}</p>
         </div>
@@ -51,6 +51,10 @@ class Location extends Component {
         
         <div className="Distance">
           <img src={colosseo} alt="Colosseo"/>Roma {(new Intl.NumberFormat('it-IT').format(Math.round(this.props.location.distance.fromRome / 1000)))}Km
+        </div>
+
+        <div className="Hover">
+          Vedi sulla Mappa
         </div>
 
       </div>
