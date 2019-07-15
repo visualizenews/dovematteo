@@ -21,7 +21,7 @@ class Footer extends Component {
             </div>
             <div className="col">
               <h3>Copyright</h3>
-              <p>&copy; {new Date().getFullYear()} <a href="https://visualize.news" target="_visualize">Visualize.News</a> &ndash; All rights reserved. All images and texts &copy; of the respective owners. This site has been designed and developed by <a href="https://simonelippolis.com" target="_simone">Simone Lippolis</a> and <a href="http://www.makinguse.com/" target="_carlo">Carlo Zapponi</a>.</p>
+              <p>&copy; {new Date().getFullYear()} <a href="https://visualize.news" target="_visualize">Visualize.News</a> &ndash; All rights reserved. All images and texts &copy; of the respective owners. This site has been designed and developed by <a href="https://simonelippolis.com" target="_simone">Simone Lippolis</a>.</p>
               <h3>Terms of service</h3>
               <p>All data and analysis are provided "as-is", without any warranty, implicit or explicit, of their correctness.</p>
               <h3>Privacy policy</h3>
