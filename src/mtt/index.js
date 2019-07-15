@@ -3,6 +3,7 @@ import classSet from "react-classset";
 
 import moment from 'moment';
 import 'moment/locale/it';
+import ReactGA from 'react-ga';
 
 import Header from './Header/Header';
 import Footer from './Footer/Footer';
@@ -14,6 +15,8 @@ import Stats from './Stats/Stats';
 import Disclaimer from './Disclaimer/Disclaimer';
 
 import './index.css';
+
+ReactGA.initialize('UA-137198797-4');
 
 const ENDPOINT = 'https://whereismatteo.elezioni.io/v0/events/get';
 
@@ -47,6 +50,7 @@ class WhereIsMatteo extends Component {
 
   componentDidMount() {
     this.load();
+    ReactGA.pageview(window.location.pathname + window.location.search);
   }
 
   centerMap(pin) {
@@ -56,8 +60,10 @@ class WhereIsMatteo extends Component {
         && this.state.selectedPin
         && this.state.selectedPin.id
         && pin.id === this.state.selectedPin.id) {
+          ReactGA.pageview(window.location.pathname + window.location.search);
         this.setState({ selectedPin: null });
       } else {
+        ReactGA.pageview(window.location.pathname + window.location.search + '/event/' + pin.id + '/' + pin.place);
         this.setState({ selectedPin: pin});
       }
     }
@@ -124,7 +130,6 @@ class WhereIsMatteo extends Component {
           // Most busy
           charts.busiest = days.slice(0);
           charts.busiest = charts.busiest.sort( (a, b) => (b.locations.length - a.locations.length) ).slice(0, 3);
-          console.log('l', charts);
           this.setState( { charts, data: response.data, days, error: false, empty: false, loading: false } );
         } else {
           this.setState( { error: false, loading: false, empty: true } );

@@ -9,7 +9,6 @@ import './assets/bassano.png';
 
 class Stats extends Component {
   computeDistance(item) {
-    console.log(item);
     return Math.round(item.locations.reduce(
         (accumulator, location, index) => (index < (item.locations.length-1)) ? (accumulator + location.distance.fromPrevious) : (accumulator), 0
       ) / 1000);
@@ -44,7 +43,6 @@ class Stats extends Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <div className="Stats">
         <div className="Text">
@@ -118,8 +116,8 @@ class Links extends Component {
       {
         this.props.links.map(
           (location, index) => (
-            <span>
-              <a key={location.id} href={location.link} target="_facebook">{location.place}</a>
+            <span key={location.id}>
+              <a href={location.link} target="_facebook">{location.place}</a>
               {(index < this.props.links.length-1) ? ', ' : '' }
             </span>
           )
