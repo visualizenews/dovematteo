@@ -2,6 +2,7 @@
   "name": "wheresmatteo",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://matteointour.visualize.news",
   "dependencies": {
     "@deck.gl/react": "^7.1.7",
     "deck.gl": "^7.1.7",
