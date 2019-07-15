@@ -181,13 +181,35 @@ class WhereIsMatteo extends Component {
         <Disclaimer />
         <Footer />
         <div className={loadingClasses}>
-          Loading
+          <svg viewBox="0 0 436 395">
+            <g stroke="none" fill="none">
+              <g transform="translate(-40.000000, -58.000000)" stroke="#55a1ff">
+                <polygon id="V-Line" points="150.365234 251.410156 40.6835937 251.410156 89.2675781 58.9550781 250.337891 58.9550781 363.109375 452.166016 475.470703 201.083984 320.097656 201.083984 213.667969 452.166016 89.2675781 58.9550781"></polygon>
+              </g>
+            </g>
+          </svg>
         </div>
         <div className={emptyClasses}>
-          Empty
+          <div>
+            <h1>Errore!</h1>
+            <p>Non sono riuscito a caricare i dati, riprova più tardi!</p>
+            <hr />
+            <p>Web: <a href="https://visualize.news" target="_visualize">Visualize.News</a><br />
+              Twitter: <a href="https://twitter.com/visualizenews" target="_twitter">@visualizenews</a><br />
+              Instagram: <a href="https://instagram.com/visualizenews" target="_twitter">@visualizenews</a><br />
+              Medium: <a href="https://medium.com/visualize-news" target="_medium">@visualize.news</a></p>
+          </div>
         </div>
         <div className={errorClasses}>
-          { this.state.errorMessage }
+          <div>
+            <h1>Errore!</h1>
+            <p>{ this.state.errorMessage }</p>
+            <hr />
+            <p>Web: <a href="https://visualize.news" target="_visualize">Visualize.News</a><br />
+              Twitter: <a href="https://twitter.com/visualizenews" target="_twitter">@visualizenews</a><br />
+              Instagram: <a href="https://instagram.com/visualizenews" target="_twitter">@visualizenews</a><br />
+              Medium: <a href="https://medium.com/visualize-news" target="_medium">@visualize.news</a></p>
+          </div>
         </div>
       </div>
     );

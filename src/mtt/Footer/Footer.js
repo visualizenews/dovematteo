@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Footer.css';
-import VNLogo from './Assets/vn.png';
+import VNLogo from '../assets/vn.png';
 
 class Footer extends Component {
   render() {
@@ -14,6 +14,7 @@ class Footer extends Component {
               <h3>Contact us</h3>
               <p>Web: <a href="https://visualize.news" target="_visualize">Visualize.News</a><br />
               Twitter: <a href="https://twitter.com/visualizenews" target="_twitter">@visualizenews</a><br />
+              Instagram: <a href="https://instagram.com/visualizenews" target="_twitter">@visualizenews</a><br />
               Medium: <a href="https://medium.com/visualize-news" target="_medium">@visualize.news</a></p>
               <h3>Other projects</h3>
               <p><a href="https://india.visualize.news" target="_elezioni">Lok Sabha Elections</a><br />
