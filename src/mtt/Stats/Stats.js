@@ -3,9 +3,6 @@ import moment from 'moment';
 import 'moment/locale/it';
 
 import './Stats.css';
-import './assets/washington.png';
-import './assets/milano.png';
-import './assets/bassano.png';
 
 class Stats extends Component {
   computeDistance(item) {

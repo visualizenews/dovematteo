@@ -1,11 +1,6 @@
 import React, {Component} from 'react';
 
 import './Counter.css';
-import './assets/boat.png';
-import './assets/car.png';
-import './assets/equator.png';
-import './assets/forrest.png';
-import './assets/lemans.png';
 
 const EQUATOR = 40075;
 const FORREST = 24539;

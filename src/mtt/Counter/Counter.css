@@ -40,19 +40,3 @@
     padding: 100px 0 50px 0;
   }
 }
-
-.Card.car .image {
-  background-image: url(./assets/car.png);
-}
-
-.Card.boat .image {
-  background-image: url(./assets/boat.png);
-}
-
-.Card.equator .image {
-  background-image: url(./assets/equator.png);
-}
-
-.Card.forrest .image {
-  background-image: url(./assets/forrest.png);
-} 

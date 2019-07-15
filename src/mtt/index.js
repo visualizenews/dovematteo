@@ -14,6 +14,17 @@ import List from './List/List';
 import Stats from './Stats/Stats';
 import Disclaimer from './Disclaimer/Disclaimer';
 
+import './assets/boat.png';
+import './assets/car.png';
+import './assets/equator.png';
+import './assets/forrest.png';
+import './assets/lemans.png';
+import './assets/washington.png';
+import './assets/milano.png';
+import './assets/bassano.png';
+import './assets/genova.png';
+import './assets/roma.png';
+
 import './index.css';
 
 ReactGA.initialize('UA-137198797-4');

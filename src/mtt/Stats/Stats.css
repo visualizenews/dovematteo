@@ -1,26 +1,3 @@
-.Stats .Card .image {
-  background-color: transparent;
-  background-image: none;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  display: block;
-  height: 200px;
-  position: relative;
-}
-
-.Stats .Card .washington .image {
-  background-image: url(./assets/washington.png);
-}
-
-.Stats .Card .milano .image {
-  background-image: url(./assets/milano.png);
-}
-
-.Stats .Card .bassanodelgrappa .image {
-  background-image: url(./assets/bassano.png);
-}
-
 .Stats .Card ol,
 .Stats .Card li {
   list-style: none;
