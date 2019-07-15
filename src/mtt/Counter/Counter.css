@@ -3,6 +3,11 @@
   width: 100%;
 }
 
+.Counter h2 {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
 .Counter h3 {
   font-family: sans-serif;
   line-height: 2;

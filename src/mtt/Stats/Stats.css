@@ -91,7 +91,7 @@
 }
 
 .Stats a {
-  box-shadow: inset 0 -.5rem 0 0 #e1f6e2, 0 0 0 .15rem transparent;
+  box-shadow: inset 0 -.3rem 0 0 #e1f6e2, 0 0 0 .15rem transparent;
   border-bottom: 1px solid #e1f6e2;
 }
 

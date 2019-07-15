@@ -7,11 +7,11 @@ import './assets/equator.png';
 import './assets/forrest.png';
 import './assets/lemans.png';
 
-const EQUATOR = 40076;
-const FORREST = 24700;
-const ITALY = 7896;
+const EQUATOR = 40075;
+const FORREST = 24539;
+const ITALY = 7458;
 const LEMANS = 5410;
-const MILAN = 574;
+const MILAN = 573;
 
 class Counter extends Component {
   state = {

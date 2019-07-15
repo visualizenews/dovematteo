@@ -1,0 +1,92 @@
+.Footer {
+    background: #444;
+    color: #fff;
+    display: block;
+    margin: 100px 0 0 0;
+    padding: 40px 0;
+}
+
+.Footer .Footer--wrapper {
+    display: block;
+    margin: 0 2rem;
+    max-width: 900px;
+    position: relative;
+    width: auto;
+}
+
+.Footer--wrapper .col {
+    margin-top: 2rem;
+}
+
+@media screen and (min-width: 768px) {
+    .Footer .Footer--wrapper {
+        align-content: stretch;
+        align-items: stretch;
+        display: flex;
+        flex-direction: row-reverse;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        margin: 0 auto;
+        padding: 0 2rem;
+        width: 100%;
+    }
+    .Footer .Footer--wrapper .col {
+        display: block;
+        flex: 0 0 30%;
+        margin-top: 0;
+        max-width: 30%;
+    }
+    .Footer .Footer--wrapper .col:last-child {
+        flex: 0 0 60%;
+        max-width: 60%;
+    }
+}
+
+.Footer p {
+    font-size: 1rem;
+    margin-top: 2rem;
+}
+
+.Footer p:first-child {
+    margin-top: 0;
+}
+
+.Footer h3 {
+    font-family: 'Bevan', cursive;
+    font-size: 1.2rem;
+    font-weight: 400;
+}
+
+.Footer h3:first-child,
+.Footer h3+p {
+    margin-top: 0;
+}
+
+.Footer h3 a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.Footer h3 a:hover,
+.Footer h3 a:active {
+    background: transparent;
+    color: #fff;
+    text-decoration: none;
+}
+
+.Footer img {
+    height: 3rem;
+    object-fit: contain;
+    vertical-align: middle;
+    width: 3rem;
+}
+
+.Footer a {
+    color: var(--background--color);
+    text-decoration: underline;
+}
+
+.Footer a:hover,
+.Footer a:active {
+    background: transparent;
+}
