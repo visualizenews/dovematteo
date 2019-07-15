@@ -1,0 +1,75 @@
+.Stats .Card .image {
+  background-color: transparent;
+  background-image: none;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: block;
+  height: 200px;
+  position: relative;
+}
+
+.Stats .Card .washington .image {
+  background-image: url(./assets/washington.png);
+}
+
+.Stats .Card .milano .image {
+  background-image: url(./assets/milano.png);
+}
+
+.Stats .Card ol,
+.Stats .Card li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.Stats .Card h2 {
+  height: 80px;
+  line-height: 25px;
+  text-align: center;
+}
+
+.Stats .Card .image {
+  margin-bottom: 40px;
+}
+
+.Stats .Card ol li {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.Stats .Card h3 {
+  font-family: 'Bevan', cursive;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+  margin: 0;
+}
+
+.Stats .Card h4 {
+  font-family: 'Space Mono', monospace;
+  font-size: 1.2rem;
+  font-style: normal;
+  font-weight: 400;
+  margin: 0;
+}
+
+.Stats .Card ul {
+  margin: 0;
+  padding: 0;
+}
+
+.Stats .Card ul li {
+  display: inline-block;
+  line-height: 1.5;
+  margin: 0 5px 0 0;
+}
+
+.Stats .Card ul li:after {
+  content: ',';
+}
+
+.Stats .Card ul li:last-child:after {
+  content: '.';
+}
