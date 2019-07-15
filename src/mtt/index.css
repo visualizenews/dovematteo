@@ -14,6 +14,7 @@
   background: #fff;
   display: block;
   height: 90vh;
+  margin: 50px 0;
   position: relative;
   width: 100%;
 }
@@ -21,6 +22,7 @@
 @media screen and (min-width:1024px) {
   .WhereIsMatteo .Core {
     height: 90vh;
+    margin: 100px 0;
   }
 }
 

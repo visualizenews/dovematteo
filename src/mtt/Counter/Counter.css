@@ -1,9 +1,5 @@
 .Counter {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-  min-height: 50vh;
-  padding: 10vh 10vw;
+  padding: 0;
   width: 100%;
 }
 

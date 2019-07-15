@@ -108,7 +108,7 @@ class WhereIsMatteo extends Component {
                 }
                 return false;
               }
-            ).slice(0,5);
+            ).slice(0,3);
           // Most visited
           const mostVisited = response.data.slice(0);
           const uniqueCities = [...new Set(mostVisited.map(item => item.place))];
@@ -120,10 +120,10 @@ class WhereIsMatteo extends Component {
           mostVisited.forEach( item => {
             charts.mostVisited[mostVisitedMap[item.place]].counter++;
           });
-          charts.mostVisited = charts.mostVisited.sort( (a,b) => (b.counter - a.counter) ).slice(0,5);
+          charts.mostVisited = charts.mostVisited.sort( (a,b) => (b.counter - a.counter) ).slice(0,3);
           // Most busy
           charts.busiest = days.slice(0);
-          charts.busiest = charts.busiest.sort( (a, b) => (b.locations.length - a.locations.length) ).slice(0, 5);
+          charts.busiest = charts.busiest.sort( (a, b) => (b.locations.length - a.locations.length) ).slice(0, 3);
           console.log('l', charts);
           this.setState( { charts, data: response.data, days, error: false, empty: false, loading: false } );
         } else {

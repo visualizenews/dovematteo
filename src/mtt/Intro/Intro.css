@@ -1,7 +1,5 @@
 .Intro {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-  min-height: 50vh;
+  display: block;
+  padding: 0;
   width: 100%;
 }

@@ -5,6 +5,7 @@ import 'moment/locale/it';
 import './Stats.css';
 import './assets/washington.png';
 import './assets/milano.png';
+import './assets/bassano.png';
 
 class Stats extends Component {
   computeDistance(item) {
@@ -25,6 +26,23 @@ class Stats extends Component {
     return false;
   }
 
+  putList(locations) {
+    let output = '';
+    locations.forEach(
+      (location, index) => {
+        output += this.createLink(location.link, location.place);
+        if (index < (locations.length - 1)) {
+          output += ', ';
+        }
+      }
+    );
+    return output;
+  }
+
+  createLink(link, label) {
+    return <a href={link} target="_facebook">{label}</a>
+  }
+
   render() {
     console.log(this.props);
     return (
@@ -33,7 +51,7 @@ class Stats extends Component {
           <h1>Un po' di numeri</h1>
           <div className="Cards">
             <div className="Card Furthest">
-              <h2>Il viaggio più distante da Roma</h2>
+              <h2>I viaggi più distanti da Roma</h2>
 
               <ol>
                 {
@@ -50,7 +68,7 @@ class Stats extends Component {
               </ol>
             </div>
             <div className="Card MostVisited">
-              <h2>Il luogo più visitato</h2>
+              <h2>I luoghi più visitati</h2>
 
               <ol>
                 {
@@ -67,7 +85,7 @@ class Stats extends Component {
               </ol>
             </div>
             <div className="Card Busiest">
-              <h2>Il giorno con più impegni</h2>
+              <h2>I giorni più impegnativi</h2>
 
               <ol>
                 {
@@ -76,14 +94,7 @@ class Stats extends Component {
                       <li key={item.date} className={item.locations[0].place.replace(/ /ig,'').toLowerCase()}>
                         {this.putImage(item.locations[0],index)}
                         <h3>{this.formatDate(item.date)}</h3>
-                        <h4>{(new Intl.NumberFormat('it-IT').format(item.locations.length))} tappe per un totale di {(new Intl.NumberFormat('it-IT').format(this.computeDistance(item)))}Km<sup><small>*</small></sup></h4>
-                        <ul>
-                          {
-                            item.locations.map(
-                              location => (<li key={location.id}>{location.place}</li>)
-                            )
-                          }
-                        </ul>
+                        <h4>{(new Intl.NumberFormat('it-IT').format(item.locations.length))} tappe per un totale di {(new Intl.NumberFormat('it-IT').format(this.computeDistance(item)))}Km<sup><small>*</small></sup>: <Links links={item.locations} /></h4>
                       </li>
                     )
                   )
@@ -100,4 +111,21 @@ class Stats extends Component {
 export default Stats;
 
 
-
+class Links extends Component {
+  render() {
+    return (
+      <span>
+      {
+        this.props.links.map(
+          (location, index) => (
+            <span>
+              <a key={location.id} href={location.link} target="_facebook">{location.place}</a>
+              {(index < this.props.links.length-1) ? ', ' : '' }
+            </span>
+          )
+        )
+      }
+      </span>
+    )
+  }
+}

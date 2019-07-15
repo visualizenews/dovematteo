@@ -243,6 +243,7 @@
   border: 1px solid #3C5A99;
   border-radius: .3rem;
   bottom: -26px;
+  box-shadow: none;
   color: #fff;
   display: inline-block;
   font-family: sans-serif;

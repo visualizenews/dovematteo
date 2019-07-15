@@ -2,7 +2,7 @@
   align-items: center;
   display: flex;
   justify-content: center;
-  min-height: 75vh;
+  min-height: 90vh;
   padding: 10vh 10vw;
   width: 100%;
 }
@@ -16,11 +16,18 @@
 
 .Header .title h1 {
   display: block;
+  font-size: 3rem;
   margin-bottom: 20px;
   padding-bottom: 40px;
   position: relative;
   text-align: center;
   text-transform: uppercase;
+}
+
+@media screen and (min-width:768px) {
+  .Header .title h1 {
+    font-size: 5rem;
+  }
 }
 
 .Header .title h1:after {
