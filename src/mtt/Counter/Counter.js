@@ -44,7 +44,7 @@ class Counter extends Component {
               </div>
               <p>Ha fatto <strong>{(new Intl.NumberFormat('it-IT').format(this.state.equator))}</strong><sup><small>*</small></sup> volte il giro del mondo</p>
               <p><a className="twitter-share-button" target="_tweet"
-  href={'https://twitter.com/intent/tweet?text=' + escape('Chi ha fatto ' + (new Intl.NumberFormat('it-IT').format(this.state.equator)) + ' volte il giro dell\'equatore? Scoprilo con noi: https://2m3.it/2JI - Via @VisualizeNews')}>
+  href={'https://twitter.com/intent/tweet?text=' + escape('Chi ha fatto ' + (new Intl.NumberFormat('it-IT').format(this.state.equator)) + ' volte il giro dell\'equatore? Scoprilo con noi: https://matteointour.visualize.news - #matteointour Via @VisualizeNews')}>
 Tweet</a></p>
             </div>
             <div className="Card forrest">
@@ -53,7 +53,7 @@ Tweet</a></p>
               </div>
               <p>Ha percorso <strong>{(new Intl.NumberFormat('it-IT').format(this.state.forrest))}</strong><sup><small>*</small></sup> volte quanto corso da Forrest Gump</p>
               <p><a className="twitter-share-button" target="_tweet"
-  href={'https://twitter.com/intent/tweet?text=' + escape('Chi ha percorso ' + (new Intl.NumberFormat('it-IT').format(this.state.forrest)) + ' volte la strada corsa da Forrest Gump? Scoprilo con noi: https://2m3.it/2JI - Via @VisualizeNews')}>
+  href={'https://twitter.com/intent/tweet?text=' + escape('Chi ha percorso ' + (new Intl.NumberFormat('it-IT').format(this.state.forrest)) + ' volte la strada corsa da Forrest Gump? Scoprilo con noi: https://matteointour.visualize.news - #matteointour Via @VisualizeNews')}>
 Tweet</a></p>
             </div>
             <div className="Card boat">
@@ -62,7 +62,7 @@ Tweet</a></p>
               </div>
               <p>Ha circumnavigato <strong>{(new Intl.NumberFormat('it-IT').format(this.state.italy))}</strong><sup><small>*</small></sup> volte le coste italiane, isole comprese</p>
               <p><a className="twitter-share-button" target="_tweet"
-  href={'https://twitter.com/intent/tweet?text=' + escape('Chi ha circumnavigato ' + (new Intl.NumberFormat('it-IT').format(this.state.italy)) + ' volte le coste italiane (isole comprese)? Scoprilo con noi: https://2m3.it/2JI - Via @VisualizeNews')}>
+  href={'https://twitter.com/intent/tweet?text=' + escape('Chi ha circumnavigato ' + (new Intl.NumberFormat('it-IT').format(this.state.italy)) + ' volte le coste italiane (isole comprese)? Scoprilo con noi: https://matteointour.visualize.news - #matteointour Via @VisualizeNews')}>
 Tweet</a></p>
             </div>
             <div className="Card car">
@@ -71,7 +71,7 @@ Tweet</a></p>
               </div>
               <p>Ha percorso <strong>{(new Intl.NumberFormat('it-IT').format(this.state.milan))}</strong><sup><small>*</small></sup> volte la distanza stradale tra Milano e Roma</p>
               <p><a className="twitter-share-button" target="_tweet"
-  href={'https://twitter.com/intent/tweet?text=' + escape('Chi ha percorso ' + (new Intl.NumberFormat('it-IT').format(this.state.milan)) + ' volte la distanza stradale tra Milano e Roma? Scoprilo con noi: https://2m3.it/2JI - Via @VisualizeNews')}>
+  href={'https://twitter.com/intent/tweet?text=' + escape('Chi ha percorso ' + (new Intl.NumberFormat('it-IT').format(this.state.milan)) + ' volte la distanza stradale tra Milano e Roma? Scoprilo con noi: https://matteointour.visualize.news - #matteointour Via @VisualizeNews')}>
 Tweet</a></p>
             </div>
           </div>
