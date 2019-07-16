@@ -180,13 +180,14 @@ class WhereIsMatteo extends Component {
           <div className="MapWrapper">
             <div className="MapPosition">
               <DeckGLMap options={this.map} points={this.state.data} selectedPin={this.state.selectedPin} />
-              </div>
+            </div>
           </div>
           <div className="ListWrapper">
             <div className="ListPosition">
               <List days={this.state.days} change={this.listChanged} centerMap={this.centerMap} selectedPin={this.state.selectedPin} />
             </div>
           </div>
+          <div className="MapMask"></div>
         </div>
         <Stats charts={this.state.charts} />
         <Disclaimer />

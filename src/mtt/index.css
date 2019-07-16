@@ -39,8 +39,23 @@
   z-index: 1;
 }
 
+.WhereIsMatteo .MapMask {
+  background-color: rgba(0,0,0,0);
+  bottom: 220px;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 99;
+}
+
 @media screen and (min-width:1024px) {
   .WhereIsMatteo .MapWrapper {
+    bottom: 0;
+    top: 220px;
+  }
+
+  .WhereIsMatteo .MapMask {
     bottom: 0;
     top: 220px;
   }
@@ -333,6 +348,50 @@
 
 .Card p {
   text-align: center;
+}
+
+.Card  a.facebook-share-button {
+  background: #3C5A99;
+  background-size: auto 16px;
+  border: 1px solid #3C5A99;
+  border-radius: 3px;
+  box-shadow: none;
+  color: #fff;
+  display: inline-block;
+  font-size: .6rem;
+  font-weight: 400;
+  height: 25px;
+  line-height: 25px;
+  padding: 0 10px 0 10px;
+  text-transform: uppercase;
+  transition: background-color .25s ease-in-out;
+  white-space: nowrap;
+}
+
+.Card  a.facebook-share-button span {
+  background: #fff;
+  border-radius: 3px;
+  color: #3C5A99;
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: 700;
+  height: 14px;
+  line-height: 20px;
+  margin-right: 5px;
+  text-align: center;
+  text-transform: lowercase;
+  vertical-align: middle;
+  width: 14px;
+}
+
+.Card a.facebook-share-button:hover,
+.Card a.facebook-share-button:active {
+  background: #2f477a;
+}
+
+.Card a.facebook-share-button:hover span,
+.Card a.facebook-share-button:active span {
+  color: #2f477a;
 }
 
 .Card a.twitter-share-button {
