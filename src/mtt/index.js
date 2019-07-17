@@ -185,7 +185,7 @@ class WhereIsMatteo extends Component {
           )
         })
     } else {
-      this.setState({playing: false, selectedIndex: -1});
+      this.setState({playing: false, selectedIndex: -1, selectedPin: {}});
     }
   }
 
