@@ -150,8 +150,8 @@ class DeckGLMap extends Component {
         sizeScale: 10,
         billboard: true,
         getPosition: d => d.coords,
-        getSize: d => 5 + ( d.guests % 10 ),
-        getColor: d => (d.distance.fromRome >= 500000) ? [0, 146, 65, 100] : [255, 75, 100, 150],
+        getSize: d => 10 + ( d.guests % 10 ),
+        getColor: d => [255, 75, 100, 150], //(d.distance.fromRome >= 500000) ? [0, 146, 65, 100] : [255, 75, 100, 150],
         })
       );
       this.setState( { layers } );

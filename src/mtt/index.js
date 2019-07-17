@@ -31,7 +31,7 @@ import './index.css';
 ReactGA.initialize('UA-137198797-4');
 
 const ENDPOINT = 'https://whereismatteo.elezioni.io/v0/events/get';
-const TIMER = 2500;
+const TIMER = 3000;
 
 class WhereIsMatteo extends Component {
 
@@ -145,7 +145,6 @@ class WhereIsMatteo extends Component {
   }
 
   centerMap(pin, index) {
-    console.log(pin.id, this.state.selectedPin.id);
     if (pin) {
       if (this.state.playing) {
         this.playPause(pin, index);
@@ -156,7 +155,6 @@ class WhereIsMatteo extends Component {
   }
 
   selectPin(pin, index) {
-    console.log(pin, index);
     if (
       (pin === undefined)
       || (
@@ -171,7 +169,7 @@ class WhereIsMatteo extends Component {
       this.setState({ selectedPin: null });
     } else {
       ReactGA.pageview(window.location.pathname + window.location.search + '/event/' + pin.id + '/' + pin.place);
-      this.setState({ selectedPin: pin, selectedIndex: index});
+      this.setState({ selectedPin: pin, SelectedIndex: index});
     }
   }
 
@@ -192,16 +190,13 @@ class WhereIsMatteo extends Component {
   next() {
     const next = this.state.SelectedIndex + 1;
     if ( next < (this.state.data.length - 1) ) {
-      this.setState(
-        {SelectedIndex: next, selectedPin: Object.assign({}, this.state.data[next] )},
-        () => {
-          this.timer = setTimeout(
-            this.next,
-            TIMER
-          )
-        })
+      this.selectPin(this.state.data[next], next);
+      this.timer = setTimeout(
+        this.next,
+        TIMER
+      );
     } else {
-      this.setState({playing: false, selectedIndex: -1, selectedPin: {}});
+      this.setState({playing: false}, () => this.selectPin());
     }
   }
 
@@ -238,7 +233,7 @@ class WhereIsMatteo extends Component {
           </div>
           <div className="ListWrapper">
             <div className="ListPosition">
-              <List days={this.state.days} change={this.listChanged} centerMap={this.centerMap} selectedPin={this.state.selectedPin} />
+              <List days={this.state.days} change={this.listChanged} centerMap={this.centerMap} selectedPin={this.state.selectedPin} index={this.state.SelectedIndex} />
             </div>
           </div>
           <div className="MapMask"></div>
