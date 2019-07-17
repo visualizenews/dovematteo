@@ -39,6 +39,7 @@ class WhereIsMatteo extends Component {
     super(props);
     moment.locale('it-IT');
 
+    this.selectPin = this.selectPin.bind(this);
     this.centerMap = this.centerMap.bind(this);
     this.playPause = this.playPause.bind(this);
     this.next = this.next.bind(this);
@@ -70,22 +71,6 @@ class WhereIsMatteo extends Component {
   componentDidMount() {
     this.load();
     ReactGA.pageview(window.location.pathname + window.location.search);
-  }
-
-  centerMap(pin) {
-    if (pin) {
-      if (
-        pin.id
-        && this.state.selectedPin
-        && this.state.selectedPin.id
-        && pin.id === this.state.selectedPin.id) {
-          ReactGA.pageview(window.location.pathname + window.location.search);
-        this.setState({ selectedPin: null });
-      } else {
-        ReactGA.pageview(window.location.pathname + window.location.search + '/event/' + pin.id + '/' + pin.place);
-        this.setState({ selectedPin: pin});
-      }
-    }
   }
 
   load() {
@@ -159,13 +144,44 @@ class WhereIsMatteo extends Component {
       });
   }
 
-  playPause() {
+  centerMap(pin, index) {
+    console.log(pin.id, this.state.selectedPin.id);
+    if (pin) {
+      if (this.state.playing) {
+        this.playPause(pin, index);
+      } else {
+        this.selectPin(pin, index);
+      }
+    }
+  }
+
+  selectPin(pin, index) {
+    console.log(pin, index);
+    if (
+      (pin === undefined)
+      || (
+        pin
+        && pin.id
+        && this.state.selectedPin
+        && this.state.selectedPin.id
+        && pin.id === this.state.selectedPin.id
+      )
+    ) {
+        ReactGA.pageview(window.location.pathname + window.location.search);
+      this.setState({ selectedPin: null });
+    } else {
+      ReactGA.pageview(window.location.pathname + window.location.search + '/event/' + pin.id + '/' + pin.place);
+      this.setState({ selectedPin: pin, selectedIndex: index});
+    }
+  }
+
+  playPause(pin, index) {
     this.setState(
       {playing:!this.state.playing},
       () => {
         if (!this.state.playing) {
           clearTimeout(this.timer);
-          this.setState({selectedIndex:-1, selectedPin: {}});
+          this.selectPin(pin, index);
         } else {
           this.next();
         }

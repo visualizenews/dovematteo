@@ -17,7 +17,7 @@ class List extends Component {
     return moment(day).format('LL');
   }
 
-  centerMap(pin) {
+  centerMap(pin, index) {
     if (window.matchMedia('screen and (min-width:768px)').matches) {
       try {
         this._scroll.current.scrollBy({
@@ -29,7 +29,7 @@ class List extends Component {
         this._scroll.current.scrollBy(300,0);
       }
     }
-    this.props.centerMap(pin);
+    this.props.centerMap(pin, index);
   }
 
   render() {
@@ -38,12 +38,12 @@ class List extends Component {
         <div className="Scroll" ref={this._scroll}>
         {
           this.props.days.map(
-            day => (
+            (day, index) => (
               <div className="Day" key={day.date}>
                 <h2>{this.formatDate(day.date)}</h2>
                 {
                   day.locations.map(
-                    location => <Location key={location.id} location={location} centerMap={this.centerMap} selectedPin={this.props.selectedPin} />
+                    location => <Location key={location.id} location={location} centerMap={this.centerMap} selectedPin={this.props.selectedPin} index={index} />
                   )
                 }
               </div>

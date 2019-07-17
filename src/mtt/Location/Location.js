@@ -41,7 +41,7 @@ class Location extends Component {
 
   render() {
     return (
-      <div className={this.isSelected()} id={this.props.location.id}  onClick={() => this.props.centerMap(this.props.location)}>
+      <div className={this.isSelected()} id={this.props.location.id}  onClick={() => this.props.centerMap(this.props.location, this.props.index)}>
         <div className="Info" title="Vedi sulla mappa">
           <h2 ><small>{moment(this.props.location.date).format('HH:mm')}</small> - {this.props.location.place}</h2>
           <p>{this.abstract(this.props.location.description)}</p>
