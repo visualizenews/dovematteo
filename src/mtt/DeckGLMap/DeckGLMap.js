@@ -129,8 +129,8 @@ class DeckGLMap extends Component {
         getWidth: 1,
         getSourcePosition: d => d.from.coords,
         getTargetPosition: d => d.to.coords,
-        getSourceColor: d => (d.from.distance >= 500000) ? [255, 75, 100, 150] : [0, 146, 65, 100],
-        getTargetColor: d => (d.to.distance >= 500000) ? [255, 75, 100, 150] : [0, 146, 65, 100],
+        getSourceColor: d => [0, 146, 65, 100], //(d.from.distance >= 500000) ? [255, 75, 100, 150] : [0, 146, 65, 100],
+        getTargetColor: d => [0, 146, 65, 100], //(d.to.distance >= 500000) ? [255, 75, 100, 150] : [0, 146, 65, 100],
         })
       );
       // Marker

@@ -18,14 +18,16 @@ class List extends Component {
   }
 
   centerMap(pin) {
-    try {
-      this._scroll.current.scrollBy({
-        top: 0,
-        left: 300,
-        behavior: 'smooth'
-      });
-    } catch(e) {
-      this._scroll.current.scrollBy(300,0);
+    if (window.matchMedia('screen and (min-width:768px)').matches) {
+      try {
+        this._scroll.current.scrollBy({
+          top: 0,
+          left: 300,
+          behavior: 'smooth'
+        });
+      } catch(e) {
+        this._scroll.current.scrollBy(300,0);
+      }
     }
     this.props.centerMap(pin);
   }

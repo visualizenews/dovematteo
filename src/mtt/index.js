@@ -13,6 +13,7 @@ import Counter from './Counter/Counter';
 import List from './List/List';
 import Stats from './Stats/Stats';
 import Disclaimer from './Disclaimer/Disclaimer';
+import Control from './Control/Control';
 
 import './assets/boat.png';
 import './assets/car.png';
@@ -30,6 +31,7 @@ import './index.css';
 ReactGA.initialize('UA-137198797-4');
 
 const ENDPOINT = 'https://whereismatteo.elezioni.io/v0/events/get';
+const TIMER = 2500;
 
 class WhereIsMatteo extends Component {
 
@@ -38,10 +40,14 @@ class WhereIsMatteo extends Component {
     moment.locale('it-IT');
 
     this.centerMap = this.centerMap.bind(this);
+    this.playPause = this.playPause.bind(this);
+    this.next = this.next.bind(this);
 
     this.map = {
       bounds: [4.5, 35, 18.5, 47.5]
     };
+
+    this.timer = null;
 
     this.state = {
       charts: {
@@ -55,7 +61,9 @@ class WhereIsMatteo extends Component {
       error: false,
       errorMessage: null,
       loading: true,
-      selectedPin: {}
+      playing: false,
+      selectedPin: {},
+      SelectedIndex: -1,
     }
   }
 
@@ -151,6 +159,36 @@ class WhereIsMatteo extends Component {
       });
   }
 
+  playPause() {
+    this.setState(
+      {playing:!this.state.playing},
+      () => {
+        if (!this.state.playing) {
+          clearTimeout(this.timer);
+          this.setState({selectedIndex:-1, selectedPin: {}});
+        } else {
+          this.next();
+        }
+      }
+    );
+  }
+
+  next() {
+    const next = this.state.SelectedIndex + 1;
+    if ( next < (this.state.data.length - 1) ) {
+      this.setState(
+        {SelectedIndex: next, selectedPin: Object.assign({}, this.state.data[next] )},
+        () => {
+          this.timer = setTimeout(
+            this.next,
+            TIMER
+          )
+        })
+    } else {
+      this.setState({playing: false, selectedIndex: -1});
+    }
+  }
+
   render() {
     let loadingClasses = classSet({
       'loading': true,
@@ -188,6 +226,7 @@ class WhereIsMatteo extends Component {
             </div>
           </div>
           <div className="MapMask"></div>
+          <Control selectedPin={this.state.selectedPin} isPlaying={this.state.playing} playPause={this.playPause} />
         </div>
         <Stats charts={this.state.charts} />
         <Disclaimer />
