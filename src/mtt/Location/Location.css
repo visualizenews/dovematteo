@@ -5,7 +5,7 @@
   flex: 0 0 300px;
   height: 150px;
   margin: 0;
-  padding-left: 40px;
+  padding-left: 31px;
   position: relative;
   scroll-snap-align: start;
   width: 300px;
@@ -23,7 +23,7 @@
 .Location:hover h2:before,
 .Location:active h2:before,
 .Location.Location-Selected h2:before {
-  background: #e1f6e2;
+  background: rgba(255, 75, 100, 1);
   border-color:#6d776d;
 }
 
@@ -41,12 +41,13 @@
 }
 
 .Location h2 {
+  border-left: 4px solid transparent;
   color: #444;
   font-family: 'Space Mono', monospace;
   font-size: 1rem;
   line-height: 1.2;
-  margin:8px 0;
-  padding: 0;
+  margin:8px 0 0 0;
+  padding: 0 0 8px 5px;
   transition: opacity .25s ease-in-out;
 }
 
@@ -68,10 +69,18 @@
 }
 
 .Location p {
+  border-left: 4px solid transparent;
   font-family: 'Space Mono', monospace;
   font-size: .8rem;
+  margin: 0;
+  padding: 8px 0 8px 5px;
   position: relative;
   transition: opacity .25s ease-in-out;
+}
+
+.Location.Location-Selected h2,
+.Location.Location-Selected p {
+  border-color: rgba(255, 75, 100, 1);
 }
 
 .Location p a {
