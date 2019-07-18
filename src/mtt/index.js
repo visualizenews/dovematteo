@@ -109,7 +109,7 @@ class WhereIsMatteo extends Component {
               locations: objDays[day],
             }
           });
-          const days = rawDays.sort( (a,b) => (a.timestamp > b.timestamp ? 1 : -1) );
+          const days = rawDays.sort( (a,b) => (a.date < b.date ? 1 : -1) );
           // Charts
           const charts = {};
           // Furthest
