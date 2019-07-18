@@ -178,9 +178,11 @@ class WhereIsMatteo extends Component {
       {playing:!this.state.playing},
       () => {
         if (!this.state.playing) {
+          ReactGA.pageview(window.location.pathname + window.location.search + '/pause');
           clearTimeout(this.timer);
           this.selectPin(pin, index);
         } else {
+          ReactGA.pageview(window.location.pathname + window.location.search + '/play');
           this.next();
         }
       }
