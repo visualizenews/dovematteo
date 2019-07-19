@@ -80,7 +80,8 @@
 
 .Location.Location-Selected h2,
 .Location.Location-Selected p {
-  border-color: rgba(255, 75, 100, 1);
+  /* border-color: rgba(255, 75, 100, 1); */
+  color: rgba(255, 75, 100, 1);
 }
 
 .Location p a {
@@ -262,7 +263,7 @@
 
 .Location .Facebook {
   background: #3C5A99;
-  border: 1px solid #3C5A99;
+  border: 1px solid rgb(111, 114, 121);
   border-radius: .3rem;
   bottom: -25px;
   box-shadow: none;

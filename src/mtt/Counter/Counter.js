@@ -21,11 +21,11 @@ class Counter extends Component {
   componentDidUpdate(pProps) {
     if ( JSON.stringify(pProps.data) !== JSON.stringify(this.props.data) ) {
       const km = Math.round(this.props.data.reduce((acc, val) => (acc + val.distance.fromPrevious), 0) / 1000);
-      const equator = Math.round(km / EQUATOR);
-      const italy = Math.round(km / ITALY);
-      const milan = Math.round(km / MILAN);
-      const forrest = Math.round(km / FORREST);
-      const lemans = Math.round(km / LEMANS);
+      const equator = Math.floor(km / EQUATOR);
+      const italy = Math.floor(km / ITALY);
+      const milan = Math.floor(km / MILAN);
+      const forrest = Math.floor(km / FORREST);
+      const lemans = Math.floor(km / LEMANS);
       this.setState({ equator, forrest, italy, km, lemans, milan});
     }
   }
