@@ -26,6 +26,12 @@ class Location extends Component {
     return null;
   }
 
+  link() {
+    if (this.props.location.link.length > 0)
+      return (<a className="Facebook" href={this.props.location.link} target="_facebook" title="Leggi i dettagli su Facebook">f</a>);
+    return null;
+  }
+
   isSelected() {
     if (
       this.props.location
@@ -47,7 +53,7 @@ class Location extends Component {
           <p>{this.abstract(this.props.location.description)}</p>
         </div>
         {this.fromPrevious()}
-        <a className="Facebook" href={this.props.location.link} target="_facebook" title="Leggi i dettagli su Facebook">f</a>
+        {this.link()}
         
         <div className="Distance">
           <img src={colosseo} alt="Colosseo"/>Roma {(new Intl.NumberFormat('it-IT').format(Math.round(this.props.location.distance.fromRome / 1000)))}Km
