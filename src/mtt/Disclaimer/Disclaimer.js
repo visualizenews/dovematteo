@@ -18,6 +18,13 @@ class Disclaimer extends Component {
             <li><em>La lunghezza delle coste italiane</em>: 7.458Km (<a href="https://it.wikipedia.org/wiki/Coste_italiane" target="_source">fonte</a>)</li>
             <li><em>La distanza in auto tra Milano e Roma</em>: 573Km (<a href="https://www.google.com/maps/dir/Milano,+Citt%C3%A0+Metropolitana+di+Milano/Roma,+Citt%C3%A0+Metropolitana+di+Roma/@43.6571507,8.6593138,7z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x4786c1493f1275e7:0x3cffcd13c6740e8d!2m2!1d9.189982!2d45.4642035!1m5!1m1!1s0x132f6196f9928ebb:0xb90f770693656e38!2m2!1d12.4963655!2d41.9027835!3e0" target="_source">fonte</a>)</li>
           </ul>
+          <h1>Sulla stampa</h1>
+          <p>Nelle ultime settimane diversi media nazionali hanno citato il nostro lavoro:</p>
+          <ul>
+            <li><a href="https://repubblica.it/" target="_media">Repubblica.it</a></li>
+            <li><a href="https://www.huffingtonpost.it/entry/matteo-in-tour-il-sito-che-calcola-i-km-percorsi-dal-ministro-in-tour-permanente_it_5d3daaebe4b0a6d637410e54?utm_hp_ref=it-homepage" target="_media">Huffington Post: "Matteo in tour", il sito che calcola i Km percorsi dal ministro in tour permanente</a></li>
+            <li><a href="https://www.lettera43.it/salvini-sito-matteo-in-tour-simone-lippolis/" target="_media">Lettera43: Com’è nato Matteo in tour, il sito che calcola i km di Salvini</a></li>
+          </ul>
           <h1>Disclaimer</h1>
           <p>Leggendo i giornali abbiamo notato che Matteo Salvini viaggia molto in tutto il Paese. Con questo sito abbiamo voluto quantificare quel "molto" e abbiamo voluto provare a quantificare visualmente i numeri che siamo riusciti a ottenere. Questo sito ha un intento giocoso, e non vuole in alcun modo esprimere giudizi politici sul Ministro dell'Interno; crediamo che ciascuno debba formarsi una propria opinione sul suo operato autonomamente, utilizzando le fonti che preferisce.</p>
           <p>Se vuoi contattarci puoi farlo utilizzando <a href="https://twitter.com/visualizenews" target="_social">Twitter</a> o <a href="https://www.instagram.com/visualizenews/" target="_social">Instagram</a>. Se hai notato degli errori nei dati, scrivici all'indirizzo email <a href="mailto:tour@elezioni.io">tour@elezioni.io</a>.</p>
