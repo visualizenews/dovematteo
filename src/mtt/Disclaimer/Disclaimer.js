@@ -21,9 +21,14 @@ class Disclaimer extends Component {
           <h1>Sulla stampa</h1>
           <p>Nelle ultime settimane diversi media nazionali hanno citato il nostro lavoro:</p>
           <ul>
-            <li><a href="https://repubblica.it/" target="_media">Repubblica.it</a></li>
-            <li><a href="https://www.huffingtonpost.it/entry/matteo-in-tour-il-sito-che-calcola-i-km-percorsi-dal-ministro-in-tour-permanente_it_5d3daaebe4b0a6d637410e54?utm_hp_ref=it-homepage" target="_media">Huffington Post: "Matteo in tour", il sito che calcola i Km percorsi dal ministro in tour permanente</a></li>
-            <li><a href="https://www.lettera43.it/salvini-sito-matteo-in-tour-simone-lippolis/" target="_media">Lettera43: Com’è nato Matteo in tour, il sito che calcola i km di Salvini</a></li>
+            <li><a href="https://www.repubblica.it/politica/2019/08/01/news/matteo_in_tour_contachilometri_salvini-232512194/" target="_media">Repubblica.it - "Salvini meglio di Forrest Gump: in Italia ha già percorso oltre 106mila chilometri in un anno"</a></li>
+            <li><a href="https://www.huffingtonpost.it/entry/matteo-in-tour-il-sito-che-calcola-i-km-percorsi-dal-ministro-in-tour-permanente_it_5d3daaebe4b0a6d637410e54?utm_hp_ref=it-homepage" target="_media">Huffington Post - "Matteo in tour", il sito che calcola i Km percorsi dal ministro in tour permanente</a></li>
+            <li><a href="https://www.lettera43.it/salvini-sito-matteo-in-tour-simone-lippolis/" target="_media">Lettera43 - Com’è nato Matteo in tour, il sito che calcola i km di Salvini</a></li>
+            <li><a href="https://us17.campaign-archive.com/?u=5d19d97eef5f172f373bf86ca&id=485fb411f8" target="_media">Designer of What - Il capitano vi augura buon viaggio</a></li>
+
+
+
+            
           </ul>
           <h1>Disclaimer</h1>
           <p>Leggendo i giornali abbiamo notato che Matteo Salvini viaggia molto in tutto il Paese. Con questo sito abbiamo voluto quantificare quel "molto" e abbiamo voluto provare a quantificare visualmente i numeri che siamo riusciti a ottenere. Questo sito ha un intento giocoso, e non vuole in alcun modo esprimere giudizi politici sul Ministro dell'Interno; crediamo che ciascuno debba formarsi una propria opinione sul suo operato autonomamente, utilizzando le fonti che preferisce.</p>
