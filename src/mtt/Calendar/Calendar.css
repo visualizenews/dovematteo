@@ -1,0 +1,28 @@
+.Calendar * {
+  box-sizing: border-box;
+}
+
+.Calendar .Grid {
+  display: block;
+  height: auto;
+  margin: 0 auto;
+  width: 275px;
+}
+
+.Calendar .row {
+  display: flex;
+  height: 25px;
+  padding: 0 0 0 100px;
+  position: relative;
+}
+
+.Calendar .cell {
+  border: 2px solid transparent;
+  display: block;
+  flex: 0 0 25px;
+  font-size: 10px;
+  height: 25px;
+  line-height: 21px;
+  text-align: center;
+  width: 25px;
+}

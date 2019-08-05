@@ -11,6 +11,7 @@ import DeckGLMap from './DeckGLMap/DeckGLMap';
 import Intro from './Intro/Intro';
 import Counter from './Counter/Counter';
 import List from './List/List';
+import Calendar from './Calendar/Calendar';
 import Stats from './Stats/Stats';
 import Disclaimer from './Disclaimer/Disclaimer';
 import Control from './Control/Control';
@@ -30,7 +31,7 @@ import './index.css';
 
 ReactGA.initialize('UA-137198797-4');
 
-const ENDPOINT = 'https://whereismatteo.elezioni.io/v0/events/get';
+const ENDPOINT = 'https://whereismatteo.elezioni.io/v0/data/get';
 const TIMER = 3000;
 
 class WhereIsMatteo extends Component {
@@ -42,6 +43,7 @@ class WhereIsMatteo extends Component {
     this.selectPin = this.selectPin.bind(this);
     this.centerMap = this.centerMap.bind(this);
     this.playPause = this.playPause.bind(this);
+    this.prepareDays =  this.prepareDays.bind(this);
     this.next = this.next.bind(this);
 
     this.map = {
@@ -73,77 +75,6 @@ class WhereIsMatteo extends Component {
     ReactGA.pageview(window.location.pathname + window.location.search);
   }
 
-  load() {
-    fetch( ENDPOINT )
-      .then( response => {
-        if (response.ok && response.status === 200) {
-          return response.json()
-        }
-        return false;
-       })
-      .then( response => {
-        if ( response.data.length > 0 ) {
-          // Prepare data
-          // Days
-          const objDays = {};
-          response.data.forEach( point => {
-            const datekey = moment(point.date).format('YYYYMMDD');
-            if ( !objDays[datekey] || !Array.isArray(objDays[datekey])) {
-              objDays[datekey] = [];
-            }
-            if (point.coords.length === 2 && point.coords[0] !== 0 && point.coords[1] !== 0) {
-              objDays[datekey].push(point);
-            }
-          });
-          const datekeys = Object.keys(objDays);
-          const rawDays = datekeys.map( day => {
-            return {
-              date: day,
-              locations: objDays[day],
-            }
-          });
-          const days = rawDays.sort( (a,b) => (a.date < b.date ? 1 : -1) );
-          // Charts
-          const charts = {};
-          // Furthest
-          const filterCities = [];
-          charts.furthest = response.data.slice(0);
-          charts.furthest = charts.furthest.sort(
-              (a,b) => (b.distance.fromRome - a.distance.fromRome)
-            ).slice(0,15).filter(
-              (item) => {
-                if (filterCities.indexOf(item.place) < 0) {
-                  filterCities.push(item.place);
-                  return true;
-                }
-                return false;
-              }
-            ).slice(0,3);
-          // Most visited
-          const mostVisited = response.data.slice(0);
-          const uniqueCities = [...new Set(mostVisited.map(item => item.place))];
-          charts.mostVisited = uniqueCities.map( item => ({ place: item, counter: 0 }) );
-          const mostVisitedMap = {};
-          uniqueCities.forEach( (item, index) => {
-            return (mostVisitedMap[item] = index);
-          });
-          mostVisited.forEach( item => {
-            charts.mostVisited[mostVisitedMap[item.place]].counter++;
-          });
-          charts.mostVisited = charts.mostVisited.sort( (a,b) => (b.counter - a.counter) ).slice(0,3);
-          // Most busy
-          charts.busiest = days.slice(0);
-          charts.busiest = charts.busiest.sort( (a, b) => (b.locations.length - a.locations.length) ).slice(0, 3);
-          this.setState( { charts, data: response.data, days, error: false, empty: false, loading: false } );
-        } else {
-          this.setState( { error: false, loading: false, empty: true } );
-        }
-      })
-      .catch( response => {
-        this.setState( { error: true, errorMessage: response.toString(), loading: false, empty: false } );
-      });
-  }
-
   centerMap(pin, index) {
     if (pin) {
       if (this.state.playing) {
@@ -154,22 +85,45 @@ class WhereIsMatteo extends Component {
     }
   }
 
-  selectPin(pin, index) {
-    if (
-      (pin === undefined)
-      || (
-        pin
-        && pin.id
-        && this.state.selectedPin
-        && this.state.selectedPin.id
-        && pin.id === this.state.selectedPin.id
-      )
-    ) {
-        ReactGA.pageview(window.location.pathname + window.location.search);
-      this.setState({ selectedPin: null });
+  load() {
+    fetch( ENDPOINT )
+      .then( response => {
+        if (response.ok && response.status === 200) {
+          return response.json()
+        }
+        return false;
+       })
+      .then( response => {
+        if (!response.error) {
+          // Prepare data
+          // Map
+          let days, charts;
+          if ( response.data.map.length > 0 ) {
+            days = this.prepareDays(response.data.map);
+            charts = this.prepareCharts(response.data.map, days);
+          }
+          // Calendar
+
+          this.setState( { charts, data: response.data, days, error: false, empty: false, loading: false } );
+        } else {
+          this.setState( { error: false, loading: false, empty: true } );
+        }
+      })
+      .catch( response => {
+        this.setState( { error: true, errorMessage: response.toString(), loading: false, empty: false } );
+      });
+  }
+
+  next() {
+    const next = this.state.SelectedIndex + 1;
+    if ( next < (this.state.data.map.length - 1) ) {
+      this.selectPin(this.state.data.map[next], next);
+      this.timer = setTimeout(
+        this.next,
+        TIMER
+      );
     } else {
-      ReactGA.pageview(window.location.pathname + window.location.search + '/event/' + pin.id + '/' + pin.place);
-      this.setState({ selectedPin: pin, SelectedIndex: index});
+      this.setState({playing: false}, () => this.selectPin());
     }
   }
 
@@ -189,16 +143,77 @@ class WhereIsMatteo extends Component {
     );
   }
 
-  next() {
-    const next = this.state.SelectedIndex + 1;
-    if ( next < (this.state.data.length - 1) ) {
-      this.selectPin(this.state.data[next], next);
-      this.timer = setTimeout(
-        this.next,
-        TIMER
-      );
+  prepareCharts(data, days) {
+    const charts = {};
+    // Furthest
+    const filterCities = [];
+    charts.furthest = data.slice(0);
+    charts.furthest = charts.furthest.sort(
+        (a,b) => (b.distance.fromRome - a.distance.fromRome)
+      ).slice(0,15).filter(
+        (item) => {
+          if (filterCities.indexOf(item.place) < 0) {
+            filterCities.push(item.place);
+            return true;
+          }
+          return false;
+        }
+      ).slice(0,3);
+    // Most visited
+    const mostVisited = data.slice(0);
+    const uniqueCities = [...new Set(mostVisited.map(item => item.place))];
+    charts.mostVisited = uniqueCities.map( item => ({ place: item, counter: 0 }) );
+    const mostVisitedMap = {};
+    uniqueCities.forEach( (item, index) => {
+      return (mostVisitedMap[item] = index);
+    });
+    mostVisited.forEach( item => {
+      charts.mostVisited[mostVisitedMap[item.place]].counter++;
+    });
+    charts.mostVisited = charts.mostVisited.sort( (a,b) => (b.counter - a.counter) ).slice(0,3);
+    // Most busy
+    charts.busiest = days.slice(0);
+    charts.busiest = charts.busiest.sort( (a, b) => (b.locations.length - a.locations.length) ).slice(0, 3);
+    return charts;
+  }
+
+  prepareDays(data) {
+    const objDays = {};
+    data.forEach( point => {
+      const datekey = moment(point.date).format('YYYYMMDD');
+      if ( !objDays[datekey] || !Array.isArray(objDays[datekey])) {
+        objDays[datekey] = [];
+      }
+      if (point.coords.length === 2 && point.coords[0] !== 0 && point.coords[1] !== 0) {
+        objDays[datekey].push(point);
+      }
+    });
+    const datekeys = Object.keys(objDays);
+    const rawDays = datekeys.map( day => {
+      return {
+        date: day,
+        locations: objDays[day],
+      }
+    });
+    return rawDays.sort( (a,b) => (a.date < b.date ? 1 : -1) );
+  }
+
+  selectPin(pin, index) {
+    if (
+      (pin === undefined)
+      || (
+        pin
+        && pin.id
+        && this.state.selectedPin
+        && this.state.selectedPin.id
+        && pin.id === this.state.selectedPin.id
+      )
+    ) {
+        ReactGA.pageview(window.location.pathname + window.location.search);
+      this.setState({ selectedPin: null });
     } else {
-      this.setState({playing: false}, () => this.selectPin());
+      ReactGA.pageview(window.location.pathname + window.location.search + '/event/' + pin.id + '/' + pin.place);
+      this.setState({ selectedPin: pin, SelectedIndex: index});
     }
   }
 
@@ -222,7 +237,7 @@ class WhereIsMatteo extends Component {
       <div className="WhereIsMatteo">
         <Header />
         <Intro />
-        <Counter data={this.state.data} />
+        <Counter data={this.state.data.map} />
         <div className="Text">
           <h1>Le Tappe</h1>
           <h3>La mappa mostra tutte le tappe del tour. Per ogni tappa, la lista mostra sia la distanza chilometrica dalla precedente, sia quella da Roma. Cliccando sul nome di un luogo è possibile evidenziarlo sulla mappa. <em>La grandezza del Pin è proporzionale al numero di persone presenti all'evento<sup><small>*</small></sup></em>. Le linee collegano tra loro le diverse tappe.</h3>
@@ -230,7 +245,7 @@ class WhereIsMatteo extends Component {
         <div className="Core">
           <div className="MapWrapper">
             <div className="MapPosition">
-              <DeckGLMap options={this.map} points={this.state.data} selectedPin={this.state.selectedPin} />
+              <DeckGLMap options={this.map} points={this.state.data.map} selectedPin={this.state.selectedPin} />
             </div>
           </div>
           <div className="ListWrapper">
@@ -241,6 +256,7 @@ class WhereIsMatteo extends Component {
           <div className="MapMask"></div>
           <Control selectedPin={this.state.selectedPin} isPlaying={this.state.playing} playPause={this.playPause} />
         </div>
+        <Calendar data={this.state.data.calendar} />
         <Stats charts={this.state.charts} />
         <Disclaimer />
         <Footer />
