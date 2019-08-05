@@ -169,47 +169,31 @@ class Calendar extends Component {
       data: []
     }
 
-    this.cellClass = this.cellClass.bind(this);
     this.outputGrid = this.outputGrid.bind(this);
-    this.prepareData = this.prepareData.bind(this);
     this.shorten = this.shorten.bind(this);
-  }
-
-  cellClass(day) {
-    let output = 'cell day ';
-    if (day.empty) return output + 'empty';
-
-    if (day.weekend) output = output + 'we ';
-    if (day.holiday) output = output + 'ho ';
-    if (day.day === "1")  output = output + 'first ';
-    if (day.events > 5) output = output + 'high ';
-    if (day.events > 2) output = output + 'medium ';
-    if (day.events > 0) output = output + 'low ';
-    if (day.events === 0) output = output + 'none ';
-    output = output + day.day_of_the_week + ' ' + day.month + ' y' + day.year;
-    return output;
   }
 
   outputGrid(chart) {
     const days = Object.keys(this.days);
-    let calendar_days = [];
-    chart.forEach(
-      year => {
-        year.months.forEach(
-          month => {
-            calendar_days = calendar_days.concat(month.days);
-          }
-        )
+    
+    if ( chart[0].day_of_the_week !== 'mon' ) {
+      const offset = this.days[chart[0].day_of_the_week].index;
+      const buffer = [];
+      let i = 0;
+      while ( i < offset ) {
+        buffer.push({ empty: true });
+        i++;
       }
-    );
+      chart.unshift(...buffer);
+    }
+
     const flatten = (calendar_days, week) => Array(
       Math.ceil(calendar_days.length / week))
         .fill()
         .map((_, index) => index * week)
         .map( begin => calendar_days.slice(begin, begin + week)
       );
-    const weeks = flatten(calendar_days, 7);
-    console.log('W', weeks);
+    const weeks = flatten(chart, 7);
     
     return (
       <div className="Grid">
@@ -243,76 +227,6 @@ class Calendar extends Component {
     );
   }
 
-  prepareData(data) {
-    const model = [];
-    const years = {};
-    const months = {};
-    console.log( data );
-    // Aggregate Years
-    data.forEach(element => {
-      if (!years[element.year]) {
-        years[element.year] = [];
-      }
-      years[element.year].push(element);
-    });
-    console.log('A', years);
-    // Aggregate months
-    const listOfYears = Object.keys(years);
-    listOfYears.forEach(
-      year => {
-        console.log('B', year, years[year], Array.isArray(years[year]));
-        years[year].forEach(
-          element => {
-            if (!months[year]) {
-              months[year] = {};
-            }
-            if (!months[year][element.month]) {
-              months[year][element.month] = {};
-            }
-            if (!months[year][element.month].days) {
-              months[year][element.month].days = [];
-            }
-            months[year][element.month].days.push(element);
-          }
-        );
-      }
-    );
-    // Transform in an array
-    listOfYears.forEach(
-      year => {
-        model.push({
-          year: year,
-          months: (() => {
-            const output = [];
-            let month = null;
-            years[year].forEach( element => {
-              if (month !== element.month) {
-                month = element.month;
-                output.push( {
-                  month: element.month,
-                  days: months[year][element.month].days
-                });
-              }
-            });
-            return output.sort( (a, b) => ( Months[a.month].index - Months[b.month].index ) );
-          })()
-        });
-      }
-    );
-    // Fix 1st week
-    if ( model[0].months[0].days[0].day_of_the_week !== 'mon' ) {
-      const offset = this.days[model[0].months[0].days[0].day_of_the_week].index;
-      const buffer = [];
-      let i = 0;
-      while ( i < offset ) {
-        buffer.push({ empty: true });
-        i++;
-      }
-      model[0].months[0].days.unshift(...buffer);
-    }
-    return model;
-  }
-
   shorten(string, length) {
     if (!length) length = 1;
     if (string) return string.substring(0, length);
@@ -321,12 +235,11 @@ class Calendar extends Component {
 
   render() {
     if (this.props.data && this.props.data.length > 0) {
-      const chart = this.prepareData( this.props.data);
       return (
         <div className="Calendar">
           <div className="Text">
             <h1>Il Calendario</h1>
-            { this.outputGrid(chart) }
+            { this.outputGrid(this.props.data) }
           </div>
         </div>
       );
