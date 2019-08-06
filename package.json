@@ -5,6 +5,7 @@
   "homepage": "https://matteointour.visualize.news",
   "dependencies": {
     "@deck.gl/react": "^7.1.7",
+    "d3": "^5.9.7",
     "deck.gl": "^7.1.7",
     "moment": "^2.24.0",
     "react": "^16.8.6",

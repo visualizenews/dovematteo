@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
+import moment from 'moment';
+import 'moment/locale/it';
+import LineChart from '../LineChart/LineChart';
 
 import './Calendar.css';
 
@@ -182,8 +185,8 @@ class Calendar extends Component {
 
   outputGrid(chart) {
     const days = Object.keys(this.days);
-    
-    if ( chart[0].day_of_the_week !== 'mon' ) {
+
+    if ( chart[0].day_of_the_week !== 'mon' && !chart[0].empty ) {
       const offset = this.days[chart[0].day_of_the_week].index;
       const buffer = [];
       let i = 0;
@@ -283,6 +286,7 @@ class Calendar extends Component {
     }
 
     const byDayKeys = Object.keys(byDays);
+    
     let maxDay = {
       day: null,
       val: -1
@@ -300,11 +304,90 @@ class Calendar extends Component {
         byDays[key].percent = Math.round(byDays[key].val * 100 / maxDay.val);
       }
     );
+ 
+    const months = {};
 
-    console.log(byDays, maxDay);
+    console.log(chart);
+
+    chart.forEach(
+      day => {
+        if (!day.empty) {
+          if (!months[day.year + day.month]) {
+            months[day.year + day.month] = {
+              year: day.year,
+              month: day.month,
+              x: moment(`1 ${day.month} ${day.year}`),
+              busy: 0,
+              free: 0
+            };
+          }
+          if (day.events > 0) {
+            months[day.year + day.month].busy = months[day.year + day.month].busy + 1;
+          } else {
+            months[day.year + day.month].free = months[day.year + day.month].free + 1;
+          }
+        }
+      }
+    );
+
+    console.log(months);
+
+    const monthKeys = Object.keys(months);
+    const series = [ [], [] ];
+    let maxX = -1;
+    let maxY = -1;
+    let minX = Number.MAX_SAFE_INTEGER;
+    let minY = Number.MAX_SAFE_INTEGER;
+
+    series[0] = {
+      name: 'free',
+      id: 'free',
+      className: 'free',
+      timeline: []
+    }
+    series[1] = {
+      name: 'busy',
+      id: 'busy',
+      className: 'busy',
+      timeline: []
+    }
+
+    monthKeys.forEach(
+      key => {
+        const month = months[key];
+        if (month.x > maxX) maxX = month.x;
+        if (month.x < minX) minX = month.x;
+        if (month.free > maxY) maxY = month.free;
+        if (month.free < minY) minY = month.free;
+        if (month.busy > maxY) maxY = month.busy;
+        if (month.busy < minY) minY = month.busy;
+
+        series[0].timeline.push( {
+          xLabel: Months[month.month].label + ' ' + month.year,
+          x: month.x,
+          y: month.free
+        } );
+        series[1].timeline.push( {
+          xLabel: Months[month.month].label + ' ' + month.year,
+          x: month.x,
+          y: month.busy
+        } );
+      }
+    );
+
+    const lineOptions = {
+      maxX: maxX,
+      maxY: Math.max(maxY,31),
+      minX: minX,
+      minY: Math.min(0,minY),
+      index: 0
+    }
+
+    console.log(lineOptions);
 
     
     return (
+      <div className="CalendarWrapper">
       <div className="Content">
         <div className="Intro">
             <p>La vista del calendario aiuta meglio a capire <strong>quanto e con che concentrazione</strong> si sono succeduti i viaggi mostrati nella mappa.</p>
@@ -356,6 +439,16 @@ class Calendar extends Component {
               }
             )
           }
+        </div>
+      </div>
+          
+        <div className="Outro">
+          <p>Ma che rapporto c'è tra i giorni "liberi" e quelli con impegni di diverso tipo? La loro distribuzione è cambiata nel tempo? Abbiamo provato ad aggregare, su base mensile, il numero di giorni liberi (in verde) e quelli con almeno un impegno (in rosso) per vedere se le abitudini di viaggio del Ministro hanno subito qualche cambiamento nel tempo.</p>
+
+          <div className="Lines">
+            <LineChart Series={series} Options={lineOptions} />
+          </div>
+
         </div>
       </div>
     );

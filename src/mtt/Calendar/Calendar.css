@@ -96,7 +96,7 @@
 }
 
 .Calendar .Bars .Color {
-  background: #4C8076;
+  background: #64baaa;
   bottom: 0;
   display: block;
   left: 1px;
@@ -116,6 +116,13 @@
   width: auto;
 }
 
+.Calendar .Lines {
+  display: block;
+  height: 200px;
+  margin: 40px auto;
+  position: relative;
+  width: 100%;
+}
 
 
 @media screen and (min-width:768px) {
@@ -123,6 +130,8 @@
     align-content: flex-start;
     display: flex;
     flex-direction: row-reverse;
+    margin-bottom: 40px;
+    margin-top: 40px;
     width: auto;
   }
   
