@@ -15,7 +15,7 @@
   opacity: 1;
   stroke: rgb(68, 68, 68);
   stroke-dasharray: none;
-  stroke-width: 1px;
+  stroke-width: 2px;
 }
 
 .LineChart svg .line.free {

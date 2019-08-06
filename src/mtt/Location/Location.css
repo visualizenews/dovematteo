@@ -72,6 +72,7 @@
   border-left: 4px solid transparent;
   font-family: 'Space Mono', monospace;
   font-size: .8rem;
+  line-height: 1.25;
   margin: 0;
   padding: 8px 0 8px 5px;
   position: relative;
