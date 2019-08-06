@@ -84,6 +84,7 @@
 
 .LineChart .annotation a {
   background: transparent;
+  border: none;
   box-shadow: none;
   color: #444;
   text-decoration: none;
@@ -91,6 +92,7 @@
 
 .LineChart .annotation a:hover {
   background: transparent;
+  border: none;
   box-shadow: none;
   color: #444;
   text-decoration: underline;
