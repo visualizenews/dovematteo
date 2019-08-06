@@ -169,3 +169,22 @@
     display: block;
   }
 }
+
+strong.green {
+  color: #64BAAA;
+}
+
+strong.red {
+  color: #FD2977;
+}
+
+strong.bullet {
+  background: #fff;
+  border: 2px solid #fd2977;
+  border-radius: 50%;
+  cursor: pointer;
+  display: inline-block;
+  height: 10px;
+  margin: 0 auto;
+  width: 10px;
+}

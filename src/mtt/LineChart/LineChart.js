@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import './LineChart.css';
 import {scaleLinear} from 'd3-scale';
-import {line as d3Line, curveCatmullRom, curveStep} from 'd3-shape';
+import {line as d3Line, curveStep} from 'd3-shape';
 import * as moment from 'moment';
 
 class LineChart extends Component {
@@ -12,21 +12,25 @@ class LineChart extends Component {
     this.draw = this.draw.bind(this);
     this.viewbox = this.viewbox.bind(this);
 
+    this.activateAnnotation = this.activateAnnotation.bind(this);
     this.showTitle = this.showTitle.bind(this);
     this.hideTitle = this.hideTitle.bind(this);
 
-    this.margins = [10, 5, 30, 5];
-    this.labelsDistance = 40;
+    this.margins = [10, 5, 60, 25];
+    this.labelsDistance = 60;
 
     this.state = {
       annotations: [],
       paths: {
         bullets: [],
-        labels: [],
-        lines: [],
+        xlabels: [],
+        ylabels: [],
+        ylines: [],
+        xlines: [],
         points: [],
         series: [],
         xAxis: {},
+        yAxis: {},
       },
       points: {
         size: 4
@@ -106,11 +110,13 @@ class LineChart extends Component {
             x: scaleX(day.x),
             y: scaleY(day.y),
           });
+          /*
           dataPoints.push({
             className: serie.className || '',
             x: scaleX(day.x),
             y: scaleY(day.y)
           });
+          */
         });
         series.push({
           name: serie.name || '',
@@ -126,80 +132,118 @@ class LineChart extends Component {
         x2: this.state.size.w - this.margins[1],
         y2: scaleY(0),
       };
+      const yAxis = {
+        x1: this.margins[3],
+        y1: scaleY(this.props.Options.maxY),
+        x2: this.margins[3],
+        y2: scaleY(this.props.Options.minY),
+      };
+      
       // Lines and labels
-      const lines = [];
-      const labels = [];
+      const xlines = [];
+      const xlabels = [];
       const bullets = [];
       let prevX = 0;
       this.props.Series[this.props.Options.index].timeline.forEach(day => {
-        const x = scaleX(parseInt(day.timestamp, 10));
+        const x = scaleX(day.x);
         const y1 = this.margins[0];
         const y2 = this.state.size.h - this.margins[2];
         if (
-          (lines.length === 0 || Math.abs(x - prevX) >= this.labelsDistance) &&
+          (xlines.length === 0 || Math.abs(x - prevX) >= this.labelsDistance) &&
           x < this.state.size.w - this.labelsDistance &&
           x >= this.labelsDistance
         ) {
-          lines.push({
+          xlines.push({
             x1: x,
             x2: x,
             y1,
-            y2: y2 + 10,
+            y2: y2 + 40,
           });
           bullets.push({
             cx: x,
-            cy: y2 + 10,
+            cy: y2 + 40,
             r: 2,
           });
-          labels.push({
-            label: moment(day.date_short).format('DD/MM'),
+          xlabels.push({
+            label: day.xLabel,
             x,
-            y: y2 + 25,
+            y: y2 + 55,
           });
           prevX = x;
+        } else {
+          xlines.push({
+            x1: x,
+            x2: x,
+            y1,
+            y2: y2,
+          });
         }
       });
+      const ylines = [ {
+        x1: this.margins[3],
+        y1: scaleY(5),
+        x2: this.state.size.w - this.margins[1],
+        y2: scaleY(5)
+      },{
+        x1: this.margins[3],
+        y1: scaleY(15),
+        x2: this.state.size.w - this.margins[1],
+        y2: scaleY(15)
+      }, {
+        x1: this.margins[3],
+        y1: scaleY(25),
+        x2: this.state.size.w - this.margins[1],
+        y2: scaleY(25)
+      }, {
+        x1: this.margins[3],
+        y1: scaleY(30),
+        x2: this.state.size.w - this.margins[1],
+        y2: scaleY(30)
+      } ];
+
+      const ylabels = [{
+        x: this.margins[3] - 10,
+        y: scaleY(5),
+        label: '5'
+      }, {
+        x: this.margins[3] - 10,
+        y: scaleY(15),
+        label: '15'
+      }, {
+        x: this.margins[3] - 10,
+        y: scaleY(25),
+        label: '25'
+      }, {
+        x: this.margins[3] - 10,
+        y: scaleY(30),
+        label: '30'
+      }];
+
       // Annotations
       const annotations = [];
       if (this.props.Annotations) {
         this.props.Annotations.forEach((annotation, index) => {
-          let id = Math.random();
-          id = ` ${id} `;
-          id = id.replace(/\./gi, '').trim();
+          console.log('-',annotation, annotation.x.unix());
+          if (index > 0) {
+            console.log('--',this.props.Annotations[index-1].x.unix());
+          }
           annotations.push({
             className: '',
-            date: moment(annotation.date).format('DD/MM'),
-            id: `annotation-${index}-${id}`,
-            index,
-            lens: {
-              className: 'animate',
-              style: {
-                animationDelay: `${Math.floor(Math.random() * 1 + 1) + 0.5}s`,
-                animationDuration: `${Math.floor(Math.random() * 2 + 1) + 0.5}s`,
-                left: `${scaleX(annotation.timestamp)}px`,
-                top: `${scaleY(annotation.peak)}px`,
-              },
-            },
-            orientation: {
-              x: scaleX(annotation.timestamp) > this.state.size.w / 2 ? 'right' : 'left',
-              y: scaleY(annotation.peak) < this.state.size.h / 2 ? 'bottom' : 'top',
-            },
+            date: moment(annotation.date).format('DD/MM/YYYY'),
+            display: { display: 'none' },
             style: {
-              left: `${scaleX(annotation.timestamp)}px`,
-              top: `${scaleY(annotation.peak)}px`,
-              width: `${Math.floor(this.state.size.w / 3)}px`,
+              left: `${scaleX(annotation.x)}px`,
+              bottom: (index > 0 && this.props.Annotations[index-1].x.unix() === annotation.x.unix()) ? '30px' : '45px'
             },
-            source: annotation.source,
             title: annotation.title,
             url: annotation.link,
           });
         });
       }
-      console.log('P', dataPoints);
+      
       this.setState({
-        // loading: false,
         annotations,
-        paths: {bullets, labels, lines, points: dataPoints, series, xAxis},
+        paths: {bullets, xlabels, ylabels, ylines, xlines, points: dataPoints, series, xAxis, yAxis},
       });
     }
   }
@@ -215,12 +259,26 @@ class LineChart extends Component {
     });
   }
 
+  activateAnnotation(e, i) {
+    e.preventDefault();
+    const annotations = this.state.annotations.slice();
+    if ( annotations[i].display.display === 'block' ) {
+      annotations[i].display = { display: 'none' };
+    } else {
+      annotations.forEach(
+        (annotation, index) => {
+          annotations[index].display = { display: 'none' }
+        }
+      );
+      annotations[i].display = { display: 'block' };
+    }
+    this.setState({
+      annotations
+    });
+  }
+
   render() {
     const selectedIndex = this.props.Options.index || 0;
-
-    const cleanURL = function cleanURL(url) {
-      return url;
-    };
 
     return (
       <div className="LineChart" ref={this.chart}>
@@ -231,7 +289,21 @@ class LineChart extends Component {
           height={this.state.size.h}
         >
           <g>
-            {this.state.paths.lines.map((line, index) => {
+            {this.state.paths.xlines.map((line, index) => {
+              return (
+                <line
+                  key={index}
+                  x1={line.x1}
+                  y1={line.y1}
+                  x2={line.x2}
+                  y2={line.y2}
+                  className="dateLine"
+                />
+              );
+            })}
+          </g>
+          <g>
+            {this.state.paths.ylines.map((line, index) => {
               return (
                 <line
                   key={index}
@@ -255,6 +327,7 @@ class LineChart extends Component {
               );
             })}
           </g>
+          { /*
           <g>
             {this.state.paths.points.map((point, index) => {
               return (
@@ -270,6 +343,7 @@ class LineChart extends Component {
               );
             })}
           </g>
+          */ }
           <g>
             <line
               x1={this.state.paths.xAxis.x1}
@@ -280,6 +354,15 @@ class LineChart extends Component {
             />
           </g>
           <g>
+            <line
+              x1={this.state.paths.yAxis.x1}
+              y1={this.state.paths.yAxis.y1}
+              x2={this.state.paths.yAxis.x2}
+              y2={this.state.paths.yAxis.y2}
+              className="yAxis"
+            />
+          </g>
+          <g>
             {this.state.paths.bullets.map((bullet, index) => {
               return (
                 <circle key={index} cx={bullet.cx} cy={bullet.cy} r={bullet.r} className="bullet" />
@@ -287,7 +370,24 @@ class LineChart extends Component {
             })}
           </g>
           <g>
-            {this.state.paths.labels.map((label, index) => {
+            {this.state.paths.ylabels.map((label, index) => {
+              return (
+                <text
+                  key={index}
+                  x={label.x}
+                  y={label.y}
+                  textAnchor="end"
+                  alignmentBaseline="middle"
+                  dominantBaseline="middle"
+                  className="label"
+                >
+                  {label.label}
+                </text>
+              );
+            })}
+          </g>
+          <g>
+            {this.state.paths.xlabels.map((label, index) => {
               return (
                 <text
                   key={index}
@@ -304,28 +404,19 @@ class LineChart extends Component {
             })}
           </g>
         </svg>
-        {this.state.annotations.map(annotation => {
+        {this.state.annotations.map((annotation, index) => {
           return (
-            <div
-              id={annotation.id}
-              key={annotation.id}
-              onMouseLeave={() => this.hideTitle(annotation)}
-            >
               <div
-                className={`annotation ${annotation.className} ${annotation.orientation.x} ${annotation.orientation.y}`}
+                key={annotation.url}
+                className="annotation"
                 style={annotation.style}>
-                <article>
-                  <a href={cleanURL(annotation.url)} target="_read">
-                    <h2>{annotation.title}</h2>
-                  </a>
+                <article
+                  style={annotation.display}>
+                    <h3>{annotation.date}</h3>
+                    <h2><a href={annotation.url} target="_read" title="Leggi la notizia">{annotation.title}</a></h2>
                 </article>
+                <div className="bullet" onClick={(e) => { this.activateAnnotation(e, index); }}></div>
               </div>
-              <div
-                onMouseEnter={() => this.showTitle(annotation)}
-                className={`lens ${annotation.lens.className}`}
-                style={annotation.lens.style}
-              />
-            </div>
           );
         })}
       </div>

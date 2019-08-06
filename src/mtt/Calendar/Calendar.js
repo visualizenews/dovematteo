@@ -307,8 +307,6 @@ class Calendar extends Component {
  
     const months = {};
 
-    console.log(chart);
-
     chart.forEach(
       day => {
         if (!day.empty) {
@@ -316,7 +314,7 @@ class Calendar extends Component {
             months[day.year + day.month] = {
               year: day.year,
               month: day.month,
-              x: moment(`1 ${day.month} ${day.year}`),
+              x: moment(`15 ${day.month} ${day.year}`),
               busy: 0,
               free: 0
             };
@@ -329,8 +327,6 @@ class Calendar extends Component {
         }
       }
     );
-
-    console.log(months);
 
     const monthKeys = Object.keys(months);
     const series = [ [], [] ];
@@ -363,7 +359,7 @@ class Calendar extends Component {
         if (month.busy < minY) minY = month.busy;
 
         series[0].timeline.push( {
-          xLabel: Months[month.month].label + ' ' + month.year,
+          xLabel: this.shorten(Months[month.month].label, 3) + ' ' + month.year,
           x: month.x,
           y: month.free
         } );
@@ -383,7 +379,50 @@ class Calendar extends Component {
       index: 0
     }
 
-    console.log(lineOptions);
+    const annotations = [
+      {
+        title: `Video: Genova, il crollo in diretta del ponte Morandi`,
+        link: `https://stream24.ilsole24ore.com/video/notizie/genova-crollo-diretta-ponte-morandi/AE05V2aF`,
+        date: moment('2018-08-14'),
+        x: moment('2018-08-15')
+      },
+      {
+        title: `Corinaldo, otto indagati per la strage in discoteca`,
+        link: `https://www.huffingtonpost.it/2018/12/10/corinaldo-due-fermi-per-droga-si-ipotizza-una-banda-per-rapinare-i-giovani-in-discoteca_a_23613910/`,
+        date: moment('2018-12-08'),
+        x: moment('2018-12-15')
+      },
+      {
+        title: `Elezioni europee 2019: candidati, partiti e risultati`,
+        link: `https://www.tgcom24.mediaset.it/politica/elezioni-2019/europee/`,
+        date: moment('2019-05-26'),
+        x: moment('2019-05-15')
+      },
+      {
+        title: `La Sea Watch 3 è arrivata a Lampedusa`,
+        link: `https://www.ilpost.it/2019/06/26/sea-watch-3-italia/`,
+        date: moment('2019-06-19'),
+        x: moment('2019-06-15')
+      },
+      {
+        title: `Cosa sappiamo dell’inchiesta sugli abusi a Reggio Emilia`,
+        link: `https://www.ilpost.it/2019/07/01/inchiesta-abusi-reggio-emilia-elettroshock/`,
+        date: moment('2019-06-27'),
+        x: moment('2019-06-15')
+      },
+      {
+        title: `Giallo sui soldi russi alla Lega. Salvini: "Mai preso un rublo, pronto a querelare"`,
+        link: `http://www.ilgiornale.it/news/politica/giallo-sui-soldi-russi-lega-salvini-mai-preso-rublo-pronto-1724208.html`,
+        date: moment('2019-07-10'),
+        x: moment('2019-07-15')
+      },
+      {
+        title: `Decreto sicurezza bis, Unhcr: «Ci saranno più morti in mare»`,
+        link: `https://www.corriere.it/buone-notizie/19_agosto_06/decreto-sicurezza-bis-unhcr-ci-saranno-piu-morti-mare-6e7591cc-b833-11e9-b2de-ac53be46e6c6.shtml`,
+        date: moment('2019-08-05'),
+        x: moment('2019-08-15')
+      }
+    ];
 
     
     return (
@@ -391,7 +430,7 @@ class Calendar extends Component {
       <div className="Content">
         <div className="Intro">
             <p>La vista del calendario aiuta meglio a capire <strong>quanto e con che concentrazione</strong> si sono succeduti i viaggi mostrati nella mappa.</p>
-            <p>Nel calendario, i giorni visualizzati in bianco sono quelli senza viaggi; in grigio chiaro i weekend. I giorni in cui sono sono svolti i viaggi invece sono mostrati con una scala colorata: <strong>il colore più chiaro è utilizzato per i giorni con pochi impegni</strong> (uno o due viaggi), quello intermedio per i giorni con tre o quattro viaggi, <strong>quello più scuro per i giorni più impegnativi</strong> (cinque o più viaggi).</p>
+            <p>Nel calendario, i giorni visualizzati in bianco sono quelli senza viaggi; con il bordo rosso sono mostrati weekend e festività. I giorni in cui sono sono svolti i viaggi invece sono mostrati con una scala colorata: <strong>il colore più chiaro è utilizzato per i giorni con pochi impegni</strong> (uno o due viaggi), quello intermedio per i giorni con tre o quattro viaggi, <strong>quello più scuro per i giorni più impegnativi</strong> (cinque o più viaggi).</p>
             <p>Le festività sono rappresentate con un bordo colorato.</p>
 
             <div className="Legend">
@@ -402,7 +441,7 @@ class Calendar extends Component {
               <div className="item we">Weekend<br />& Festività</div>
             </div>
 
-            <p>I grafici rappresentano invece una <strong>suddivisione dei viaggi in base al giorno della settimana</strong>. Secondo quanto reso pubblico dallo stesso Salvini, il giorno in cui si concentrano la maggior parte dei sui impegni è <strong>{this.days[maxDay.day].label}</strong>.</p>
+            <p>Il grafico rappresenta invece una <strong>suddivisione dei viaggi in base al giorno della settimana</strong>. Secondo quanto reso pubblico dallo stesso Salvini, il giorno in cui si concentrano la maggior parte dei sui impegni è <strong>{this.days[maxDay.day].label}</strong>.</p>
 
             <div className="Bars">
               {
@@ -443,10 +482,10 @@ class Calendar extends Component {
       </div>
           
         <div className="Outro">
-          <p>Ma che rapporto c'è tra i giorni "liberi" e quelli con impegni di diverso tipo? La loro distribuzione è cambiata nel tempo? Abbiamo provato ad aggregare, su base mensile, il numero di giorni liberi (in verde) e quelli con almeno un impegno (in rosso) per vedere se le abitudini di viaggio del Ministro hanno subito qualche cambiamento nel tempo.</p>
+          <p>Ma che rapporto c'è tra i giorni "liberi" e quelli con impegni di diverso tipo? La loro distribuzione è cambiata nel tempo? Abbiamo provato ad aggregare, su base mensile, il numero di <strong className="green">giorni liberi</strong> (<strong className="green">in verde</strong>) e quelli con <strong className="red">almeno un impegno</strong> (<strong className="red">in rosso</strong>) per vedere se le abitudini di viaggio del Ministro hanno subito qualche cambiamento nel tempo. Per facilitare la lettura, abbiamo aggiunto come riferimento alcuni fatti di cronaca avvenuti durante il periodo monitorato (contrassegnati da <strong className="bullet"></strong>, clicca per accedere ai dettagli).</p>
 
           <div className="Lines">
-            <LineChart Series={series} Options={lineOptions} />
+            <LineChart Series={series} Options={lineOptions} Annotations={annotations} />
           </div>
 
         </div>

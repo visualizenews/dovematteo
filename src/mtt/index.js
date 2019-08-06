@@ -256,8 +256,8 @@ class WhereIsMatteo extends Component {
           <div className="MapMask"></div>
           <Control selectedPin={this.state.selectedPin} isPlaying={this.state.playing} playPause={this.playPause} />
         </div>
-        <Calendar data={this.state.data.calendar} />
         <Stats charts={this.state.charts} />
+        <Calendar data={this.state.data.calendar} />
         <Disclaimer />
         <Footer />
         <div className={loadingClasses}>
