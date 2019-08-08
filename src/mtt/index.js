@@ -59,7 +59,6 @@ class WhereIsMatteo extends Component {
     this.playPause = this.playPause.bind(this);
     this.prepareCalendar = this.prepareCalendar.bind(this);
     this.prepareCharts = this.prepareCharts.bind(this);
-    this.prepareCounter = this.prepareCounter.bind(this);
     this.prepareDays =  this.prepareDays.bind(this);
     this.prepareDistance = this.prepareDistance.bind(this);
     this.prepareMap = this.prepareMap.bind(this);
@@ -133,7 +132,7 @@ class WhereIsMatteo extends Component {
             // Distance
             distance = this.prepareDistance(this.data);
             // Counter
-            counter = this.prepareCounter(this.data);
+            counter = distance.total;
           }
           this.setState( { calendar, charts, counter, days, distance, error: false, empty: false, loading: false, map } );
         } else {
@@ -263,11 +262,6 @@ class WhereIsMatteo extends Component {
     return charts;
   }
 
-  prepareCounter(data) {
-    const counter = data;
-    return counter;
-  }
-
   prepareDays(data) {
     const objDays = {};
     data.forEach( point => {
@@ -395,7 +389,7 @@ class WhereIsMatteo extends Component {
       <div className="WhereIsMatteo">
         <Header />
         <Intro />
-        <Counter data={this.state.counter} />
+        <Counter totalDistance={this.state.counter} />
         <div className="Text">
           <h1>Le Tappe</h1>
           <p>La mappa mostra tutte le tappe del tour. Per ogni tappa, la lista mostra sia la distanza chilometrica dalla precedente, sia quella da Roma. Cliccando sul nome di un luogo è possibile evidenziarlo sulla mappa. <em>La grandezza del Pin è proporzionale al numero di persone presenti all'evento<sup><small>*</small></sup></em>. Le linee collegano tra loro le diverse tappe.</p>
