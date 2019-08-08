@@ -12,7 +12,6 @@ const Day = styled.div`
     if (props.properties.events > 5) return '#4C8076';
     if (props.properties.events > 3) return '#64BAAA';
     if (props.properties.events > 0) return '#C4FCF0';
-    // if (props.properties.weekend) return '#FFE3EC';
     return '#fffcfd';
   }};
   border: 1px solid #fff;
@@ -39,8 +38,8 @@ const Day = styled.div`
   &::before {
     content: ${props => {
       if (props.properties.empty) return null;
-      if (props.index === 0) return "'" + Months[props.properties.month].short + "'";
-      if (props.properties.day === "1") return "'" + Months[props.properties.month].short + "'";
+      if (props.index === 0) return "'" + props.properties.month_label + "'";
+      if (props.properties.day === "1") return "'" + props.properties.month_label + "'";
       return null;
     }};
     color: #444;
@@ -76,104 +75,10 @@ const Day = styled.div`
     width: 50px;
   }
 `;
-    
-const Months = {
-  jan: {
-    label: 'Gennaio',
-    short: 'Gen',
-    index: 0
-  },
-  feb: {
-    label: 'Febbraio',
-    short: 'Feb',
-    index: 1
-  },
-  mar: {
-    label: 'Marzo',
-    short: 'Mar',
-    index: 2
-  },
-  apr: {
-    label: 'Aprile',
-    short: 'Apr',
-    index: 3
-  },
-  may: {
-    label: 'Maggio',
-    short: 'Mag',
-    index: 4
-  },
-  jun: {
-    label: 'Giugno',
-    short: 'Giu',
-    index: 5
-  },
-  jul: {
-    label: 'Luglio',
-    short: 'Lug',
-    index: 6
-  },
-  aug: {
-    label: 'Agosto',
-    short: 'Ago',
-    index: 7
-  },
-  sep: {
-    label: 'Settembre',
-    short: 'Set',
-    index: 8
-  },
-  oct: {
-    label: 'Ottobre',
-    short: 'Ott',
-    index: 9
-  },
-  nov: {
-    label: 'Novembre',
-    short: 'Nov',
-    index: 10
-  },
-  dec: {
-    label: 'Dicembre',
-    short: 'Dic',
-    index: 11
-  }
-};
 
 class Calendar extends Component {
   constructor(props) {
     super(props);
-
-    this.days = {
-      mon: {
-        label: 'Lunedì',
-        index: 0
-      },
-      tue: {
-        label: 'Martedì',
-        index: 1
-      },
-      wed: {
-        label: 'Mercoledì',
-        index: 2
-      },
-      thu: {
-        label: 'Giovedì',
-        index: 3
-      },
-      fri: {
-        label: 'Venerdì',
-        index: 4
-      },
-      sat: {
-        label: 'Sabato',
-        index: 5
-      },
-      sun: {
-        label: 'Domenica',
-        index: 6
-      }
-    }
 
     this.state = {
       data: []
@@ -184,10 +89,11 @@ class Calendar extends Component {
   }
 
   outputGrid(chart) {
-    const days = Object.keys(this.days);
+    const days = [ 'Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato', 'Domenica' ];
+    const daysMap = { mon: 'Lunedì', tue: 'Martedì', wed: 'Mercoledì', thu: 'Giovedì', fri: 'Venerdì', sat: 'Sabato', sun: 'Domenica' }
 
-    if ( chart[0].day_of_the_week !== 'mon' && !chart[0].empty ) {
-      const offset = this.days[chart[0].day_of_the_week].index;
+    if ( chart[0].day_of_the_week_index !== '1' && !chart[0].empty ) {
+      const offset = parseInt(chart[0].day_of_the_week_index) - 1;
       const buffer = [];
       let i = 0;
       while ( i < offset ) {
@@ -295,7 +201,7 @@ class Calendar extends Component {
       key => {
         if (byDays[key].val > maxDay.val) {
           maxDay.val = byDays[key].val;
-          maxDay.day = key;
+          maxDay.label = daysMap[key];
         }
       }
     );
@@ -314,7 +220,8 @@ class Calendar extends Component {
             months[day.year + day.month] = {
               year: day.year,
               month: day.month,
-              x: moment(`15 ${day.month} ${day.year}`),
+              month_label: day.month_label,
+              x: moment(`${day.year}-${day.month}-15`),
               busy: 0,
               free: 0
             };
@@ -359,12 +266,12 @@ class Calendar extends Component {
         if (month.busy < minY) minY = month.busy;
 
         series[0].timeline.push( {
-          xLabel: this.shorten(Months[month.month].label, 3) + ' ' + month.year,
+          xLabel: month.month_label + ' ' + month.year,
           x: month.x,
           y: month.free
         } );
         series[1].timeline.push( {
-          xLabel: Months[month.month].label + ' ' + month.year,
+          xLabel: month.month_label + ' ' + month.year,
           x: month.x,
           y: month.busy
         } );
@@ -421,10 +328,15 @@ class Calendar extends Component {
         link: `https://www.corriere.it/buone-notizie/19_agosto_06/decreto-sicurezza-bis-unhcr-ci-saranno-piu-morti-mare-6e7591cc-b833-11e9-b2de-ac53be46e6c6.shtml`,
         date: moment('2019-08-05'),
         x: moment('2019-08-15')
+      },
+      {
+        title: `Governo, la linea di Salvini: basta perdere tempo, l’unica alternativa sono le elezioni anticipate`,
+        link: `https://www.corriere.it/politica/19_agosto_08/crisi-governo-salvini-ha-deciso-elezioni-anticipate-basta-perdere-tempo-7bc82150-b9dc-11e9-8fe8-844ac90f9596.shtml`,
+        date: moment('2019-08-08'),
+        x: moment('2019-08-15')
       }
     ];
 
-    
     return (
       <div className="CalendarWrapper">
       <div className="Content">
@@ -441,12 +353,12 @@ class Calendar extends Component {
               <div className="item we">Weekend<br />& Festività</div>
             </div>
 
-            <p>Il grafico rappresenta invece una <strong>suddivisione dei viaggi in base al giorno della settimana</strong>. Secondo quanto reso pubblico dallo stesso Salvini, il giorno in cui si concentrano la maggior parte dei sui impegni è <strong>{this.days[maxDay.day].label}</strong>.</p>
+            <p>Il grafico rappresenta invece una <strong>suddivisione dei viaggi in base al giorno della settimana</strong>. Secondo quanto reso pubblico dallo stesso Salvini, il giorno in cui si concentrano la maggior parte dei sui impegni è <strong>{maxDay.label}</strong>.</p>
 
             <div className="Bars">
               {
                 byDayKeys.map(
-                  key => ( <div key={key} className="Bar"><div className="Color" style={ { height: `${byDays[key].percent}%` } }></div><div className="Label">{this.shorten(this.days[key].label)}</div></div> )
+                  key => ( <div key={key} className="Bar"><div className="Color" style={ { height: `${byDays[key].percent}%` } }></div><div className="Label">{this.shorten(daysMap[key])}</div></div> )
                 )
               }
             </div>
@@ -455,7 +367,7 @@ class Calendar extends Component {
           <div className="row header">
             {
               days.map(
-                day => (<div key={this.days[day].label} className="cell">{this.shorten(this.days[day].label)}</div>)
+                day => (<div key={day} className="cell">{this.shorten(day)}</div>)
               )
             }
           </div>
@@ -485,7 +397,9 @@ class Calendar extends Component {
           <p>Ma che rapporto c'è tra i giorni "liberi" e quelli con impegni di diverso tipo? La loro distribuzione è cambiata nel tempo? Abbiamo provato ad aggregare, su base mensile, il numero di <strong className="green">giorni liberi</strong> (<strong className="green">in verde</strong>) e quelli con <strong className="red">almeno un impegno</strong> (<strong className="red">in rosso</strong>) per vedere se le abitudini di viaggio del Ministro hanno subito qualche cambiamento nel tempo. Per facilitare la lettura, abbiamo aggiunto come riferimento alcuni fatti di cronaca avvenuti durante il periodo monitorato (contrassegnati da <strong className="bullet"></strong>, clicca per accedere ai dettagli).</p>
 
           <div className="Lines">
+            
             <LineChart Series={series} Options={lineOptions} Annotations={annotations} />
+            
           </div>
 
         </div>

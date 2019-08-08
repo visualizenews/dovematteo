@@ -79,7 +79,6 @@ class LineChart extends Component {
   }
 
   draw() {
-    console.log( this.props.Series, this.props.Options);
     if (this.props.Series && this.props.Series.length > 0 && this.props.Options) {
       // Define scaleX and scaleY
       const topBaseY = this.margins[0];
@@ -223,10 +222,6 @@ class LineChart extends Component {
       const annotations = [];
       if (this.props.Annotations) {
         this.props.Annotations.forEach((annotation, index) => {
-          console.log('-',annotation, annotation.x.unix());
-          if (index > 0) {
-            console.log('--',this.props.Annotations[index-1].x.unix());
-          }
           annotations.push({
             className: '',
             date: moment(annotation.date).format('DD/MM/YYYY'),
