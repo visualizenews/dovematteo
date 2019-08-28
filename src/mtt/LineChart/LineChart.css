@@ -11,8 +11,8 @@
 
 .LineChart svg .line {
   fill: none;
-  mix-blend-mode: multiply;
-  opacity: 1;
+  /* mix-blend-mode: multiply; */
+  opacity: .75;
   stroke: rgb(68, 68, 68);
   stroke-dasharray: none;
   stroke-width: 2px;
@@ -38,14 +38,14 @@
 
 .LineChart svg .yAxis,
 .LineChart svg .xAxis {
-  mix-blend-mode: multiply;
+  /* mix-blend-mode: multiply; */
   stroke: rgba(0, 0, 0, .1);
   stroke-dasharray: none;
   stroke-width: 1px;
 }
 
 .LineChart svg .dateLine {
-  mix-blend-mode: multiply;
+  /* mix-blend-mode: multiply; */
   stroke: rgba(0, 0, 0, .25);
   stroke-dasharray: 1 2;
   stroke-width: 1px;
@@ -58,7 +58,7 @@
 }
 
 .LineChart svg .bullet {
-  mix-blend-mode: multiply;
+  /* mix-blend-mode: multiply; */
   fill: rgba(0, 0, 0, .25);
 }
 
