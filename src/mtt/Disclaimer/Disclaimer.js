@@ -21,6 +21,7 @@ class Disclaimer extends Component {
           <h1>Sulla stampa</h1>
           <p>Nelle ultime settimane diversi media nazionali hanno citato il nostro lavoro:</p>
           <ul>
+            <li><a href="https://www.giornalettismo.com/matteo-salvini-voli-stato/" target="_media">Giornalettismo - "La Corte dei Conti archivia la posizione di Salvini sui voli di Stato"</a></li>
             <li><a href="https://www.repubblica.it/politica/2019/08/01/news/matteo_in_tour_contachilometri_salvini-232512194/" target="_media">Repubblica.it - "Salvini meglio di Forrest Gump: in Italia ha già percorso oltre 106mila chilometri in un anno"</a></li>
             <li><a href="http://ilmestiere.it/numeroottantanove/" target="_media">Il Mestiere - Numero Ottantanove</a></li>
             <li><a href="https://www.huffingtonpost.it/entry/matteo-in-tour-il-sito-che-calcola-i-km-percorsi-dal-ministro-in-tour-permanente_it_5d3daaebe4b0a6d637410e54?utm_hp_ref=it-homepage" target="_media">Huffington Post - "Matteo in tour", il sito che calcola i Km percorsi dal ministro in tour permanente</a></li>
