@@ -41,12 +41,15 @@ class Control extends Component {
   }
 
   render() {
+    return null;
+    /*
     return (
       <div className="Control">
         <button onClick={this.playPause}>{this.playStatus()}</button>
         <div className="playing">{this.pointInfo()}</div>
       </div>
     );
+    */
   }
 }
 
