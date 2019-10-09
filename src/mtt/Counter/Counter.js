@@ -19,7 +19,7 @@ class Counter extends Component {
       return (
         <div className="Counter">
           <div className="Text">
-            <h3>Dal <em>giorno del suo giuramento</em> davanti al Presidente della Repubblica il nostro eroe <em>ha già percorso</em> almeno</h3>
+            <h3>Dal <em>giorno del suo giuramento</em> davanti al Presidente della Repubblica  fino al giorno dell'insediamento del Governo "Conte Bis" il nostro eroe <em>ha percorso</em> almeno</h3>
             <h1>{(new Intl.NumberFormat('it-IT').format(km))} km<sup><small>*</small></sup></h1>
             <h2>Più o meno...</h2>
             <div className="Cards">
