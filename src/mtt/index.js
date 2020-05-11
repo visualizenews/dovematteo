@@ -196,6 +196,7 @@ class WhereIsMatteo extends Component {
     const calendar = [];
     const today = moment().format('YYYY-MM-DD');
     let currentDate = moment('2018-06-01').format('YYYY-MM-DD');
+    const endDate = moment('2019-09-01').format('YYYY-MM-DD');
     const day = {
       day: null,
       month: null,
@@ -210,7 +211,7 @@ class WhereIsMatteo extends Component {
     }
     let currentDay;
 
-    while(currentDate !== today) {
+    while(currentDate !== today && currentDate <= endDate) {
       currentDay = Object.assign({}, day);
       currentDay.day = moment(currentDate).format('D');
       currentDay.month = moment(currentDate).format('MM');

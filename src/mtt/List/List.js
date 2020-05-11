@@ -25,7 +25,7 @@ class List extends Component {
   }
 
   formatDate(day) {
-    return moment(day).format('LL');
+    return moment(day).format('D MMM YY');
   }
 
   centerMap(pin, index) {
