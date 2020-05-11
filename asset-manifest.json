@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/static/css/main.d5734c66.chunk.css",
+    "main.js": "/static/js/main.72c78b71.chunk.js",
+    "main.js.map": "/static/js/main.72c78b71.chunk.js.map",
+    "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
+    "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
+    "static/js/2.d68b8f76.chunk.js": "/static/js/2.d68b8f76.chunk.js",
+    "static/js/2.d68b8f76.chunk.js.map": "/static/js/2.d68b8f76.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.e9eeda61bed5ab1e23f997f3d5cb07f3.js": "/precache-manifest.e9eeda61bed5ab1e23f997f3d5cb07f3.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.d5734c66.chunk.css.map": "/static/css/main.d5734c66.chunk.css.map",
+    "static/media/atlas.png": "/static/media/atlas.69b2d994.png",
+    "static/media/index.css": "/static/media/washington.ea98b36d.png",
+    "static/media/colosseo.png": "/static/media/colosseo.4701755c.png",
+    "static/media/lemans.png": "/static/media/lemans.3d7856c4.png",
+    "static/media/vn.png": "/static/media/vn.722ba507.png"
+  }
+}
