@@ -5,6 +5,8 @@ import moment from 'moment';
 import 'moment/locale/it';
 import reactGA from 'react-ga';
 
+import sourceData from './data/data.json';
+
 import Header from './Header/Header';
 import Footer from './Footer/Footer';
 import DeckGLMap from './DeckGLMap/DeckGLMap';
@@ -31,7 +33,7 @@ import './index.css';
 
 reactGA.initialize('UA-137198797-4');
 
-const ENDPOINT = 'https://whereismatteo.elezioni.io/v0/events/get';
+// const ENDPOINT = 'https://whereismatteo.elezioni.io/v0/events/get';
 const TIMER = 3000;
 
 const HOLIDAYS = [
@@ -107,6 +109,27 @@ class WhereIsMatteo extends Component {
   }
 
   load() {
+    console.log(sourceData);
+    this.data = sourceData.data;
+    // Prepare data
+    let days, charts, calendar, distance, counter, map;
+    if ( this.data.map.length > 0 ) {
+      // Map
+      map = this.prepareMap(this.data);
+      // Locations
+      days = this.prepareDays(this.data);
+      // Charts
+      charts = this.prepareCharts(this.data, days);
+      // Calendar
+      calendar = this.prepareCalendar(this.data);
+      // Distance
+      distance = this.prepareDistance(this.data);
+      // Counter
+      counter = distance.total;
+    }
+    this.setState( { calendar, charts, counter, days, distance, error: false, empty: false, loading: false, map } );
+        
+    /*
     fetch( ENDPOINT )
       .then( response => {
         if (response.ok && response.status === 200) {
@@ -143,6 +166,7 @@ class WhereIsMatteo extends Component {
         console.error(response);
         this.setState( { error: true, errorMessage: response.toString(), loading: false, empty: false } );
       });
+    */
   }
 
   next() {
